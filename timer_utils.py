@@ -27,6 +27,12 @@ def track_time(record):
     # format as HH:MM:SS
     pretty = f"{hours:02}:{minutes:02}:{seconds:02}"
     return pretty
- 
 
+def drop_to_drop_time(previous_drop: dict, current_drop: dict):
+    # turn the stored ISO strings back into datetimes
+    prev_end   = datetime.fromisoformat(previous_drop['end_time'])
+    curr_start = datetime.fromisoformat(current_drop['start_time'])
+
+    # return the interval between them
+    return curr_start - prev_end
 

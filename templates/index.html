@@ -19,13 +19,35 @@
   {% if elapsed %}
   <p>Last delivery took: {{ elapsed }}</p>
   {% endif %}
-  {% if history %}
   <h2>Past Deliveries</h2>
-  <ul>
-  {% for rec in history %}
-    <li>{{ rec.start_time }} → {{ rec.end_time }} (took {{ rec.elapsed }})</li>
-  {% endfor %}
-  </ul>
-{% endif %}
+<table>
+  <thead>
+    <tr>
+      <th>Drop #</th>
+      <th>Start</th>
+      <th>End</th>
+      <th>Elapsed</th>
+      <th>Drive Time</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for rec in history %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ rec.start_time }}</td>
+        <td>{{ rec.end_time }}</td>
+        <td>{{ rec.elapsed }}</td>
+        <td>
+          {% if loop.index0 > 0 %}
+            {{ drop_to_drop_times[loop.index0 - 1] }}
+          {% else %}
+            —
+          {% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
 </body>
 </html>
