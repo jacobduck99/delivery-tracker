@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Delivery Tracker</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    >
+  </head>
+  <body>
+    <div class="container">
+      <h1>Delivery Tracker</h1>
+      <form action="/deliveries" method="post">
+        <button type="submit" name="action" value="start">Start Delivery</button>
+        <button type="submit" name="action" value="stop">Stop Delivery</button>
+      </form>
+    </div>
+  {% if elapsed %}
+  <p>Last delivery took: {{ elapsed }}</p>
+  {% endif %}
+  {% if history %}
+  <h2>Past Deliveries</h2>
+  <ul>
+  {% for rec in history %}
+    <li>{{ rec.start_time }} → {{ rec.end_time }} (took {{ rec.elapsed }})</li>
+  {% endfor %}
+  </ul>
+{% endif %}
+</body>
+</html>
