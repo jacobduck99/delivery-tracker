@@ -36,3 +36,13 @@ def drop_to_drop_time(previous_drop: dict, current_drop: dict):
     # return the interval between them
     return curr_start - prev_end
 
+
+def humanize_history(raw_history):
+    nice = []
+    for rec in raw_history:
+        start_dt = datetime.fromisoformat(rec['start_time'])
+        end_dt = datetime.fromisoformat(rec['end_time'])
+        nice.append({'start': start_dt.strftime("%I:%M:%S %p"),  
+            'end':   end_dt.strftime("%I:%M:%S %p"),
+            'elapsed': rec['elapsed'],})
+    return nice

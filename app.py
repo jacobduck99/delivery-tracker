@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session
-from timer_utils import record_start, stop_timer, track_time, drop_to_drop_time
+from timer_utils import record_start, stop_timer, track_time, drop_to_drop_time, humanize_history
 
 
 app = Flask(__name__)
@@ -8,23 +8,31 @@ app.secret_key = "a-very-secret-value"
 
 @app.route("/", methods=["GET"])
 def index():
-    history = session.get("history", [])
-    # build a list of timedeltas (as strings) between each pair
+    raw       = session.get("history", [])
+    history   = humanize_history(raw)
+    
+    # build and format the drive-time gaps
     drop_to_drop_times = []
-    from timer_utils import drop_to_drop_time
-    for i in range(1, len(history)):
-        prev = history[i-1]
-        curr = history[i]
-        # curr only has start & end & elapsed, so we need a dict with start_time
-        gap = drop_to_drop_time(prev, {'start_time': curr['start_time']})
-        drop_to_drop_times.append(str(gap))
+    for i in range(1, len(raw)):
+        prev = raw[i-1]
+        curr = raw[i]
+        gap  = drop_to_drop_time(prev, {'start_time': curr['start_time']})
+    # *** replace strftime with manual formatting ***
+        total_secs = int(gap.total_seconds())
+        h = total_secs // 3600
+        m = (total_secs % 3600) // 60
+        s = total_secs % 60
+        drop_to_drop_times.append(f"{h:02}:{m:02}:{s:02}")
+
+    
     return render_template(
-        "index.html",
-        history=history,
-        elapsed=session.get("elapsed"),
-        travel_time=session.get("travel_time"),
-        drop_to_drop_times=drop_to_drop_times
+      "index.html",
+      history=history,
+      elapsed=session.get("elapsed"),
+      travel_time=session.get("travel_time"),
+      drop_to_drop_times=drop_to_drop_times
     )
+
 
 
 @app.route("/deliveries", methods=["POST"])

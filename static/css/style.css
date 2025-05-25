@@ -10,4 +10,34 @@ html, body {
     padding-top: 100px;           /* push the group 100px down from the top of the viewport */
   }
   
+  table {
+    border-collapse: collapse;
+    width: 50%;
+    margin-top: 1rem;
+  }
+  
+  th, td {
+    border: 1px solid #ccc;
+    padding: 0.5rem 0.75rem;
+    text-align: center;
+    font-family: monospace;
+  }
+  
+  thead th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+  }
+  
+  tbody tr:nth-child(even) {
+    background-color: #fafafa;
+  }
+  
+  tbody tr:hover {
+    background-color: #f1f7fc;
+  }
+  
+  .container {
+    max-width: 600px;
+    
+  }
   
