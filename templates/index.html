@@ -1,56 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Delivery Tracker</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/style.css') }}"
-    >
-  </head>
-  <body>
-    <div class="container">
-      <h1>Delivery Tracker</h1>
-      <form action="/deliveries" method="post">
-        <button type="submit" name="action" value="start">Start Delivery</button>
-        <button type="submit" name="action" value="stop">Stop Delivery</button>
-      </form>
-    </div>
-  {% if elapsed %}
-  <p>Last delivery took: {{ elapsed }}</p>
-  {% endif %}
-  <h2>Past Deliveries</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Drop #</th>
-        <th>Start</th>
-        <th>End</th>
-        <th>Elapsed</th>
-        <th>Drive Time</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for rec in history %}
-        <tr>
-          <td>{{ loop.index }}</td>
-          <td>{{ rec.start }}</td>
-          <td>{{ rec.end }}</td>
-          <td>{{ rec.elapsed }}</td>
-          <td>
-            {% if loop.index0 > 0 %}
-              {{ drop_to_drop_times[loop.index0 - 1] }}
-            {% else %}
-              —
-            {% endif %}
-          </td>
-        </tr>
+<head>
+  <meta charset="UTF-8"/>
+  <title>Delivery Tracker</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="index-page">
+  <div class="container">
+    <h1>Delivery Tracker</h1>
+    
+    <!-- Link to settings/configuration -->
+    <!-- Global Start/Stop buttons (for whole session) -->
+    
+    <!-- Show last delivery elapsed -->
+    {% if elapsed %}
+      <p class="last-elapsed">Last delivery took: <strong>{{ elapsed }}</strong></p>
+    {% endif %}
+    
+    <!-- Dynamic drop grid -->
+    {% if num_drops %}
+    <div class="drop-grid">
+      {% for i in range(1, num_drops + 1) %}
+        <div class="drop-card">
+          <h4>Drop {{ i }}</h4>
+          <form action="/deliveries" method="post">
+            <input type="hidden" name="drop_index" value="{{ i }}">
+            <button type="submit" name="action" value="start">Start</button>
+            <button type="submit" name="action" value="stop">Stop</button>
+          </form>
+          {% if per_drop_elapsed and per_drop_elapsed[i] %}
+            <p class="drop-elapsed">{{ per_drop_elapsed[i] }}</p>
+          {% endif %}
+        </div>
       {% endfor %}
-    </tbody>
-  </table>
-  
-  </tbody>
-</table>
+    </div>
+    {% endif %}
 
+    <nav class="subnav">
+      <a href="{{ url_for('configuration') }}">⚙️ Configure Shift</a>
+    </nav>
+    
+    
+    <!-- Past deliveries table -->
+    {% if history %}
+      <h2>Past Deliveries</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Drop #</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Elapsed</th>
+            <th>Drive Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for rec in history %}
+            <tr>
+              <td>{{ loop.index }}</td>
+              <td>{{ rec.start }}</td>
+              <td>{{ rec.end }}</td>
+              <td>{{ rec.elapsed }}</td>
+              <td>
+                {% if loop.index0 > 0 %}
+                  {{ drop_to_drop_times[loop.index0 - 1] }}
+                {% else %}
+                  —
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% endif %}
+    
+  </div>
 </body>
 </html>
