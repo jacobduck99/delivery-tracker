@@ -1,0 +1,4 @@
+/* only navbar rules */
+.navbar { display: flex; background: #333; list-style: none; }
+.navbar a { color: white; padding: 0.75em; text-decoration: none; }
+.navbar a:hover { background: #444; }

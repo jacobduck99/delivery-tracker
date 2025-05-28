@@ -1,66 +1,68 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Shift Configuration</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/style.css') }}"
-    />
-  </head>
-  <body>
-    <div class="container">
-      <h1>Shift config</h1>
-      <form class="config-form" method="post" action="{{ url_for('configuration') }}">
-        <div class="form-group">
-          <label for="van_number">Van Number</label>
-          <input
-            type="text"
-            id="van_number"
-            name="van_number"
-            value="{{ van_number }}"
-            placeholder="e.g. 26"
-            required
-          />
-        </div>
-        <div class="form-group">
-          <label for="shift_start">Shift Start</label>
-          <input
-            type="time"
-            id="shift_start"
-            name="shift_start"
-            value="{{ shift_start }}"
-            required
-          />
-        </div>
-        <div class="form-group">
-          <label for="shift_end">Shift End</label>
-          <input
-            type="time"
-            id="shift_end"
-            name="shift_end"
-            value="{{ shift_end }}"
-            required
-          />
-        </div>
-        <div class="form-group">
-          <label for="num_drops">Number of Drops</label>
-          <input
-            type="number"
-            id="num_drops"
-            name="num_drops"
-            min="1"
-            value="{{ num_drops }}"
-            required
-          />
-        </div>
-        <div class="form-actions">
-          <button type="submit">Save Config</button>       
-        </div>
-      </form>
-      <nav class="subnav">
-        <a href="{{ url_for('index') }}">← Back to Tracker</a>
-      </nav>
-    </div>
-  </body>
-</html> 
+{% extends "base.html" %}
+
+{% block title %}Shift Configuration{% endblock %}
+
+{% block head %}
+  {{ super() }}
+  <!-- Only load config.css on this page -->
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/config.css') }}"
+  />
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <h1>Shift config</h1>
+    <form class="config-form" method="post" action="{{ url_for('configuration') }}">
+      <div class="form-group">
+        <label for="van_number">Van Number</label>
+        <input
+          type="text"
+          id="van_number"
+          name="van_number"
+          value="{{ van_number }}"
+          placeholder="e.g. 26"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="shift_start">Shift Start</label>
+        <input
+          type="time"
+          id="shift_start"
+          name="shift_start"
+          value="{{ shift_start }}"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="shift_end">Shift End</label>
+        <input
+          type="time"
+          id="shift_end"
+          name="shift_end"
+          value="{{ shift_end }}"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="num_drops">Number of Drops</label>
+        <input
+          type="number"
+          id="num_drops"
+          name="num_drops"
+          min="1"
+          value="{{ num_drops }}"
+          required
+        />
+      </div>
+      <div class="form-actions">
+        <button type="submit">Save Config</button>
+      </div>
+    </form>
+    <nav class="subnav">
+      <a href="{{ url_for('index') }}">← Back to Tracker</a>
+    </nav>
+  </div>
+{% endblock %}

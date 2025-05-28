@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Past Runs{% endblock %}
+
+{% block content %}
+  <h1>Past Runs</h1>
+
+  {% if runs %}
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Van #</th>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>Drops</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for run in runs %}
+          <tr>
+            <td>{{ run.id }}</td>
+            <td>{{ run.van_number }}</td>
+            <td>{{ run.start_time }}</td>
+            <td>{{ run.end_time or "—" }}</td>
+            <td>{{ run.number_of_drops }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p><em>No runs recorded yet.</em></p>
+  {% endif %}
+
+{% endblock %}

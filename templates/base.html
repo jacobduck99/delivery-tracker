@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>{% block title %}Delivery Tracker{% endblock %}</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" />
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/config.css') }}" />
+
+  {% block head %}{% endblock %}
+</head>
+<body class="{% if request.endpoint=='index' %}index-page{% endif %}">
+  <nav>
+    <ul class="navbar">
+      <li><a href="{{ url_for('index') }}">Home</a></li>
+      <li><a href="{{ url_for('configuration') }}">New Run</a></li>
+      <li><a href="{{ url_for('past_runs') }}">Past Runs</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>
+

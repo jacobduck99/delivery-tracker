@@ -1,0 +1,109 @@
+/* ===== Main Container ===== */
+.container {
+  max-width: 800px;               /* narrower overall width */
+  margin: 2rem auto;
+  padding: 1.5rem;                /* reduced padding */
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+
+/* ===== Page Heading ===== */
+h1 {
+  text-align: center;
+  font-size: 2rem;                /* slightly smaller */
+  margin-bottom: 1rem;
+  color: #222;
+}
+
+/* ===== Drop Grid ===== */
+.drop-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;                      /* uniform gutter */
+  margin: 2rem 0;
+  padding: 0 1rem;                /* side padding */
+}
+
+/* ===== Drop Card ===== */
+.drop-card {
+  background: #c8c4c4;            /* soft grey */
+  border: 1px solid #b0acac;
+  border-radius: 8px;
+  padding: 1rem;                  /* reduced padding */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 120px;                  /* shorter cards */
+  transition: transform .2s ease, background .2s ease;
+}
+.drop-card:hover {
+  background: #d4d0d0;
+  transform: translateY(-4px);
+}
+
+/* ===== Card Title ===== */
+.drop-card h4 {
+  margin: 0;
+  font-size: 1rem;                /* smaller font */
+  color: #333;
+}
+
+/* ===== Button Wrapper ===== */
+.drop-card form {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* ===== Buttons ===== */
+.drop-card form button {
+  padding: 0.4rem 1rem;           /* compact padding */
+  font-size: 0.85rem;             /* smaller font */
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: background .2s ease;
+}
+
+/* Start = Indigo */
+.drop-card form button[name="action"][value="start"] {
+  background: #5559ff;
+  color: #fff;
+}
+.drop-card form button[name="action"][value="start"]:hover {
+  background: #4448d8;
+}
+
+/* Stop = Red */
+.drop-card form button[name="action"][value="stop"] {
+  background: #e53e3e;
+  color: #fff;
+}
+.drop-card form button[name="action"][value="stop"]:hover {
+  background: #c53030;
+}
+
+/* ===== Elapsed Text ===== */
+.drop-elapsed {
+  margin-top: 0.5rem;
+  font-family: monospace;
+  font-size: 0.9rem;
+  color: #222;
+  text-align: center;
+}
+
+/* ===== Configure Link ===== */
+.subnav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #5559ff;
+  text-decoration: none;
+  font-size: 0.9rem;
+  margin-top: 1.5rem;
+}
+.subnav a:hover {
+  text-decoration: underline;
+}
