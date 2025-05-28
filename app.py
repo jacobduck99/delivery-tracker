@@ -64,9 +64,9 @@ def index():
 @app.route("/deliveries", methods=["POST"])
 def start_delivery():
     action = request.form.get('action')
+    drop_idx = int(request.form["drop_index"])
+    
     if action == 'start':
-
-        drop_idx = int(request.form["drop_index"])
 
         start_ts = datetime.utcnow().isoformat()
 
