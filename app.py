@@ -64,9 +64,9 @@ def index():
 @app.route("/deliveries", methods=["POST"])
 def start_delivery():
     action = request.form.get('action')
+    drop_idx = int(request.form["drop_index"])
+    
     if action == 'start':
-
-        drop_idx = int(request.form["drop_index"])
 
         start_ts = datetime.utcnow().isoformat()
 
@@ -83,18 +83,33 @@ def start_delivery():
     elif action == 'stop':
         end_ts = datetime.utcnow().isoformat()
 
-
         conn = get_db()
         cur = conn.cursor()
-        cur.execute("UPDATE deliveries "
-                    "SET end_ts = ? "
-                    "WHERE run_id = ? AND drop_idx = ?",
-                    (end_ts, session['run_id'], drop_idx)
-        )
 
+    # 1) fetch the original start_ts
+        row = cur.execute(
+        "SELECT start_ts FROM deliveries WHERE run_id = ? AND drop_idx = ?",
+        (session['run_id'], drop_idx)
+        ).fetchone()
+        start_ts = row['start_ts']
+
+    # 2) compute elapsed
+        end_dt = datetime.fromisoformat(end_ts)
+        start_dt = datetime.fromisoformat(start_ts)
+        elapsed = end_dt - start_dt
+        pretty_elapsed = str(elapsed).split('.')[0]  
+
+    # 3) update both fields
+        cur.execute(
+        "UPDATE deliveries "
+        "SET end_ts = ?, elapsed = ? "
+        "WHERE run_id = ? AND drop_idx = ?",
+        (end_ts, pretty_elapsed, session['run_id'], drop_idx)
+    )
         conn.commit()
-        
+
         return redirect(url_for('index'))
+
     
 
 @app.route("/reset")
@@ -111,4 +126,4 @@ def past_runs():
         
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=False)
