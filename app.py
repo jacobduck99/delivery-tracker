@@ -19,7 +19,9 @@ SYDNEY = ZoneInfo("Australia/Sydney")
 @app.route("/configuration", methods=["GET", "POST"])
 def configuration():
     if request.method == "POST":
-        van = request.form.get("van_number")
+        van_num = request.form.get("van_number")
+        van_name = request.form.get("van_name")
+
         start = request.form.get("shift_start")
         end = request.form.get("shift_end")
         drops = int(request.form.get("num_drops"))
@@ -29,10 +31,10 @@ def configuration():
         cur.execute(
             """
             INSERT INTO run
-              (van_number, start_time, end_time, number_of_drops)
-            VALUES (?,?,?,?)
+              (van_number, van_name, start_time, end_time, number_of_drops)
+            VALUES (?,?,?,?,?)
             """,
-            (van, start, end, drops),
+            (van_num, van_name, start, end, drops),
         )
         conn.commit()
 

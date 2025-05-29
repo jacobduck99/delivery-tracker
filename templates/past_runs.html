@@ -2,34 +2,57 @@
 
 {% block title %}Past Runs{% endblock %}
 
+{% block head %}
+  {{ super() }}
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/config.css') }}"
+  />
+{% endblock %}
+
 {% block content %}
-  <h1>Past Runs</h1>
+<div class="page-center">
+  <div class="past-runs-card">
+    <h1>Past Runs</h1>
 
-  {% if runs %}
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Van #</th>
-          <th>Start Time</th>
-          <th>End Time</th>
-          <th>Drops</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for run in runs %}
+    {% if runs %}
+      <table class="past-runs-table">
+        <caption class="sr-only">Your previous delivery runs</caption>
+        <thead>
           <tr>
-            <td>{{ run.id }}</td>
-            <td>{{ run.van_number }}</td>
-            <td>{{ run.start_time }}</td>
-            <td>{{ run.end_time or "—" }}</td>
-            <td>{{ run.number_of_drops }}</td>
+            <th>DATE</th>
+            <th>ID</th>
+            <th>Van #</th>
+            <th>Van Name</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Drops</th>
           </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  {% else %}
-    <p><em>No runs recorded yet.</em></p>
-  {% endif %}
+        </thead>
+        <tbody>
+          {% for r in runs %}
+          <tr>
+            <td> {{ }}</td>
+            <td>{{ r.id }}</td>
+            <td>{{ r.van_number }}</td>
+            <td>{{ r.van_name }}</td>
+            <td>{{ r.start_time }}</td>
+            <td>{{ r.end_time or '-' }}</td>
+            <td>{{ r.number_of_drops }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p style="text-align: center; color: #666;">
+        No past runs yet.<br>
+        <a href="{{ url_for('configuration') }}">Create your first run</a>.
+      </p>
+    {% endif %}
 
+    <nav class="subnav">
+      <a href="{{ url_for('index') }}">← Back to Tracker</a>
+    </nav>
+  </div>
+</div>
 {% endblock %}
