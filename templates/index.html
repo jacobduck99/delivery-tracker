@@ -8,10 +8,12 @@
 
   {% if num_drops %}
     <div class="drop-grid">
+      {# Loop once per drop #}
       {% for i in range(1, num_drops + 1) %}
         {% set d = deliveries | selectattr('drop_idx', 'equalto', i) | first %}
 
-        <div class="drop-card">
+        {# Give each card a stable anchor #}
+        <div id="drop-{{ i }}" class="drop-card">
           <h4>Drop {{ i }}</h4>
 
           {% if not d %}
@@ -30,17 +32,10 @@
 
           {% else %}
             <!-- completed: show Sydney times -->
-            <p><strong>Started at:</strong>
-               {{ d.start_local.strftime("%H:%M:%S") }}
-            </p>
-            <p><strong>Ended at:</strong>
-               {{ d.end_local.strftime("%H:%M:%S") }}
-            </p>
-            <p class="drop-elapsed">
-               <strong>Total-Time:</strong> {{ d.elapsed }}
-            </p>
+            <p><strong>Started at:</strong> {{ d.start_local.strftime("%H:%M:%S") }}</p>
+            <p><strong>Ended at:</strong>   {{ d.end_local.strftime("%H:%M:%S") }}</p>
+            <p class="drop-elapsed"><strong>Total-Time:</strong> {{ d.elapsed }}</p>
           {% endif %}
-
         </div>
       {% endfor %}
     </div>
