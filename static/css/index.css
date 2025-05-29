@@ -27,17 +27,32 @@ h1 {
 
 /* ===== Drop Card ===== */
 .drop-card {
-  background: #c8c4c4;            /* soft grey */
-  border: 1px solid #b0acac;
+  /* 1. fixed size */
+  width: 180px;
+  height: 140px;
+
+  /* 2. padding for inner breathing room */
+  padding: 0.75rem;
+
+  /* 3. box sizing so padding is included in the width/height */
+  box-sizing: border-box;
+
+  /* 4. background & border as before */
+  background: #ddd;
   border-radius: 8px;
-  padding: 1rem;                  /* reduced padding */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+
+  /* 5. flex layout to stack & space elements */
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  height: 120px;                  /* shorter cards */
-  transition: transform .2s ease, background .2s ease;
+  justify-content: flex-start;  /* or space-between if you want Start/End spread out */
+  
+  /* 6. text wrapping to avoid overflow */
+  white-space: normal;
+  word-wrap: break-word;      /* older browsers */
+  overflow-wrap: anywhere;    /* newer syntax */
 }
+
 .drop-card:hover {
   background: #d4d0d0;
   transform: translateY(-4px);
