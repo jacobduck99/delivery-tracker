@@ -1,17 +1,17 @@
 /* ===== Main Container ===== */
 .container {
-  max-width: 800px;               /* narrower overall width */
+  max-width: 800px;
   margin: 2rem auto;
-  padding: 1.5rem;                /* reduced padding */
+  padding: 1.5rem;
   background: #ffffff;
   border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
 /* ===== Page Heading ===== */
 h1 {
   text-align: center;
-  font-size: 2rem;                /* slightly smaller */
+  font-size: 2rem;
   margin-bottom: 1rem;
   color: #222;
 }
@@ -20,49 +20,43 @@ h1 {
 .drop-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;                      /* uniform gutter */
+  gap: 1rem;
   margin: 2rem 0;
-  padding: 0 1rem;                /* side padding */
+  padding: 0 1rem;
 }
 
 /* ===== Drop Card ===== */
 .drop-card {
-  /* 1. fixed size */
-  width: 180px;
-  height: 140px;
-
-  /* 2. padding for inner breathing room */
+  width: 200px;
+  height: 180px;
   padding: 0.75rem;
-
-  /* 3. box sizing so padding is included in the width/height */
   box-sizing: border-box;
-
-  /* 4. background & border as before */
-  background: #ddd;
+  background: #e0dede;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 
-  /* 5. flex layout to stack & space elements */
+  /* flex layout: content top, button/elapsed bottom */
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;  /* or space-between if you want Start/End spread out */
-  
-  /* 6. text wrapping to avoid overflow */
-  white-space: normal;
-  word-wrap: break-word;      /* older browsers */
-  overflow-wrap: anywhere;    /* newer syntax */
-}
+  justify-content: space-between;
 
-.drop-card:hover {
-  background: #d4d0d0;
-  transform: translateY(-4px);
+  /* wrap long text */
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 /* ===== Card Title ===== */
 .drop-card h4 {
-  margin: 0;
-  font-size: 1rem;                /* smaller font */
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
   color: #333;
+}
+
+/* ===== Paragraphs in Card ===== */
+.drop-card p {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+  line-height: 1.2;
 }
 
 /* ===== Button Wrapper ===== */
@@ -70,43 +64,44 @@ h1 {
   width: 100%;
   display: flex;
   justify-content: center;
+  margin-top: auto; /* push to bottom */
 }
 
 /* ===== Buttons ===== */
-.drop-card form button {
-  padding: 0.4rem 1rem;           /* compact padding */
-  font-size: 0.85rem;             /* smaller font */
+.drop-card button {
+  padding: 0.4rem 1rem;
+  font-size: 0.85rem;
   border-radius: 6px;
   border: none;
   cursor: pointer;
-  transition: background .2s ease;
+  transition: background 0.2s ease;
 }
 
 /* Start = Indigo */
-.drop-card form button[name="action"][value="start"] {
+.drop-card button[name="action"][value="start"] {
   background: #5559ff;
   color: #fff;
 }
-.drop-card form button[name="action"][value="start"]:hover {
+.drop-card button[name="action"][value="start"]:hover {
   background: #4448d8;
 }
 
 /* Stop = Red */
-.drop-card form button[name="action"][value="stop"] {
+.drop-card button[name="action"][value="stop"] {
   background: #e53e3e;
   color: #fff;
 }
-.drop-card form button[name="action"][value="stop"]:hover {
+.drop-card button[name="action"][value="stop"]:hover {
   background: #c53030;
 }
 
 /* ===== Elapsed Text ===== */
 .drop-elapsed {
-  margin-top: 0.5rem;
   font-family: monospace;
   font-size: 0.9rem;
   color: #222;
   text-align: center;
+  margin-top: 0.5rem;  /* spacing above elapsed */
 }
 
 /* ===== Configure Link ===== */

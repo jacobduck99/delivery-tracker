@@ -31,13 +31,13 @@
           {% else %}
             <!-- completed: show Sydney times -->
             <p><strong>Started at:</strong>
-               {{ d.start_local.strftime("%Y-%m-%d %H:%M:%S") }}
+               {{ d.start_local.strftime("%H:%M:%S") }}
             </p>
             <p><strong>Ended at:</strong>
-               {{ d.end_local.strftime("%Y-%m-%d %H:%M:%S") }}
+               {{ d.end_local.strftime("%H:%M:%S") }}
             </p>
             <p class="drop-elapsed">
-               <strong>Elapsed:</strong> {{ d.elapsed }}
+               <strong>Total-Time:</strong> {{ d.elapsed }}
             </p>
           {% endif %}
 
