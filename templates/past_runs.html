@@ -16,33 +16,37 @@
     <h1>Past Runs</h1>
 
     {% if runs %}
-      <table class="past-runs-table">
-        <caption class="sr-only">Your previous delivery runs</caption>
-        <thead>
-          <tr>
-            <th>DATE</th>
-            <th>ID</th>
-            <th>Van #</th>
-            <th>Van Name</th>
-            <th>Start</th>
-            <th>End</th>
-            <th>Drops</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for r in runs %}
-          <tr>
-            <td> {{ }}</td>
-            <td>{{ r.id }}</td>
-            <td>{{ r.van_number }}</td>
-            <td>{{ r.van_name }}</td>
-            <td>{{ r.start_time }}</td>
-            <td>{{ r.end_time or '-' }}</td>
-            <td>{{ r.number_of_drops }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+    <table class="past-runs-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Time</th>
+          <th>ID</th>
+          <th>Ended</th>
+          <th>Van #</th>
+          <th>Van Name</th>
+          <th>Drops</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in runs %}
+        <tr>
+          <td>{{ r.start_time.split('T')[0] }}</td>    {# Date #}
+          <td>{{ r.start_time.split('T')[1] }}</td>    {# Start time #}
+          <td>{{ r.id }}</td>
+          <td>
+            {% if r.end_time %}
+              {{ r.end_time.split('T')[1] }}
+            {% else %}
+            {% endif %}
+          </td>
+          <td>{{ r.van_number }}</td>
+          <td>{{ r.van_name }}</td>
+          <td>{{ r.number_of_drops }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
     {% else %}
       <p style="text-align: center; color: #666;">
         No past runs yet.<br>

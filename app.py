@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import sqlite3
-from datetime import datetime, timezone
+from datetime import datetime, timezone, date
 from zoneinfo import ZoneInfo
 
 from database import get_db, init_db, close_db
@@ -23,7 +23,13 @@ def configuration():
         van_name = request.form.get("van_name")
 
         start = request.form.get("shift_start")
-        end = request.form.get("shift_end")
+        today = date.today().isoformat()
+        start_ts = f"{today}T{start}"
+
+
+
+        end_str = request.form.get("shift_end")
+        end_ts  = f"{today}T{end_str}" if end_str else None
         drops = int(request.form.get("num_drops"))
 
         conn = get_db()
@@ -34,7 +40,7 @@ def configuration():
               (van_number, van_name, start_time, end_time, number_of_drops)
             VALUES (?,?,?,?,?)
             """,
-            (van_num, van_name, start, end, drops),
+            (van_num, van_name, start_ts, end_ts, drops),
         )
         conn.commit()
 
