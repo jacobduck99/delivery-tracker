@@ -73,14 +73,6 @@ nav.subnav a:focus {
   text-decoration: underline;
 }
 
-/* ===== Mobile adjustments ===== */
-@media (max-width: 480px) {
-  /* Stack links vertically */
-  ul.navbar {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
   /* Even smaller link text & padding */
   ul.navbar li a {
     font-size: 0.9rem;            /* ~14.4px */
