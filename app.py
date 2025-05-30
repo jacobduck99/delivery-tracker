@@ -26,8 +26,6 @@ def configuration():
         today = date.today().isoformat()
         start_ts = f"{today}T{start}"
 
-
-
         end_str = request.form.get("shift_end")
         end_ts  = f"{today}T{end_str}" if end_str else None
         drops = int(request.form.get("num_drops"))
