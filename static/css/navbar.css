@@ -1,28 +1,38 @@
-/* navbar.css */
+/* ===== navbar.css ===== */
 
 /* 1) Style the nav bar container */
 nav {
-  background-color: #0069ff;               /* your blue */
+  background-color: #0069ff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  /* ADD this: a bit of padding on the nav wrapper */
+  padding: 0.5rem 1rem;          /* 0.5rem top/bottom, 1rem left/right */
 }
 
 /* 2) Wrap links in a flex row & remove bullets */
 ul.navbar {
-  list-style: none;                        /* kill the dots */
+  list-style: none;
   margin: 0;
-  padding: 0.75rem 2rem;                   /* vertical + horizontal padding */
+
+  /* TONE DOWN this padding, since nav now has it */
+  padding: 0;                    /* remove the 0.75rem/2rem here */
+
   display: flex;
-  justify-content: center;                 /* center all links */
-  gap: 2rem;                               /* space between items */
+  justify-content: center;
+  gap: 2rem;
 }
 
 /* 3) Style each link */
 ul.navbar li a {
   color: #ffffff;
   text-decoration: none;
-  font-size: 1.125rem;                     /* about 18px if root is 16px */
+  
+  /* SLIGHTLY SMALLER on desktop */
+  font-size: 1rem;               /* ~16px instead of 1.125rem */
   font-weight: 500;
-  padding: 0.5rem 0.75rem;                 /* bigger tap/click area */
+
+  /* TIGHTER padding */
+  padding: 0.4rem 0.6rem;        /* slightly smaller tap targets */
   border-radius: 4px;
   transition: background 0.2s;
 }
@@ -34,41 +44,51 @@ ul.navbar li a:focus {
 }
 
 /* 5) Active link styling */
-/* Add class="active" to the <a> of the current page */
 ul.navbar li a.active {
   background: rgba(255, 255, 255, 0.3);
 }
 
-/* ====== Override the generic nav styles for just this “subnav” ====== */
+/* ===== Override for the “Back to Tracker” subnav ===== */
 nav.subnav {
-  background: none;           /* remove the blue background */
-  box-shadow: none;           /* remove any shadow */
-  padding: 0;                 /* reset any padding */
-  margin-top: 1.5rem;         /* give some breathing room above */
-  text-align: center;         /* center the link under the form */
+  background: none;
+  box-shadow: none;
+  padding: 0;
+  margin-top: 1.5rem;
+  text-align: center;
 }
 
-/* ====== Style the back-link itself ====== */
 nav.subnav a {
-  display: inline-block;      /* shrink to content width */
-  background: none;           /* ensure no fill */
-  width: auto;                /* prevent full-width */
-  color: #0069ff;             /* keep your brand blue as text */
+  display: inline-block;
+  background: none;
+  width: auto;
+  color: #0069ff;
   text-decoration: none;
-  font-size: 0.95rem;         /* slightly smaller than your form buttons */
-  padding: 0.5rem 0;          /* comfortable click/tap area */
+  font-size: 0.95rem;
+  padding: 0.5rem 0;
   transition: color 0.2s;
 }
 
 nav.subnav a:hover,
 nav.subnav a:focus {
-  text-decoration: underline; /* simple hover feedback */
+  text-decoration: underline;
 }
 
+/* ===== Mobile adjustments ===== */
 @media (max-width: 480px) {
+  /* Stack links vertically */
   ul.navbar {
     flex-direction: column;
     gap: 0.5rem;
-    padding: 0.5rem;
+  }
+
+  /* Even smaller link text & padding */
+  ul.navbar li a {
+    font-size: 0.9rem;            /* ~14.4px */
+    padding: 0.3rem 0.5rem;       /* more compact tap area */
+  }
+
+  /* Reduce nav wrapper padding further */
+  nav {
+    padding: 0.25rem 0.5rem;
   }
 }
