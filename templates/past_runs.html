@@ -4,9 +4,10 @@
 
 {% block head %}
   {{ super() }}
+  <!-- Load the Past Runs stylesheet -->
   <link
     rel="stylesheet"
-    href="{{ url_for('static', filename='css/config.css') }}"
+    href="{{ url_for('static', filename='css/past_runs.css') }}"
   />
 {% endblock %}
 
@@ -16,38 +17,38 @@
     <h1>Past Runs</h1>
 
     {% if runs %}
-    <table class="past-runs-table">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Date</th>
-          <th>Van #</th>
-          <th>Van Name</th>
-          <th>Drops</th>
-          <th>Start</th>
-          <th>Ended</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for r in runs %}
-        <tr>
-          <td>{{ r.id }}</td>
-          <td>{{ r.start_time.split('T')[0] }}</td> 
-          <td>{{ r.van_number }}</td> 
-          <td>{{ r.van_name }}</td>
-          <td>{{ r.number_of_drops }}</td>
-          <td>{{ r.start_time.split('T')[1] }}</td>    {# Start time #}
-          
-          <td>
-            {% if r.end_time %}
-              {{ r.end_time.split('T')[1] }}
-            {% else %}
-            {% endif %}
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+      <div class="table-wrapper">
+        <table class="past-runs-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Date</th>
+              <th>Van #</th>
+              <th>Van Name</th>
+              <th>Drops</th>
+              <th>Start</th>
+              <th>Ended</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for r in runs %}
+            <tr>
+              <td>{{ r.id }}</td>
+              <td>{{ r.start_time.split('T')[0] }}</td>
+              <td>{{ r.van_number }}</td>
+              <td>{{ r.van_name }}</td>
+              <td>{{ r.number_of_drops }}</td>
+              <td>{{ r.start_time.split('T')[1] }}</td>
+              <td>
+                {% if r.end_time %}
+                  {{ r.end_time.split('T')[1] }}
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     {% else %}
       <p style="text-align: center; color: #666;">
         No past runs yet.<br>

@@ -85,5 +85,35 @@
   border: 1px solid #6072dd;  /* same blue as your bottom border */
 }
 
-/* Remove it on the last column so you don’t get a double-border */
+/* ===== Responsive tweaks ===== */
+@media (max-width: 1024px) {
+  /* 1) Fluid wrapper */
+  .page-center {
+    padding: 1rem;
+  }
+  .past-runs-card {
+    width: 100%;
+    max-width: none;      /* drop any fixed cap */
+    padding: 1.5rem;
+  }
 
+  /* 2) Make the table scroll horizontally if needed */
+  .past-runs-card .table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Smaller phones */
+@media (max-width: 480px) {
+  /* 3) Reduce font-sizes & cell padding */
+  .past-runs-table {
+    font-size: 0.85rem;
+  }
+  .past-runs-table th,
+  .past-runs-table td {
+    padding: 0.5rem;
+  }
+
+
+}
