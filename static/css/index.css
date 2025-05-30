@@ -117,3 +117,58 @@ h1 {
 .subnav a:hover {
   text-decoration: underline;
 }
+
+/* ===== Mobile & Tablet Breakpoints ===== */
+@media (max-width: 1024px) {
+  /* 1) Fluid container */
+  .container {
+    width: 90%;
+    max-width: none;      /* remove the 800px cap on smaller screens */
+    margin: 1.5rem auto;
+    padding: 1rem;
+  }
+
+  /* 2) Collapse grid from 4 → 2 columns */
+  .drop-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    padding: 0;           /* remove horizontal padding */
+    margin: 1.5rem 0;
+  }
+
+  /* 3) Make drop cards fill their column */
+  .drop-card {
+    width: 100%;          /* full column width */
+    height: auto;         /* let the content define height */
+  }
+}
+
+@media (max-width: 480px) {
+  /* 4) On small phones, stack everything */
+  .drop-grid {
+    grid-template-columns: 1fr;  /* single column */
+    gap: 0.5rem;
+  }
+
+  /* 5) Tweak card padding & font-sizes */
+  .drop-card {
+    padding: 0.5rem;
+  }
+  .drop-card h4 {
+    font-size: 1rem;
+  }
+  .drop-card p,
+  .drop-elapsed {
+    font-size: 0.8rem;
+  }
+  .drop-card button {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.8rem;
+  }
+
+  /* 6) Slim down the subnav link */
+  .subnav a {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.6rem;
+  }
+}
