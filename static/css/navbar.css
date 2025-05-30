@@ -64,3 +64,11 @@ nav.subnav a:hover,
 nav.subnav a:focus {
   text-decoration: underline; /* simple hover feedback */
 }
+
+@media (max-width: 480px) {
+  ul.navbar {
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+}

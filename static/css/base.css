@@ -6,3 +6,10 @@ html {
 html, body, h1, h2, ul, li { margin: 0; padding: 0; }
 body { font-family: sans-serif; line-height: 1.5; }
 .hidden { display: none !important; }
+
+input,
+button,
+nav.subnav a {
+  font-size: 1rem;           /* at least 16px */
+  padding: 0.75rem 1rem;     /* ~44px tall tap area */
+}
