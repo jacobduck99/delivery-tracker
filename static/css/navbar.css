@@ -1,4 +1,66 @@
-/* only navbar rules */
-.navbar { display: flex; background: #333; list-style: none; }
-.navbar a { color: white; padding: 0.75em; text-decoration: none; }
-.navbar a:hover { background: #444; }
+/* navbar.css */
+
+/* 1) Style the nav bar container */
+nav {
+  background-color: #0069ff;               /* your blue */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 2) Wrap links in a flex row & remove bullets */
+ul.navbar {
+  list-style: none;                        /* kill the dots */
+  margin: 0;
+  padding: 0.75rem 2rem;                   /* vertical + horizontal padding */
+  display: flex;
+  justify-content: center;                 /* center all links */
+  gap: 2rem;                               /* space between items */
+}
+
+/* 3) Style each link */
+ul.navbar li a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 1.125rem;                     /* about 18px if root is 16px */
+  font-weight: 500;
+  padding: 0.5rem 0.75rem;                 /* bigger tap/click area */
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+/* 4) Hover & focus states */
+ul.navbar li a:hover,
+ul.navbar li a:focus {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* 5) Active link styling */
+/* Add class="active" to the <a> of the current page */
+ul.navbar li a.active {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* ====== Override the generic nav styles for just this “subnav” ====== */
+nav.subnav {
+  background: none;           /* remove the blue background */
+  box-shadow: none;           /* remove any shadow */
+  padding: 0;                 /* reset any padding */
+  margin-top: 1.5rem;         /* give some breathing room above */
+  text-align: center;         /* center the link under the form */
+}
+
+/* ====== Style the back-link itself ====== */
+nav.subnav a {
+  display: inline-block;      /* shrink to content width */
+  background: none;           /* ensure no fill */
+  width: auto;                /* prevent full-width */
+  color: #0069ff;             /* keep your brand blue as text */
+  text-decoration: none;
+  font-size: 0.95rem;         /* slightly smaller than your form buttons */
+  padding: 0.5rem 0;          /* comfortable click/tap area */
+  transition: color 0.2s;
+}
+
+nav.subnav a:hover,
+nav.subnav a:focus {
+  text-decoration: underline; /* simple hover feedback */
+}
