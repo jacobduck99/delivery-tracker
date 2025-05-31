@@ -1,6 +1,6 @@
 /* ===== Main Container ===== */
 .container {
-  max-width: 800px;
+  max-width: 1000px;
   margin: 2rem auto;
   padding: 1.5rem;
   background: #ffffff;
@@ -21,13 +21,13 @@ h1 {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
-  margin: 2rem 0;
+  margin: 1rem 0;
   padding: 0 1rem;
 }
 
 /* ===== Drop Card ===== */
 .drop-card {
-  width: 200px;
+  width: 300px;
   height: 180px;
   padding: 0.75rem;
   box-sizing: border-box;
@@ -138,15 +138,14 @@ h1 {
   /* 2) Collapse grid from 4 → 2 columns */
   .drop-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 0.75rem;
+    gap: 0.5rem;
     padding: 0;           /* remove horizontal padding */
-    margin: 1.5rem 0;
   }
 
   /* 3) Make drop cards fill their column */
   .drop-card {
     width: 100%;          /* full column width */
-    height: 150px;         /* let the content define height */
+    height: 170px;         /* let the content define height */
   }
 }
 
@@ -154,7 +153,6 @@ h1 {
   /* 4) On small phones, stack everything */
   .drop-grid {
     grid-template-columns: 1fr;  /* single column */
-    gap: 0.5rem;
   }
 
   /* 5) Tweak card padding & font-sizes */
