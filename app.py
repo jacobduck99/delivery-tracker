@@ -112,7 +112,7 @@ def start_delivery():
             (session["run_id"], drop_idx, start_ts),
         )
         conn.commit()
-        return redirect(url_for("index"))
+        return redirect(url_for("index", _anchor=f"drop-{drop_idx}"))
 
     elif action == "stop":
         # record UTC end
@@ -145,7 +145,7 @@ def start_delivery():
             (end_ts, pretty_elapsed, session["run_id"], drop_idx),
         )
         conn.commit()
-        return redirect(url_for("index"))
+        return redirect(url_for("index", _anchor=f"drop-{drop_idx}"))
 
 
 @app.route("/reset")
