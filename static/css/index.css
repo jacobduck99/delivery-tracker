@@ -80,8 +80,12 @@ h1 {
 /* Start = Indigo */
 .drop-card button[name="action"][value="start"] {
   background: #5559ff;
+  padding: 12px 24px;     /* top/bottom 12 px, left/right 24 px */
+  min-width: 150px;       /* or max-width: 200px; width: 100%; */
   color: #fff;
+  font-size: 1rem;
 }
+
 .drop-card button[name="action"][value="start"]:hover {
   background: #4448d8;
 }
@@ -89,7 +93,10 @@ h1 {
 /* Stop = Red */
 .drop-card button[name="action"][value="stop"] {
   background: #e53e3e;
+  padding: 12px 24px;
+  min-width: 150px;
   color: #fff;
+  font-size: 1rem;
 }
 .drop-card button[name="action"][value="stop"]:hover {
   background: #c53030;
@@ -170,5 +177,133 @@ h1 {
   .subnav a {
     font-size: 0.85rem;
     padding: 0.4rem 0.6rem;
+  }
+}
+/* ────────────────────────────────────────────────────────────── */
+/* 7) “Log details” Toggle Button Styling                        */
+/* ────────────────────────────────────────────────────────────── */
+
+/* Make the Log details button match your Indigo theme */
+.log-details-btn {
+  display: inline-block;
+  margin-top: 0.5rem;           /* same vertical spacing as your main buttons */
+  padding: 0.6rem 1.2rem;       /* a comfortable tap area */
+  font-size: 0.95rem;           /* slightly larger than 0.85rem so it stands out */
+  background-color: #5559ff;    /* Indigo (same as Start button) */
+  color: #fff;                  /* White text */
+  border: none;
+  border-radius: 6px;           /* match your drop-card button radius */
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: background 0.2s ease-in-out, transform 0.1s ease-in-out;
+}
+
+.log-details-btn:hover {
+  background-color: #4448d8;    /* Slightly darker Indigo on hover */
+  transform: translateY(-1px);
+}
+
+.log-details-btn:active {
+  background-color: #3339aa;    /* Even darker when pressed */
+  transform: translateY(0);
+}
+
+/* ────────────────────────────────────────────────────────────── */
+/* 8) Hidden Inline Form Container (details-form-container)       */
+/* ────────────────────────────────────────────────────────────── */
+
+/* When the JS toggles display:block, these styles will apply */
+.details-form-container {
+  margin-top: 0.6rem;                 /* a bit more space above the form */
+  padding: 0.75rem 0.9rem;            /* inner padding for breathing room */
+  background-color: #f9f9f9;          /* very light grey background */
+  border: 1px solid #ddd;             /* light border that matches your card shadows */
+  border-radius: 8px;                 /* match drop-card radius */
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Style the textarea inside the hidden form */
+.details-form-container textarea {
+  width: 100%;
+  min-height: 80px;                   /* enough room for 2–3 lines */
+  font-size: 0.9rem;                  /* match drop-card paragraph font */
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;                   /* allow users to expand vertically only */
+  box-sizing: border-box;             /* include padding in width calculation */
+  margin-top: 0.25rem;                /* small gap above/below the textarea */
+  margin-bottom: 0.5rem;
+}
+
+/* Style the Save button inside the hidden form */
+.details-form-container .save-details-btn {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.95rem;
+  background-color: #5559ff;          /* same Indigo */
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: background 0.2s ease-in-out, transform 0.1s ease-in-out;
+}
+
+.details-form-container .save-details-btn:hover {
+  background-color: #4448d8;
+  transform: translateY(-1px);
+}
+
+.details-form-container .save-details-btn:active {
+  background-color: #3339aa;
+  transform: translateY(0);
+}
+
+/* ────────────────────────────────────────────────────────────── */
+/* 9) Optional: Style Checkbox Labels (for future stairs/driveway) */
+/* ────────────────────────────────────────────────────────────── */
+
+.details-form-container label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;     /* stagger checkboxes below textarea */
+}
+
+.details-form-container input[type="checkbox"] {
+  width: 1rem;
+  height: 1rem;
+  cursor: pointer;
+}
+
+/* ────────────────────────────────────────────────────────────── */
+/* 10) Responsive Tweaks for Small Screens                       */
+/* ────────────────────────────────────────────────────────────── */
+
+/* On small phones (≤ 480px), make sure everything fits nicely */
+@media (max-width: 480px) {
+  .log-details-btn {
+    width: 100%;             /* full width beneath the Delivered button */
+    text-align: center;
+    margin-left: 0;          /* no extra left margin on tiny screens */
+    font-size: 0.9rem;       /* slightly smaller text for cramped widths */
+    padding: 10px 0;
+  }
+
+  .details-form-container {
+    padding: 0.5rem 0.6rem;   /* less padding on very small screens */
+  }
+
+  .details-form-container textarea {
+    font-size: 0.85rem;       /* slightly smaller text inside the textarea */
+    min-height: 60px;         /* a bit less height on tiny screens */
+  }
+
+  .details-form-container .save-details-btn {
+    width: 100%;             /* full width save button */
+    padding: 0.5rem 0;
+    font-size: 0.9rem;
   }
 }
