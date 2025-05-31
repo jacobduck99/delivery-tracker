@@ -48,7 +48,6 @@ h1 {
   display: grid;
   grid-gap: 1rem;
 }
-
 @media (min-width: 600px) {
   .config-form {
     grid-template-columns: 1fr 1fr;
@@ -97,7 +96,7 @@ h1 {
   padding: 0.75rem;
   font-size: 1rem;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
   width: 100%;
   transition: background 0.2s, transform 0.1s;
@@ -153,3 +152,54 @@ nav.subnav a:hover {
     max-width: 350px;
   }
 }
+
+/* ────────────────────────────────────────────────────────────── */
+/* Override: Don’t force time‐pickers to go 100% width on mobile   */
+/* ────────────────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  /* Instead of "always width:100%", let time inputs share the same max‐width logic */
+  .form-group input[type="time"] {
+    width: auto;              /* let it size itself naturally */
+    max-width: 100%;          /* but never exceed container */
+    box-sizing: border-box;   /* so padding/border stay inside that max‐width */
+  }
+
+  /* If you want the time‐pickers to exactly mimic your text/number inputs,
+     give them the same padding/font‐size, but let the parent .form-group control width:100%. */
+  .form-group input[type="time"] {
+    padding: 0.5rem 0.75rem;  /* same as your other inputs */
+    font-size: 1rem;
+  }
+}
+
+/* ────────────────────────────────────────────────────────────── */
+/* Override: Make “Back to Tracker” (btn‐secondary) match input widths */
+/* ────────────────────────────────────────────────────────────── */
+.form-actions .btn-secondary {
+  width: auto;  
+  border-radius: 6px;              /* don’t force 100% */
+  max-width: 100%;           /* but never exceed container width */
+  align-self: flex-start;    /* let it hug to the left, instead of stretching */
+  padding: 0.5rem 1rem;      /* match other buttons’ horizontal padding */
+  font-size: 1rem;           /* make it consistent with your inputs */
+}
+
+/* If you still want it to span full width on very, very small (<360px) screens,
+   you could add another media query, but typically auto+max‐width above is enough. */
+
+   /* ────────────────────────────────────────────────────────────── */
+/* Narrow the form on very small screens (≤ 480px)               */
+/* ────────────────────────────────────────────────────────────── */
+/* ────────────────────────────────────────────────────────────── */
+/* Very Small Screens (≤ 480px): Make .config-wrapper .container narrower */
+/* ────────────────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  /* Target the container inside your config wrapper */
+  .config-wrapper .container {
+    width: 90%;         /* shrink from 95% down to 90% */
+    max-width: 345px;   /* cap at 300px instead of 350px */
+    margin: 1.5rem auto;/* a bit more vertical breathing room */
+    padding: 0.75rem;   /* preserve your existing padding */
+  }
+}
+

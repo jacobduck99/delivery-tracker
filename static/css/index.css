@@ -83,7 +83,7 @@ h1 {
   padding: 12px 24px;     /* top/bottom 12 px, left/right 24 px */
   min-width: 150px;       /* or max-width: 200px; width: 100%; */
   color: #fff;
-  font-size: 1rem;
+  font-size: 0.8rem;
 }
 
 .drop-card button[name="action"][value="start"]:hover {
@@ -96,7 +96,7 @@ h1 {
   padding: 12px 24px;
   min-width: 150px;
   color: #fff;
-  font-size: 1rem;
+  font-size: 0.8rem;
 }
 .drop-card button[name="action"][value="stop"]:hover {
   background: #c53030;
@@ -146,7 +146,7 @@ h1 {
   /* 3) Make drop cards fill their column */
   .drop-card {
     width: 100%;          /* full column width */
-    height: auto;         /* let the content define height */
+    height: 150px;         /* let the content define height */
   }
 }
 
@@ -162,15 +162,17 @@ h1 {
     padding: 0.5rem;
   }
   .drop-card h4 {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
   .drop-card p,
   .drop-elapsed {
     font-size: 0.8rem;
   }
+
+  /* Shrink the button text size on mobile */
   .drop-card button {
     padding: 0.4rem 0.75rem;
-    font-size: 0.8rem;
+    font-size: 0.75rem;  /* made slightly smaller than 0.8rem */
   }
 
   /* 6) Slim down the subnav link */
@@ -179,6 +181,7 @@ h1 {
     padding: 0.4rem 0.6rem;
   }
 }
+
 /* ────────────────────────────────────────────────────────────── */
 /* 7) “Log details” Toggle Button Styling                        */
 /* ────────────────────────────────────────────────────────────── */
