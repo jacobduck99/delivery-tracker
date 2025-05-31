@@ -1,23 +1,19 @@
 /* ==== Color Variables ==== */
 :root {
-  /* Page & Card */
-  --bg-page:      #f5f7fa;  /* light grey page background */
-  --bg-card:      #ffffff;  /* white card surface */
-  --border-color: #d1d5da;  /* neutral border */
-
-  /* Text */
-  --text-high:    #212529;  /* dark text */
-  --text-med:     #495057;  /* label text */
-  --text-light:   #6c757d;  /* placeholders */
-
-  /* Accents */
-  --primary:      #0069ff;  /* main blue */
-  --primary-hover:#0051cc;  /* hover state */
-  --secondary:    #6c757d;  /* grey for secondary controls */
-  --secondary-bg: #f0f0f0;  /* hover bg for secondary */
+  --bg-page:      #f5f7fa;
+  --bg-card:      #ffffff;
+  --border-color: #d1d5da;
+  --text-high:    #212529;
+  --text-med:     #495057;
+  --text-light:   #6c757d;
+  --primary:      #0069ff;
+  --primary-hover:#0051cc;
+  --secondary:    #6c757d;
+  --secondary-bg: #f0f0f0;
+  --header-height: 60px; /* if your header/nav is fixed-height */
 }
 
-/* Reset and base styles */
+/* Base reset */
 html, body {
   margin: 0;
   padding: 0;
@@ -26,17 +22,20 @@ html, body {
   color: var(--text-high);
 }
 
-/* Configuration‐page only container */
-body:not(.index-page) .container {
-  margin: 0;  /* get rid of the 2rem top/right/left/bottom margins */
-  padding: 0.75rem; /* keep the existing padding */
-  /* width and max-width remain the same (90% / 350px) */
-  width: 90%;
+/* Container styling (mobile default) */
+body.config-page .container {
+  width: 95%;
   max-width: 350px;
+  margin: 2rem auto;
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-
-/* Page heading */
+/* Header */
 h1 {
   text-align: center;
   margin-bottom: 1rem;
@@ -44,17 +43,15 @@ h1 {
   color: var(--text-high);
 }
 
-/* Settings form styles (configuration page) */
-.settings-form {
+/* Form and fields */
+.config-form {
   display: grid;
-  flex-direction: column;
   grid-gap: 1rem;
 }
 
 @media (min-width: 600px) {
-  .settings-form {
-    display: grid;
-    grid-template-columns: 1fr 1fr;  /* e.g. two-column on tablet+ */
+  .config-form {
+    grid-template-columns: 1fr 1fr;
     gap: 1.5rem;
   }
 }
@@ -66,30 +63,30 @@ h1 {
 
 .form-group label {
   margin-bottom: 0.25rem;
-  font-weight: 500;
   color: var(--text-med);
+  font-weight: 500;
 }
 
 .form-group input {
   padding: 0.5rem;
   font-size: 1rem;
-  color: var(--text-high);
-  background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: 4px;
-  font-family: monospace;
   width: 100%;
   box-sizing: border-box;
+  font-family: monospace;
 }
 
-.form-group input::placeholder {
-  color: var(--text-light);
+.form-group input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(0, 105, 255, 0.2);
 }
 
-/* Action buttons */
+/* Buttons */
 .form-actions {
   display: flex;
-  flex-direction: column;     /* stack primary & secondary */
+  flex-direction: column;
   gap: 0.5rem;
   margin-top: 1rem;
 }
@@ -103,18 +100,23 @@ h1 {
   border-radius: 4px;
   cursor: pointer;
   width: 100%;
-  transition: background 0.2s;
+  transition: background 0.2s, transform 0.1s;
 }
 
 .form-actions button:hover {
   background-color: var(--primary-hover);
+  transform: translateY(-1px);
 }
 
-/* “Back to Tracker” secondary link styled as button */
+.form-actions button:active {
+  background-color: #004bb5;
+  transform: translateY(0);
+}
+
 .form-actions .btn-secondary,
 nav.subnav a {
   display: inline-block;
-  background-color: transparent;
+  background: transparent;
   color: var(--secondary);
   border: 1px solid var(--border-color);
   padding: 0.5rem;
@@ -132,17 +134,22 @@ nav.subnav a:hover {
   color: var(--text-high);
 }
 
-body:not(.index-page) .container {
-  width: 90%;
-  max-width: 350px;
-  margin: 2rem auto;
-  /* ...rest of your styles */
+/* ================================================================= */
+/* Centering on Desktop (width ≥ 600px) using .config-wrapper        */
+/* ================================================================= */
+@media (min-width: 600px) {
+  .config-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - var(--header-height));
+    margin: 0; /* no top‐margin so it truly centers */
+  }
+
+  .config-wrapper .container {
+    margin: 0; /* remove mobile margin */
+    padding: 0.75rem;
+    width: 90%;
+    max-width: 350px;
+  }
 }
-
-
-input[type="text"],
-input[type="number"],
-input[type="datetime-local"],
-input {
-width: 100%;
-box-sizing: border-box;}
