@@ -16,6 +16,48 @@ h1 {
   color: #222;
 }
 
+/* 1) Ensure the .break wrapper sits at the top of its container */
+.break {
+  display: flex;
+  justify-content: center;
+  /* optional: push it a bit down from the very top if needed */
+  margin-top: 1rem;
+  /* or use padding-top on the parent instead */
+}
+
+/* 2) Give the button some padding, a box-shadow, and a hover state */
+.break button {
+  background-color: red;        /* your chosen color */
+  color: white;
+  border: none;                 /* remove default border */
+  border-radius: 6px;
+  padding: 0.75rem 1.5rem;      /* larger click area */
+  font-size: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+/* 3) A simple hover/active effect */
+.break button:hover {
+  background-color: darkred;
+  transform: translateY(-1px);
+}
+.break button:active {
+  background-color: maroon;
+  transform: translateY(0);
+}
+
+/* 4) If you want it absolutely pinned to the very top of the viewport: */
+/*
+.break {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+*/
+
 /* ===== Drop Grid ===== */
 .drop-grid {
   display: grid;

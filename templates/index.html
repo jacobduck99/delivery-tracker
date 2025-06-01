@@ -5,7 +5,9 @@
 {% block content %}
 <div class="container">
   <h1>Have a good shift!</h1>
-
+  <div class="break">
+    <button type="submit" name="action" value="start_break">Break</button>
+  </div>
   {% if num_drops %}
     <div class="drop-grid">
       {# Loop once per drop #}
@@ -39,6 +41,7 @@
         </div>
       {% endfor %}
     </div>
+
   {% else %}
     <p>No drops configured yet.
       <a href="{{ url_for('configuration') }}">Configure your shift.</a>
