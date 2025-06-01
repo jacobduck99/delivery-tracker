@@ -219,10 +219,13 @@ nav.subnav a:hover {
 /* Remove only the top margin on the first form‐group inside the form */
 
 /* Only on phones ≤480px wide AND ≥800px tall */
-@media (max-width: 480px) and (min-height: 800px) {
-  .config-wrapper h1 {
+@media (max-width: 480px) {
+  .config-wrapper .container h1 {
+    margin-top: 0.9rem;   /* adjust the “1rem” until it looks right */
     margin-bottom: 0.25rem;
   }
+}
+
 
   .config-wrapper .form-group .form-group:first-child {
     margin-top: 0;
@@ -234,7 +237,7 @@ nav.subnav a:hover {
     padding-top: 0;
     margin-top: 0;
   }
-}
+
 
 .form-group label {
   margin-bottom: 0.01rem;
