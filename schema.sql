@@ -3,6 +3,8 @@ CREATE TABLE IF NOT EXISTS run (
     van_number INTEGER NOT NULL,
     van_name TEXT NOT NULL,
     start_time TEXT NOT NULL,
+    first_break TEXT NOT NULL,
+    second_break TEXT NOT NULL,
     end_time TEXT,
     number_of_drops INTEGER NOT NULL
 );

@@ -26,6 +26,9 @@ def configuration():
         today = date.today().isoformat()
         start_ts = f"{today}T{start}"
 
+        first_break = request.form.get("first_break")
+        second_break = request.form.get("second_break")
+
         end_str = request.form.get("shift_end")
         end_ts  = f"{today}T{end_str}" if end_str else None
         drops = int(request.form.get("num_drops"))
@@ -35,11 +38,13 @@ def configuration():
         cur.execute(
             """
             INSERT INTO run
-              (van_number, van_name, start_time, end_time, number_of_drops)
-            VALUES (?,?,?,?,?)
+              (van_number, van_name, start_time, first_break, second_break,
+              end_time, number_of_drops)
+            VALUES (?,?,?,?,?,?,?)
             """,
-            (van_num, van_name, start_ts, end_ts, drops),
+            (van_num, van_name, start_ts, first_break, second_break, end_ts, drops),
         )
+        print(cur.fetchall())
         conn.commit()
 
         new_id = cur.lastrowid
