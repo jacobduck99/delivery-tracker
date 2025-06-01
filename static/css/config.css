@@ -50,7 +50,7 @@ h1 {
 }
 @media (min-width: 600px) {
   .config-form {
-    grid-template-columns: 1fr 1fr;
+
     gap: 1.5rem;
   }
 }
