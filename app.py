@@ -44,10 +44,27 @@ def configuration():
             """,
             (van_num, van_name, start_ts, first_break, second_break, end_ts, drops),
         )
-        print(cur.fetchall())
+        new_id = cur.lastrowid
+
+        cur.execute(
+            """
+            INSERT INTO breaks (run_id, break_number, scheduled_time)
+            VALUES (?,?,?)
+            """,
+            (new_id, 1, first_break),
+        )
+
+        cur.execute(
+            """
+            INSERT INTO breaks (run_id, break_number, scheduled_time)
+            VALUES (?,?,?)
+            """,
+            (new_id, 2, second_break),
+        )
+
         conn.commit()
 
-        new_id = cur.lastrowid
+        
         session["run_id"] = new_id
         session["num_drops"] = drops
 
@@ -151,6 +168,40 @@ def start_delivery():
         )
         conn.commit()
         return redirect(url_for("index", _anchor=f"drop-{drop_idx}"))
+    
+
+@app.route("/breaks", methods=["POST"])
+def breaks():
+    action = request.form.get("action")
+
+    conn = get_db()
+    cur = conn.cursor()
+
+    if action == "start_break":
+
+        start_ts = datetime.now(timezone.utc).isoformat()
+        cur.execute(
+            """INSERT INTO breaks (break_number, actual_time) 
+            
+                VALUES (?,?)""",
+                (1, start_ts),
+        )
+
+        cur.execute(
+            """INSERT INTO breaks (break_number, actual_time) 
+            
+                VALUES (?,?)""",
+                (2, start_ts),
+        )
+
+        conn.commit()
+
+    elif action == "skip_break":
+        pass
+
+    return redirect(url_for("index"))
+
+
 
 
 @app.route("/reset")
