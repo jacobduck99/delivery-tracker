@@ -6,8 +6,14 @@
 <div class="container">
   <h1>Have a good shift!</h1>
   <div class="break">
-    <button type="submit" name="action" value="start_break">Break</button>
+    <button type="submit" name="action" value="start_break" class="btn-break">
+      Take Break
+    </button>
+    <button type="submit" name="action" value="skip_break" class="btn-skip">
+      Skip Break
+    </button>
   </div>
+  
   {% if num_drops %}
     <div class="drop-grid">
       {# Loop once per drop #}

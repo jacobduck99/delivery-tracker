@@ -17,46 +17,53 @@ h1 {
 }
 
 /* 1) Ensure the .break wrapper sits at the top of its container */
+/* 1) Lay out both buttons side by side with a gap */
 .break {
   display: flex;
   justify-content: center;
-  /* optional: push it a bit down from the very top if needed */
-  margin-top: 1rem;
-  /* or use padding-top on the parent instead */
+  gap: 0.75rem;       /* space between the two buttons */
+  margin-top: 1rem;   /* push the whole group down a bit, if needed */
 }
 
-/* 2) Give the button some padding, a box-shadow, and a hover state */
+/* 2) Base styling shared by both buttons */
 .break button {
-  background-color: red;        /* your chosen color */
-  color: white;
-  border: none;                 /* remove default border */
-  border-radius: 6px;
-  padding: 0.75rem 1.5rem;      /* larger click area */
+  padding: 0.6rem 1.25rem;         /* larger click area */
   font-size: 1rem;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
   transition: background-color 0.2s, transform 0.1s;
 }
 
-/* 3) A simple hover/active effect */
-.break button:hover {
-  background-color: darkred;
+/* 3) “Take Break” button */
+.btn-break {
+  background-color: #d9534f;
+  color: white;
+}
+.btn-break:hover {
+  background-color: #c9302c;
   transform: translateY(-1px);
 }
-.break button:active {
-  background-color: maroon;
+.btn-break:active {
+  background-color: #ac2925;
   transform: translateY(0);
 }
 
-/* 4) If you want it absolutely pinned to the very top of the viewport: */
-/*
-.break {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
+/* 4) “Skip Break” button—use a neutral/secondary color */
+.btn-skip {
+  background-color: #6c757d;
+  color: white;
 }
-*/
+.btn-skip:hover {
+  background-color: #5a6268;
+  transform: translateY(-1px);
+}
+.btn-skip:active {
+  background-color: #545b62;
+  transform: translateY(0);
+}
+
 
 /* ===== Drop Grid ===== */
 .drop-grid {
