@@ -38,20 +38,19 @@ body.config-page .container {
 /* Header */
 h1 {
   text-align: center;
-  margin-bottom: 1rem;
-  font-size: 1.5rem;
+  margin-bottom: 0.4rem;
+  font-size: 1.3rem;
   color: var(--text-high);
 }
 
 /* Form and fields */
 .config-form {
   display: grid;
-  grid-gap: 0.5em;
+
 }
 @media (min-width: 600px) {
   .config-form {
-
-    gap: 1.5rem;
+    gap: 1.2rem;
   }
 }
 
@@ -61,16 +60,16 @@ h1 {
 }
 
 .form-group label {
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.1rem;
   color: var(--text-med);
   font-weight: 500;
 }
 
 .form-group input {
   padding: 0.5rem;
-  font-size: 1rem;
+  font-size: 0.8rem;
   border: 1px solid var(--border-color);
-  border-radius: 4px;
+  border-radius: 6px;
   width: 100%;
   box-sizing: border-box;
   font-family: monospace;
@@ -198,8 +197,50 @@ nav.subnav a:hover {
   .config-wrapper .container {
     width: 90%;         /* shrink from 95% down to 90% */
     max-width: 345px;   /* cap at 300px instead of 350px */
-    margin: 1.5rem auto;/* a bit more vertical breathing room */
+    margin: 0.5rem auto;/* a bit more vertical breathing room */
     padding: 0.75rem;   /* preserve your existing padding */
   }
 }
+
+/* “push everything up” by removing top‐padding */
+.config-wrapper .container {
+  padding-top: 0;
+}
+
+/* or if the form element has a top‐margin by default: */
+.my-form {
+  margin-top: 0;
+}
+
+.config-wrapper h1 {
+  margin-bottom: 1rem;  /* or 0 if you want it flush */
+}
+
+/* Remove only the top margin on the first form‐group inside the form */
+
+/* Only on phones ≤480px wide AND ≥800px tall */
+@media (max-width: 480px) and (min-height: 800px) {
+  .config-wrapper h1 {
+    margin-bottom: 0.25rem;
+  }
+
+  .config-wrapper .form-group .form-group:first-child {
+    margin-top: 0;
+  }
+
+  /* If you had any top‐padding on the form/container, remove it here */
+  .config-wrapper .form-group,
+  .config-wrapper .container {
+    padding-top: 0;
+    margin-top: 0;
+  }
+}
+
+.form-group label {
+  margin-bottom: 0.01rem;
+  color: var(--text-med);
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
 
