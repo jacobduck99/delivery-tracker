@@ -111,6 +111,9 @@ def index():
             d["end_local"] = end_utc.astimezone(SYDNEY)
         deliveries.append(d)
 
+    
+    
+
     return render_template(
         "index.html",
         num_drops=num_drops,

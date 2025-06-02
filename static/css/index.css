@@ -18,25 +18,37 @@ h1 {
 
 /* 1) Ensure the .break wrapper sits at the top of its container */
 /* 1) Lay out both buttons side by side with a gap */
+/* 1) Ensure the .break wrapper sits at the top of its container */
+/* ===== .break wrapper ===== */
 .break {
   display: flex;
-  justify-content: center;
-  gap: 0.75rem;       /* space between the two buttons */
-  margin-top: 1rem;   /* push the whole group down a bit, if needed */
+  flex-direction: column;      /* stack Form 1 above Form 2 */
+  gap: 1rem;                   /* space between the two forms */
+  margin-top: 1rem;
 }
 
-/* 2) Base styling shared by both buttons */
+/* ===== make each <form> lay out its buttons in a row ===== */
+.break form {
+  display: flex;
+  justify-content: center;     /* center the two buttons horizontally */
+  gap: 0.75rem;                /* space between the two buttons */
+}
+
+/* ===== Base styling for all buttons inside .break ===== */
 .break button {
-  padding: 0.6rem 1.25rem;         /* larger click area */
-  font-size: 0.8rem;
+  padding: 0.6rem 1.25rem;
+  font-size: 0.76rem;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   transition: background-color 0.2s, transform 0.1s;
+
+  width: 140px;                /* force every button to be exactly 140px wide */
+  text-align: center;
 }
 
-/* 3) “Take Break” button */
+/* ===== “Take 15 min” button styling ===== */
 .btn-break {
   background-color: #d9534f;
   color: white;
@@ -50,7 +62,21 @@ h1 {
   transform: translateY(0);
 }
 
-/* 4) “Skip Break” button—use a neutral/secondary color */
+/* ===== “Take 30 min” button styling ===== */
+.break-btn {
+  background-color: #5bc0de;
+  color: white;
+}
+.break-btn:hover {
+  background-color: #31b0d5;
+  transform: translateY(-1px);
+}
+.break-btn:active {
+  background-color: #269abc;
+  transform: translateY(0);
+}
+
+/* ===== “Skip Break” button styling ===== */
 .btn-skip {
   background-color: #6c757d;
   color: white;
@@ -63,6 +89,8 @@ h1 {
   background-color: #545b62;
   transform: translateY(0);
 }
+
+
 
 
 /* ===== Drop Grid ===== */

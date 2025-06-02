@@ -6,15 +6,28 @@
 <div class="container">
   <h1>Have a good shift!</h1>
   <div class="break">
-    <form method="POST" action="/breaks">
-    <input type="hidden" name="break_number" value="1">
-    <button type="submit" name="action" value="start_break" class="btn-break">
-      Take Break
-    </button>
-    <button type="submit" name="action" value="skip_break" class="btn-skip">
-      Skip Break
-    </button>
-  </form>
+<!-- Break 1 -->
+<form method="POST" action="/breaks">
+  <input type="hidden" name="break_number" value="1">
+  <button type="submit" name="action" value="start_break" class="btn-break">
+    Take 15 min
+  </button>
+  <button type="submit" name="action" value="skip_break" class="btn-skip">
+    Skip Break
+  </button>
+</form>
+
+<!-- Break 2 -->
+<form method="POST" action="/breaks">
+  <input type="hidden" name="break_number" value="2">
+  <button type="submit" name="action" value="start_break" class="break-btn">
+    Take 30 min
+  </button>
+  <button type="submit" name="action" value="skip_break" class="btn-skip">
+    Skip Break
+  </button>
+</form>
+
   </div>
 
   
