@@ -177,6 +177,8 @@ def start_delivery():
 def breaks():
     action = request.form.get("action")
     break_number = request.form.get("break_number")
+    scheduled_time1 = request.form.get("first_break").datetime(timezone.utc).isoformat()
+    scheduled_time2 = request.form.get("second_break")
 
     conn = get_db()
     cur = conn.cursor()
@@ -187,10 +189,10 @@ def breaks():
 
             start_ts = datetime.now(timezone.utc).isoformat()
             cur.execute(
-            """INSERT INTO breaks (break_number, actual_time) 
+            """INSERT INTO breaks (break_number, actual_time, scheduled_time) 
             
-                VALUES (?,?)""",
-                (1, start_ts),
+                VALUES (?,?,?)""",
+                (1, start_ts, scheduled_time1),
         )
             
             conn.commit()
