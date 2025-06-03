@@ -176,28 +176,36 @@ def start_delivery():
 @app.route("/breaks", methods=["POST"])
 def breaks():
     action = request.form.get("action")
+    break_number = request.form.get("break_number")
 
     conn = get_db()
     cur = conn.cursor()
 
     if action == "start_break":
 
-        start_ts = datetime.now(timezone.utc).isoformat()
-        cur.execute(
+        if break_number == 1:
+
+            start_ts = datetime.now(timezone.utc).isoformat()
+            cur.execute(
             """INSERT INTO breaks (break_number, actual_time) 
             
                 VALUES (?,?)""",
                 (1, start_ts),
         )
-
-        cur.execute(
+            
+            conn.commit()
+        
+        else:
+            
+            start_ts = datetime.now(timezone.utc).isoformat()
+            cur.execute(
             """INSERT INTO breaks (break_number, actual_time) 
             
                 VALUES (?,?)""",
                 (2, start_ts),
         )
 
-        conn.commit()
+            conn.commit()
 
     elif action == "skip_break":
         pass
