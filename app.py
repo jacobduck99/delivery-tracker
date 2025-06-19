@@ -4,7 +4,7 @@ from datetime import datetime, timezone, date
 from zoneinfo import ZoneInfo
 
 from database import get_db, init_db, close_db
-
+from time_zone import convert_timedate, convert_to_sydney 
 app = Flask(__name__)
 app.secret_key = "a-very-secret-value"
 
@@ -23,14 +23,24 @@ def configuration():
         van_name = request.form.get("van_name")
 
         start = request.form.get("shift_start")
-        today = date.today().isoformat()
-        start_ts = f"{today}T{start}"
+        start_utc = convert_timedate(start)
+        start_ts = start_utc.isoformat() 
 
         first_break = request.form.get("first_break")
+        first_break_utc = convert_timedate(first_break)
+        first_break_ts = first_break_utc.isoformat()
+
         second_break = request.form.get("second_break")
+        second_break_utc = convert_timedate(second_break)
+        second_break_ts = second_break_utc.isoformat()
 
         end_str = request.form.get("shift_end")
-        end_ts  = f"{today}T{end_str}" if end_str else None
+        end_ts = None
+
+        if end_str:
+            end_utc = convert_timedate(end_str)
+            end_ts = end_utc.isoformat()
+
         drops = int(request.form.get("num_drops"))
 
         conn = get_db()
@@ -42,7 +52,7 @@ def configuration():
               end_time, number_of_drops)
             VALUES (?,?,?,?,?,?,?)
             """,
-            (van_num, van_name, start_ts, first_break, second_break, end_ts, drops),
+            (van_num, van_name, start_ts, first_break_ts, second_break_ts, end_ts, drops),
         )
         new_id = cur.lastrowid
 
@@ -51,7 +61,7 @@ def configuration():
             INSERT INTO breaks (run_id, break_number, scheduled_time)
             VALUES (?,?,?)
             """,
-            (new_id, 1, first_break),
+            (new_id, 1, first_break_ts),
         )
 
         cur.execute(
@@ -59,7 +69,7 @@ def configuration():
             INSERT INTO breaks (run_id, break_number, scheduled_time)
             VALUES (?,?,?)
             """,
-            (new_id, 2, second_break),
+            (new_id, 2, second_break_ts),
         )
 
         conn.commit()
@@ -100,15 +110,12 @@ def index():
     for row in rows:
         d = dict(row)
         if d.get("start_ts"):
-            start_utc = datetime.fromisoformat(d["start_ts"]).replace(
-                tzinfo=timezone.utc
-            )
-            d["start_local"] = start_utc.astimezone(SYDNEY)
+            start_utc = datetime.fromisoformat(d["start_ts"])
+            d["start_local"] = convert_to_sydney(start_utc)
+
         if d.get("end_ts"):
-            end_utc = datetime.fromisoformat(d["end_ts"]).replace(
-                tzinfo=timezone.utc
-            )
-            d["end_local"] = end_utc.astimezone(SYDNEY)
+            end_utc = datetime.fromisoformat(d["end_ts"])
+            d["end_local"] = convert_to_sydney(end_utc)
         deliveries.append(d)
 
     
