@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session
 import sqlite3
 from datetime import datetime, timezone, date
 from zoneinfo import ZoneInfo
+from breaks import get_scheduled_break, handle_start_break, handle_skip_break
 
 from database import get_db, init_db, close_db
 from time_zone import convert_timedate, convert_to_sydney 
@@ -138,7 +139,8 @@ def start_delivery():
 
     if action == "start":
         # record UTC start
-        start_ts = datetime.now(timezone.utc).isoformat()
+        start_utc = datetime.now(timezone.utc)
+        start_ts = start_utc.isoformat()
         cur.execute(
             "INSERT INTO deliveries(run_id, drop_idx, start_ts) VALUES (?,?,?)",
             (session["run_id"], drop_idx, start_ts),
@@ -148,7 +150,9 @@ def start_delivery():
 
     elif action == "stop":
         # record UTC end
-        end_ts = datetime.now(timezone.utc).isoformat()
+        end_utc = datetime.now(timezone.utc)
+        end_ts = end_utc.isoformat()
+
 
         # fetch the original start_ts
         row = cur.execute(
@@ -162,8 +166,8 @@ def start_delivery():
         start_ts = row["start_ts"]
 
         # compute elapsed
-        end_dt = datetime.fromisoformat(end_ts).replace(tzinfo=timezone.utc)
-        start_dt = datetime.fromisoformat(start_ts).replace(tzinfo=timezone.utc)
+        end_dt = datetime.fromisoformat(end_ts)
+        start_dt = datetime.fromisoformat(start_ts)
         elapsed = end_dt - start_dt
         pretty_elapsed = str(elapsed).split(".")[0]
 
@@ -180,46 +184,29 @@ def start_delivery():
         return redirect(url_for("index", _anchor=f"drop-{drop_idx}"))
     
 
+
 @app.route("/breaks", methods=["POST"])
 def breaks():
     action = request.form.get("action")
-    break_number = request.form.get("break_number")
-    scheduled_time1 = request.form.get("first_break").datetime(timezone.utc).isoformat()
-    scheduled_time2 = request.form.get("second_break")
+    break_number = int(request.form.get("break_number"))
 
     conn = get_db()
     cur = conn.cursor()
 
+    scheduled_time_str = get_scheduled_break(cur, session["run_id"], break_number)
+    if not scheduled_time_str:
+        return redirect(url_for("index"))  # or handle error
+
     if action == "start_break":
-
-        if break_number == 1:
-
-            start_ts = datetime.now(timezone.utc).isoformat()
-            cur.execute(
-            """INSERT INTO breaks (break_number, actual_time, scheduled_time) 
-            
-                VALUES (?,?,?)""",
-                (1, start_ts, scheduled_time1),
-        )
-            
-            conn.commit()
-        
-        else:
-            
-            start_ts = datetime.now(timezone.utc).isoformat()
-            cur.execute(
-            """INSERT INTO breaks (break_number, actual_time) 
-            
-                VALUES (?,?)""",
-                (2, start_ts),
-        )
-
-            conn.commit()
+        handle_start_break(cur, session["run_id"], break_number, scheduled_time_str)
+        conn.commit()
 
     elif action == "skip_break":
-        pass
+        handle_skip_break(cur, session["run_id"], break_number)
+        conn.commit()
 
     return redirect(url_for("index"))
+
 
 
 
