@@ -3,6 +3,7 @@ import sqlite3
 from datetime import datetime, timezone, date
 from zoneinfo import ZoneInfo
 from breaks import get_scheduled_break, handle_start_break, handle_skip_break
+from time_helpers import get_iso_timestamp
 
 from database import get_db, init_db, close_db
 from time_zone import convert_timedate, convert_to_sydney 
@@ -23,24 +24,10 @@ def configuration():
         van_num = request.form.get("van_number")
         van_name = request.form.get("van_name")
 
-        start = request.form.get("shift_start")
-        start_utc = convert_timedate(start)
-        start_ts = start_utc.isoformat() 
-
-        first_break = request.form.get("first_break")
-        first_break_utc = convert_timedate(first_break)
-        first_break_ts = first_break_utc.isoformat()
-
-        second_break = request.form.get("second_break")
-        second_break_utc = convert_timedate(second_break)
-        second_break_ts = second_break_utc.isoformat()
-
-        end_str = request.form.get("shift_end")
-        end_ts = None
-
-        if end_str:
-            end_utc = convert_timedate(end_str)
-            end_ts = end_utc.isoformat()
+        start_ts = get_iso_timestamp("shift_start") 
+        first_break_ts = get_iso_timestamp("first_break")
+        second_break_ts = get_iso_timestamp("second_break")
+        end_ts = get_iso_timestamp("shift_end")
 
         drops = int(request.form.get("num_drops"))
 
