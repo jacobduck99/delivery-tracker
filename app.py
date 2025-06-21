@@ -16,9 +16,6 @@ with app.app_context():
 
 app.teardown_appcontext(close_db)
 
-SYDNEY = ZoneInfo("Australia/Sydney")
-
-
 @app.route("/configuration", methods=["GET", "POST"])
 def configuration():
     if request.method == "POST":
@@ -45,11 +42,8 @@ def configuration():
         )
         new_id = cur.lastrowid
 
-
-
         conn.commit()
 
-        
         session["run_id"] = new_id
         session["num_drops"] = drops
 
@@ -88,7 +82,6 @@ def index():
         num_drops=num_drops,
         deliveries=deliveries,
     )
-
 
 @app.route("/deliveries", methods=["POST"])
 def start_delivery():
@@ -145,7 +138,6 @@ def start_delivery():
         return redirect(url_for("index", _anchor=f"drop-{drop_idx}"))
     
 
-
 @app.route("/breaks", methods=["POST"])
 def breaks():
     action = request.form.get("action")
@@ -169,14 +161,10 @@ def breaks():
     return redirect(url_for("index"))
 
 
-
-
-
 @app.route("/reset")
 def reset():
     session.clear()
     return redirect(url_for("configuration"))
-
 
 @app.route("/past_runs")
 def past_runs():
@@ -184,6 +172,6 @@ def past_runs():
     runs = conn.execute("SELECT * FROM run ORDER BY id DESC").fetchall()
     return render_template("past_runs.html", runs=runs)
 
-
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+
+app.run(host="0.0.0.0", port=5000, debug=True)
