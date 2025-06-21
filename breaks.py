@@ -23,22 +23,24 @@ def handle_start_break(cur, run_id, break_number, scheduled_time_str):
     late_minutes = max(0, int((actual_time - scheduled_time).total_seconds() / 60))
     status = "late" if late_minutes > 0 else "on_time"
 
+
     cur.execute(
         """
-        INSERT OR REPLACE INTO breaks 
-        (run_id, break_number, actual_time, scheduled_time, late_minutes, status)
-        VALUES (?, ?, ?, ?, ?, ?)
+        UPDATE breaks
+        SET start_ts = ?, late_minutes = ?, status = ?
+        WHERE run_id = ? AND break_number = ?
         """,
-        (run_id, break_number, start_ts, scheduled_time_str, late_minutes, status)
+        (start_ts, late_minutes, status, run_id, break_number)
     )
 
 
 def handle_skip_break(cur, run_id, break_number):
     cur.execute(
         """
-        INSERT OR REPLACE INTO breaks
-        (run_id, break_number, status)
-        VALUES(?,?,?)
+        UPDATE breaks
+        SET status = ?
+        WHERE run_id = ? AND break_number = ?
         """,
-        (run_id, break_number, "skipped")
+        ("skipped", run_id, break_number)
     )
+

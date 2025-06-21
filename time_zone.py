@@ -1,4 +1,7 @@
 from datetime import date, datetime, timezone  
+from zoneinfo import ZoneInfo
+
+SYDNEY = ZoneInfo("Australia/Sydney")
 
 def convert_timedate(start):
     today = date.today() 
