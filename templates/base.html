@@ -18,8 +18,8 @@
 <body class="{% if request.endpoint=='index' %}index-page{% endif %}">
   <nav>
     <ul class="navbar">
-      <li><a href="{{ url_for('index') }}">Config</a></li>
-      <li><a href="{{ url_for('configuration') }}">Summary</a></li>
+      <li><a href="{{ url_for('configuration') }}">Config</a></li>
+      <li><a href="{{ url_for('index') }}">Summary</a></li>
       <li><a href="{{ url_for('past_runs') }}">History</a></li>
     </ul>
   </nav>
