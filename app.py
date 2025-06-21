@@ -4,6 +4,7 @@ from datetime import datetime, timezone, date
 from zoneinfo import ZoneInfo
 from breaks import get_scheduled_break, handle_start_break, handle_skip_break
 from time_helpers import get_iso_timestamp
+from time_helpers import attach_local_times
 
 from database import get_db, init_db, close_db
 from time_zone import convert_timedate, convert_to_sydney 
@@ -44,14 +45,7 @@ def configuration():
         )
         new_id = cur.lastrowid
 
-        for i, break_ts in enumerate([first_break_ts, second_break_ts], start=1):
-            cur.execute(
-                """
-                INSERT INTO breaks (run_id, break_number, scheduled_time)
-                VALUES (?, ?, ?)
-                """,
-                (new_id, i, break_ts),
-            )
+
 
         conn.commit()
 
@@ -87,21 +81,8 @@ def index():
     ).fetchall()
 
     # turn each sqlite3.Row into a dict & attach local times
-    deliveries = []
-    for row in rows:
-        d = dict(row)
-        if d.get("start_ts"):
-            start_utc = datetime.fromisoformat(d["start_ts"])
-            d["start_local"] = convert_to_sydney(start_utc)
-
-        if d.get("end_ts"):
-            end_utc = datetime.fromisoformat(d["end_ts"])
-            d["end_local"] = convert_to_sydney(end_utc)
-        deliveries.append(d)
-
+    deliveries = attach_local_times(rows)
     
-    
-
     return render_template(
         "index.html",
         num_drops=num_drops,
