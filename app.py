@@ -173,5 +173,4 @@ def past_runs():
     return render_template("past_runs.html", runs=runs)
 
 if __name__ == "__main__":
-
-app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)
