@@ -44,21 +44,14 @@ def configuration():
         )
         new_id = cur.lastrowid
 
-        cur.execute(
-            """
-            INSERT INTO breaks (run_id, break_number, scheduled_time)
-            VALUES (?,?,?)
-            """,
-            (new_id, 1, first_break_ts),
-        )
-
-        cur.execute(
-            """
-            INSERT INTO breaks (run_id, break_number, scheduled_time)
-            VALUES (?,?,?)
-            """,
-            (new_id, 2, second_break_ts),
-        )
+        for i, break_ts in enumerate([first_break_ts, second_break_ts], start=1):
+            cur.execute(
+                """
+                INSERT INTO breaks (run_id, break_number, scheduled_time)
+                VALUES (?, ?, ?)
+                """,
+                (new_id, i, break_ts),
+            )
 
         conn.commit()
 
