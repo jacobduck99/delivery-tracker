@@ -3,13 +3,13 @@ from zoneinfo import ZoneInfo
 
 SYDNEY = ZoneInfo("Australia/Sydney")
 
-def convert_timedate(start):
-    today = date.today() 
-    time = start
-    parsed_time = datetime.strptime(start, "%H:%M").time() 
-    date_time = datetime.combine(today, parsed_time)
-    utc_date_time = date_time.replace(tzinfo=timezone.utc)
-    return utc_date_time
+def convert_timedate(time_str):
+    now_sydney = datetime.now(SYDNEY)
+    parsed_time = datetime.strptime(time_str, "%H:%M").time()
+    
+    local_dt = datetime.combine(now_sydney.date(), parsed_time).replace(tzinfo=SYDNEY)   
+
+    return local_dt.astimezone(ZoneInfo("UTC"))
 
 def convert_to_sydney(utc_dt):
     return utc_dt.astimezone(SYDNEY)
