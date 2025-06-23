@@ -94,11 +94,8 @@ def start_delivery():
         return start_delivery_logic(run_id, drop_idx)
     elif action == "stop":
         return stop_delivery_logic(run_id, drop_idx)
-    
-<<<<<<< HEAD
+
     return redirect(url_for("index", _anchor=f"drop-{drop_idx}")) 
-=======
->>>>>>> 137f787 (Deleted useless things)
 
 @app.route("/breaks", methods=["POST"])
 def breaks():
