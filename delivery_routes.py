@@ -1,0 +1,67 @@
+from datetime import datetime, timezone
+from time_helpers import attach_local_times
+from flask import session, redirect, url_for
+from database import get_db
+from time_zone import convert_to_sydney
+
+def start_delivery_logic(run_id, drop_idx):
+    conn = get_db()
+    cur = conn.cursor()
+    start_ts = datetime.now(timezone.utc).isoformat()
+
+    cur.execute(
+         "INSERT INTO deliveries(run_id, drop_idx, start_ts) VALUES (?,?,?)",
+         (run_id, drop_idx, start_ts),
+        )
+    conn.commit()
+    return redirect(url_for("index", _anchor=f"drop-{drop_idx}"))
+
+def stop_delivery_logic(run_id, drop_idx):
+    conn = get_db()
+    cur = conn.cursor()
+
+    end_ts = datetime.now(timezone.utc).isoformat()
+
+    row = cur.execute(
+        """
+        SELECT start_ts
+        FROM deliveries
+        WHERE run_id = ? AND drop_idx = ?
+        """,
+        (run_id, drop_idx),
+    ).fetchone()
+
+    start_ts = row["start_ts"]
+
+    # Convert to datetime objects
+    end_dt = datetime.fromisoformat(end_ts)
+    start_dt = datetime.fromisoformat(start_ts)
+
+    # Convert both to Sydney time
+    sydney_end = convert_to_sydney(end_dt)
+    sydney_start = convert_to_sydney(start_dt)
+
+    # Calculate elapsed time
+    elapsed = sydney_end - sydney_start
+    pretty_elapsed = str(elapsed).split(".")[0]
+
+    # Update the row
+    cur.execute(
+        """
+        UPDATE deliveries
+        SET end_ts = ?, elapsed = ?
+        WHERE run_id = ? AND drop_idx = ?
+        """,
+        (end_ts, pretty_elapsed, run_id, drop_idx),
+    )
+    conn.commit()
+
+    return redirect(url_for("index", _anchor=f"drop-{drop_idx}"))
+
+
+ 
+
+
+
+    
+

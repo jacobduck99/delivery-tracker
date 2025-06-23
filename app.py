@@ -3,11 +3,12 @@ import sqlite3
 from datetime import datetime, timezone, date
 from zoneinfo import ZoneInfo
 from breaks import get_scheduled_break, handle_start_break, handle_skip_break
-from time_helpers import get_iso_timestamp
-from time_helpers import attach_local_times
-
+from time_helpers import get_iso_timestamp, attach_local_times
 from database import get_db, init_db, close_db
 from time_zone import convert_timedate, convert_to_sydney 
+
+from delivery_routes import start_delivery_logic, stop_delivery_logic
+
 app = Flask(__name__)
 app.secret_key = "a-very-secret-value"
 
@@ -87,56 +88,14 @@ def index():
 def start_delivery():
     action = request.form.get("action")
     drop_idx = int(request.form["drop_index"])
-
-    conn = get_db()
-    cur = conn.cursor()
+    run_id = session["run_id"]
 
     if action == "start":
-        # record UTC start
-        start_utc = datetime.now(timezone.utc)
-        start_ts = start_utc.isoformat()
-        cur.execute(
-            "INSERT INTO deliveries(run_id, drop_idx, start_ts) VALUES (?,?,?)",
-            (session["run_id"], drop_idx, start_ts),
-        )
-        conn.commit()
-        return redirect(url_for("index", _anchor=f"drop-{drop_idx}"))
-
+        return start_delivery_logic(run_id, drop_idx)
     elif action == "stop":
-        # record UTC end
-        end_utc = datetime.now(timezone.utc)
-        end_ts = end_utc.isoformat()
-
-
-        # fetch the original start_ts
-        row = cur.execute(
-            """
-            SELECT start_ts
-            FROM deliveries
-            WHERE run_id = ? AND drop_idx = ?
-            """,
-            (session["run_id"], drop_idx),
-        ).fetchone()
-        start_ts = row["start_ts"]
-
-        # compute elapsed
-        end_dt = datetime.fromisoformat(end_ts)
-        start_dt = datetime.fromisoformat(start_ts)
-        elapsed = end_dt - start_dt
-        pretty_elapsed = str(elapsed).split(".")[0]
-
-        # update
-        cur.execute(
-            """
-            UPDATE deliveries
-            SET end_ts = ?, elapsed = ?
-            WHERE run_id = ? AND drop_idx = ?
-            """,
-            (end_ts, pretty_elapsed, session["run_id"], drop_idx),
-        )
-        conn.commit()
-        return redirect(url_for("index", _anchor=f"drop-{drop_idx}"))
+        return stop_delivery_logic(run_id, drop_idx)
     
+    return redirect(url_for("index", _anchor=f"drop-{drop_idx}")) 
 
 @app.route("/breaks", methods=["POST"])
 def breaks():
