@@ -57,4 +57,4 @@ def stop_delivery_logic(run_id, drop_idx):
     conn.commit()
 
     return redirect(url_for("index", _anchor=f"drop-{drop_idx}"))
-)
+
