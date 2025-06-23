@@ -26,10 +26,8 @@ def attach_local_times(rows):
                 start_utc = datetime.fromisoformat(start_ts)
                 d["start_local"] = start_utc.astimezone(TZ).strftime("%H:%M")
             except ValueError:
-                print(f"Invalid start_ts: {start_ts}")
                 d["start_local"] = None
         else:
-            print(f"Missing or invalid start_ts: {start_ts}")
             d["start_local"] = None
 
         # Handle end_ts safely
@@ -37,11 +35,9 @@ def attach_local_times(rows):
             try:
                 end_utc = datetime.fromisoformat(end_ts)
                 d["end_local"] = end_utc.astimezone(TZ).strftime("%H:%M")
-            except ValueError:
-                print(f"Invalid end_ts: {end_ts}")
+            except ValueError: 
                 d["end_local"] = None
         else:
-            print(f"Missing or invalid end_ts: {end_ts}")
             d["end_local"] = None
 
         result.append(d)
