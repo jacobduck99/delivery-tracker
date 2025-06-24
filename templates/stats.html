@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Stats{% endblock %}
+
+{% block content %}
+    <h1>All Runs</h1>
+    <ul>
+        {% for run in runs %}
+            <li>Run ID: {{ run.id }} | Van: {{ run.van_number }} | Start: {{ run.start_time }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
