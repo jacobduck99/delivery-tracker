@@ -47,9 +47,43 @@ def stop_delivery_logic(run_id, drop_idx):
 
 
     run = cur.execute(
-        "SELECT start_time, end_time FROM run WHERE id = ?",
+        "SELECT start_time, end_time, number_of_drops FROM run WHERE id = ?",
         (run_id,)
     ).fetchone()
+    
+    breaks = cur.execute(
+        "SELECT scheduled_time, start_ts FROM breaks WHERE run_id = ?",(run_id,)
+    ).fetchall()
+
+    start = run["start_time"]
+    end = run["end_time"]
+
+    drops = run["number_of_drops"]
+
+    start_dt = datetime.fromisoformat(start)
+    end_dt = datetime.fromisoformat(end)
+
+    total_break_minutes = 0 
+
+    for i,b in enumerate(breaks):
+        if b["start_ts"]:
+            if i == 0:
+                total_break_minutes += 15
+            elif i == 1:
+                total_break_minutes += 30 
+
+    shift_minutes = (end_dt - start_dt).total_seconds() / 60
+    work_minutes = shift_minutes - total_break_minutes
+    expected_minutes = work_minutes / drops
+
+
+
+
+
+
+
+
+
 
 
     # Update the row
