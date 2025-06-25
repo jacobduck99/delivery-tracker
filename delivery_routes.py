@@ -45,6 +45,13 @@ def stop_delivery_logic(run_id, drop_idx):
     elapsed = sydney_end - sydney_start
     pretty_elapsed = str(elapsed).split(".")[0]
 
+
+    run = cur.execute(
+        "SELECT start_time, end_time FROM run WHERE id = ?",
+        (run_id,)
+    ).fetchone()
+
+
     # Update the row
     cur.execute(
         """
