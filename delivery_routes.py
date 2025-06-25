@@ -45,7 +45,6 @@ def stop_delivery_logic(run_id, drop_idx):
     elapsed = sydney_end - sydney_start
     pretty_elapsed = str(elapsed).split(".")[0]
 
-
     run = cur.execute(
         "SELECT start_time, end_time, number_of_drops FROM run WHERE id = ?",
         (run_id,)
@@ -60,8 +59,8 @@ def stop_delivery_logic(run_id, drop_idx):
 
     drops = run["number_of_drops"]
 
-    start_dt = datetime.fromisoformat(start)
-    end_dt = datetime.fromisoformat(end)
+    run_start_dt = datetime.fromisoformat(start)
+    run_end_dt = datetime.fromisoformat(end)
 
     total_break_minutes = 0 
 
@@ -72,29 +71,26 @@ def stop_delivery_logic(run_id, drop_idx):
             elif i == 1:
                 total_break_minutes += 30 
 
-    shift_minutes = (end_dt - start_dt).total_seconds() / 60
+    shift_minutes = (run_end_dt - run_start_dt).total_seconds() / 60
     work_minutes = shift_minutes - total_break_minutes
     expected_minutes = work_minutes / drops
+    elapsed_minutes = elapsed.total_seconds() / 60
 
+    if elapsed_minutes < expected_minutes:
+        status = "early"
+    elif elapsed_minutes == expected_minutes:
+        status = "on_time"
+    else:
+        status = "late"
 
-
-
-
-
-
-
-
-
-
-    # Update the row
     cur.execute(
         """
         UPDATE deliveries
-        SET end_ts = ?, elapsed = ?
-        WHERE run_id = ? AND drop_idx = ?
+        SET end_ts = ?, elapsed = ?, expected_minutes = ?, status = ? WHERE run_id = ? AND drop_idx = ?
         """,
-        (end_ts, pretty_elapsed, run_id, drop_idx),
+        (end_ts, pretty_elapsed, expected_minutes, status, run_id, drop_idx)
     )
+
     conn.commit()
 
     return redirect(url_for("index", _anchor=f"drop-{drop_idx}"))

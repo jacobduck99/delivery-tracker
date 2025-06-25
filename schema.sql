@@ -16,6 +16,8 @@ CREATE TABLE IF NOT EXISTS deliveries (
   start_ts  TEXT,
   end_ts    TEXT,
   elapsed   INTEGER,
+  expected_minutes REAL,
+  status    TEXT,
   FOREIGN KEY (run_id) REFERENCES run(id)
 );
 
