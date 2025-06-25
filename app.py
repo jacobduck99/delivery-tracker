@@ -134,8 +134,9 @@ def past_runs():
 @app.route("/stats")
 def stats():
     conn = get_db()
-    runs = conn.execute("SELECT * FROM run ORDER BY id DESC").fetchall()
-    return render_template("stats.html", runs=runs)
+    run = conn.execute("SELECT * FROM run ORDER BY id DESC LIMIT 1").fetchone()
+    return render_template("stats.html", run=run)
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

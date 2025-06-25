@@ -14,13 +14,11 @@
             <th>Van</th>
             <th>Start</th>
         </tr>
-        {% for run in runs %}
         <tr>
             <td>{{ run.id }}</td>
             <td>{{ run.van_number }}</td>
             <td>{{ run.start_time }}</td>
         </tr>
-        {% endfor %}
     </table>
 {% endblock %}
 
