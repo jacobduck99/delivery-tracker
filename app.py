@@ -135,9 +135,14 @@ def past_runs():
 def stats():
     conn = get_db()
     run = conn.execute("SELECT * FROM run ORDER BY id DESC LIMIT 1").fetchone()
-    drops = conn.execute("SELECT * FROM deliveries WHERE run_id = ?", (run_id)).fetchall()
-    
-    return render_template("stats.html", run=run)
+
+    if not run:
+        return "No runs found", 404
+
+    run_id = run["id"]
+    drops = conn.execute("SELECT * FROM deliveries WHERE run_id = ?", (run_id,)).fetchall()
+
+    return render_template("stats.html", run=run, drops=drops)
 
 
 if __name__ == "__main__":

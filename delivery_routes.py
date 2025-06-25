@@ -54,6 +54,7 @@ def stop_delivery_logic(run_id, drop_idx):
         "SELECT scheduled_time, start_ts FROM breaks WHERE run_id = ?",(run_id,)
     ).fetchall()
 
+    run_id = session["run_id"]
     start = run["start_time"]
     end = run["end_time"]
 
