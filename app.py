@@ -136,7 +136,7 @@ def stats():
     conn = get_db()
     run = conn.execute("SELECT * FROM run ORDER BY id DESC LIMIT 1").fetchone()
     run_id = session["run_id"]
-    drops = conn.execute("SELECT * FROM deliveries WHERE run_id = ?", (run_id)).fetchall()
+    drops = conn.execute("SELECT * FROM deliveries WHERE run_id = ?", (run_id,)).fetchall()
     
     return render_template("stats.html", run=run)
 
