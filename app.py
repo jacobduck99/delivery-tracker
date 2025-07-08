@@ -135,9 +135,61 @@ def past_runs():
 def stats():
     conn = get_db()
     run = conn.execute("SELECT * FROM run ORDER BY id DESC LIMIT 1").fetchone()
+    run_id = session["run_id"]
     drops = conn.execute("SELECT * FROM deliveries WHERE run_id = ?", (run_id)).fetchall()
     
     return render_template("stats.html", run=run)
+
+@app.route("/reset-db")
+def reset_db():
+    conn = get_db()
+    cur = conn.cursor()
+
+    # DROP old tables
+    cur.execute("DROP TABLE IF EXISTS deliveries;")
+    cur.execute("DROP TABLE IF EXISTS breaks;")
+    cur.execute("DROP TABLE IF EXISTS run;")
+
+    # CREATE new schema
+    cur.executescript("""
+    CREATE TABLE IF NOT EXISTS run (
+      id              INTEGER PRIMARY KEY AUTOINCREMENT,
+      van_number      INTEGER NOT NULL,
+      van_name        TEXT    NOT NULL,
+      start_time      TEXT    NOT NULL,
+      first_break     TEXT    NOT NULL,
+      second_break    TEXT    NOT NULL,
+      end_time        TEXT,
+      number_of_drops INTEGER NOT NULL
+    );
+
+    CREATE TABLE IF NOT EXISTS deliveries (
+      id        INTEGER PRIMARY KEY AUTOINCREMENT,
+      run_id    INTEGER NOT NULL,
+      drop_idx  INTEGER NOT NULL,
+      start_ts  TEXT,
+      end_ts    TEXT,
+      elapsed   INTEGER,
+      expected_minutes REAL,
+      status    TEXT,
+      FOREIGN KEY (run_id) REFERENCES run(id)
+    );
+
+    CREATE TABLE IF NOT EXISTS breaks (
+      id              INTEGER PRIMARY KEY AUTOINCREMENT,
+      run_id          INTEGER NOT NULL,
+      break_number    INTEGER NOT NULL,
+      scheduled_time  TEXT    NOT NULL,
+      actual_time     TEXT,
+      late_minutes    INTEGER,
+      status          TEXT,
+      FOREIGN KEY (run_id) REFERENCES run(id),
+      UNIQUE (run_id, break_number)
+    );
+    """)
+
+    conn.commit()
+    return "Database reset with new schema!"
 
 
 if __name__ == "__main__":
