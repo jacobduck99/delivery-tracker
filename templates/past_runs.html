@@ -27,6 +27,12 @@
       <div><strong>Drops:</strong> {{ r.number_of_drops }}</div>
       <div><strong>Start:</strong> {{ r.start_time or 'N/A' }}</div>
       <div><strong>End:</strong> {{   r.end_time or 'N/A' }}</div>
+    {% if r.duration_minutes %}
+  <div><strong>Duration:</strong> 
+    {{ r.duration_minutes // 60 }}h 
+    {{ r.duration_minutes % 60 }}m
+  </div>
+{% endif %}
     </div>
   {% endfor %}
 </div>
