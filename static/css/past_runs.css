@@ -1,32 +1,24 @@
 /* ===== Page wrapper (centers card) ===== */
 .page-center {
   display: flex;
-  justify-content: center;    /* horizontally center */
-  align-items: flex-start;    /* start at top */
-  min-height: 100vh;          /* full viewport height */
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
   padding: 2rem;
-  background: #f0f2f5;        /* light grey background */
+  background: #f0f2f5;
 }
 
-/* ===== Card styling ===== */
+/* ===== Card wrapper for all runs ===== */
 .past-runs-card {
-  display: inline-block;    /* shrink‐wrap to content */
-  width: auto;              /* let it grow to the table’s width */
-  max-width: none;          /* remove your old max-width */
-  /* keep the rest as before */
+  display: inline-block;
+  width: auto;
+  max-width: none;
   background: #e0dede;
   border-radius: 12px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
   padding: 2rem;
   box-sizing: border-box;
 }
-.page-center {
-  display: flex;
-  justify-content: center;
-  padding: 2rem;
-  background: #f0f2f5;
-}
-
 
 /* ===== Heading ===== */
 .past-runs-card h1 {
@@ -35,85 +27,54 @@
   text-align: center;
 }
 
-/* ===== Table ===== */
-.past-runs-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 1.5rem;
-  font-size: 0.95rem;
+/* ===== Run card container ===== */
+.past-run-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
 }
 
-.past-runs-table th,
-.past-runs-table td {
-
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid #6072dd;
-  text-align: left;
-  white-space: nowrap;
+/* ===== Individual run card ===== */
+.run-card {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 1.2rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.2s ease;
 }
 
-.past-runs-table th {
-  background: #d48c8c;
-  font-weight: 600;
+.run-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-.past-runs-table tbody tr:nth-child(even) {
-  background: #fcfcfc;
+.run-card > div {
+  padding: 6px 0;
+  font-size: 1rem;
+  border-bottom: 1px solid #eee;
 }
 
-/* ===== Back link ===== */
-.past-runs-card .subnav {
-  text-align: center;
-}
-
-.past-runs-card .subnav a {
-  display: inline-block;
-  margin-top: 0.5rem;
-  color: #3b82f6;               /* modern blue */
-  text-decoration: none;
-  font-size: 0.95rem;
-}
-
-.past-runs-card .subnav a:hover {
-  text-decoration: underline;
-}
-
-/* ===== Column separators ===== */
-/* Add a right-border to every cell */
-.past-runs-table th,
-.past-runs-table td {
-  border: 1px solid #6072dd;  /* same blue as your bottom border */
+.run-card > div:last-child {
+  border-bottom: none;
 }
 
 /* ===== Responsive tweaks ===== */
 @media (max-width: 1024px) {
-  /* 1) Fluid wrapper */
   .page-center {
     padding: 1rem;
   }
+
   .past-runs-card {
     width: 100%;
-    max-width: none;      /* drop any fixed cap */
     padding: 1.5rem;
   }
 
-  /* 2) Make the table scroll horizontally if needed */
-  .past-runs-card .table-wrapper {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-}
-
-/* Smaller phones */
-@media (max-width: 480px) {
-  /* 3) Reduce font-sizes & cell padding */
-  .past-runs-table {
-    font-size: 0.85rem;
-  }
-  .past-runs-table th,
-  .past-runs-table td {
-    padding: 0.5rem;
+@media (max-width: 600px) {
+  .run-card {
+    padding: 1rem;
+    font-size: 0.9rem;
   }
 
-
-}
+  .run-card > div {
+    padding: 5px 0;
+  }

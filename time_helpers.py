@@ -44,7 +44,27 @@ def attach_local_times(rows):
     return result
 
 
-    
+def attach_duration_datetimes(rows):
+    for d in rows:
+        d["start_dt"] = None
+        d["end_dt"] = None
+        d["duration_minutes"] = None
+
+        if isinstance(d.get("start_ts"), str):
+            try:
+                d["start_dt"] = datetime.fromisoformat(d["start_ts"]).replace(tzinfo=ZoneInfo("UTC")).astimezone(TZ)
+            except ValueError:
+                pass
+
+        if isinstance(d.get("end_ts"), str):
+            try:
+                d["end_dt"] = datetime.fromisoformat(d["end_ts"]).replace(tzinfo=ZoneInfo("UTC")).astimezone(TZ)
+            except ValueError:
+                pass
+
+        if d["start_dt"] and d["end_dt"]:
+            delta = d["end_dt"] - d["start_dt"]
+            d["duration_minutes"] = int(delta.total_seconds() // 60)
 
 
     

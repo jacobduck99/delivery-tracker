@@ -3,9 +3,9 @@ import sqlite3
 from datetime import datetime, timezone, date
 from zoneinfo import ZoneInfo
 from breaks import get_scheduled_break, handle_start_break, handle_skip_break
-from time_helpers import get_iso_timestamp, attach_local_times
+from time_helpers import get_iso_timestamp, attach_local_times, attach_duration_datetimes
 from database import get_db, init_db, close_db
-from time_zone import convert_timedate, convert_to_sydney 
+from time_zone import convert_timedate, convert_to_sydney, format_local_string 
 
 from delivery_routes import start_delivery_logic, stop_delivery_logic
 
@@ -128,7 +128,11 @@ def reset():
 @app.route("/past_runs")
 def past_runs():
     conn = get_db()
-    runs = conn.execute("SELECT * FROM run ORDER BY id DESC").fetchall()
+    raw_runs = conn.execute("SELECT * FROM run ORDER BY id DESC").fetchall()
+    runs = attach_local_times(raw_runs)
+    attach_duration_datetimes(runs)
+
+    
     return render_template("past_runs.html", runs=runs)
 
 @app.route("/stats")
@@ -136,13 +140,67 @@ def stats():
     conn = get_db()
     run = conn.execute("SELECT * FROM run ORDER BY id DESC LIMIT 1").fetchone()
 
-    if not run:
-        return "No runs found", 404
+    if run:
+        run = dict(run)
+        run_id = session["run_id"]
+        run["start_time"] = format_local_string(run["start_time"])
+        drops = conn.execute("SELECT * FROM deliveries WHERE run_id = ?", (run_id,)).fetchall()
+    else:
+        drops = []
+    
+    return render_template("stats.html", run=run)
 
-    run_id = run["id"]
-    drops = conn.execute("SELECT * FROM deliveries WHERE run_id = ?", (run_id,)).fetchall()
 
-    return render_template("stats.html", run=run, drops=drops)
+@app.route("/reset-db")
+def reset_db():
+    conn = get_db()
+    cur = conn.cursor()
+
+    # DROP old tables
+    cur.execute("DROP TABLE IF EXISTS deliveries;")
+    cur.execute("DROP TABLE IF EXISTS breaks;")
+    cur.execute("DROP TABLE IF EXISTS run;")
+
+    # CREATE new schema
+    cur.executescript("""
+    CREATE TABLE IF NOT EXISTS run (
+      id              INTEGER PRIMARY KEY AUTOINCREMENT,
+      van_number      INTEGER NOT NULL,
+      van_name        TEXT    NOT NULL,
+      start_time      TEXT    NOT NULL,
+      first_break     TEXT    NOT NULL,
+      second_break    TEXT    NOT NULL,
+      end_time        TEXT,
+      number_of_drops INTEGER NOT NULL
+    );
+
+    CREATE TABLE IF NOT EXISTS deliveries (
+      id        INTEGER PRIMARY KEY AUTOINCREMENT,
+      run_id    INTEGER NOT NULL,
+      drop_idx  INTEGER NOT NULL,
+      start_ts  TEXT,
+      end_ts    TEXT,
+      elapsed   INTEGER,
+      expected_minutes REAL,
+      status    TEXT,
+      FOREIGN KEY (run_id) REFERENCES run(id)
+    );
+
+    CREATE TABLE IF NOT EXISTS breaks (
+      id              INTEGER PRIMARY KEY AUTOINCREMENT,
+      run_id          INTEGER NOT NULL,
+      break_number    INTEGER NOT NULL,
+      scheduled_time  TEXT    NOT NULL,
+      actual_time     TEXT,
+      late_minutes    INTEGER,
+      status          TEXT,
+      FOREIGN KEY (run_id) REFERENCES run(id),
+      UNIQUE (run_id, break_number)
+    );
+    """)
+
+    conn.commit()
+    return "Database reset with new schema!"
 
 
 if __name__ == "__main__":

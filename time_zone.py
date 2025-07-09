@@ -14,3 +14,10 @@ def convert_timedate(time_str):
 def convert_to_sydney(utc_dt):
     return utc_dt.astimezone(SYDNEY)
 
+def format_local_string(iso_str, fmt="%Y-%m-%d %H:%M"):
+    try:
+        dt = datetime.fromisoformat(iso_str)
+        local_dt = dt.astimezone(SYDNEY)
+        return local_dt.strftime(fmt)
+    except Exception:
+        return iso_str

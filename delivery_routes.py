@@ -51,7 +51,7 @@ def stop_delivery_logic(run_id, drop_idx):
     ).fetchone()
     
     breaks = cur.execute(
-        "SELECT scheduled_time, start_ts FROM breaks WHERE run_id = ?",(run_id,)
+        "SELECT scheduled_time, actual_time FROM breaks WHERE run_id = ?",(run_id,)
     ).fetchall()
 
     run_id = session["run_id"]
