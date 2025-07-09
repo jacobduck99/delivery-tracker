@@ -142,7 +142,7 @@ def stats():
 
     if run:
         run = dict(run)
-        run_id = session["run_id"]
+        run_id = session.get("run_id") or run["id"]
         run["start_time"] = format_local_string(run["start_time"])
         drops = conn.execute("SELECT * FROM deliveries WHERE run_id = ?", (run_id,)).fetchall()
     else:
