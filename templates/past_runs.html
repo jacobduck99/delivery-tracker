@@ -17,37 +17,19 @@
     <h1>Past Runs</h1>
 
     {% if runs %}
-      <div class="table-wrapper">
-        <table class="past-runs-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Date</th>
-              <th>Van #</th>
-              <th>Van Name</th>
-              <th>Drops</th>
-              <th>Start</th>
-              <th>Ended</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for r in runs %}
-            <tr>
-              <td>{{ r.id }}</td>
-              <td>{{ r.start_time.split('T')[0] }}</td>
-              <td>{{ r.van_number }}</td>
-              <td>{{ r.van_name }}</td>
-              <td>{{ r.number_of_drops }}</td>
-              <td>{{ r.start_time.split('T')[1] }}</td>
-              <td>
-                {% if r.end_time %}
-                  {{ r.end_time.split('T')[1] }}
-                {% endif %}
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+     
+<div class="past-run-cards">
+  {% for r in runs %}
+    <div class="run-card">
+      <div><strong>Run ID:</strong> {{ r.id }}</div>
+      <div><strong>Date:</strong> {{ r.start_time.split('T')[0] }}</div>
+      <div><strong>Van:</strong> {{ r.van_number }} ({{ r.van_name }})</div>
+      <div><strong>Drops:</strong> {{ r.number_of_drops }}</div>
+      <div><strong>Start:</strong> {{ r.start_time.split('T')[1] }}</div>
+      <div><strong>End:</strong> {{ r.end_time.split('T')[1] if r.end_time }}</div>
+    </div>
+  {% endfor %}
+</div>
       </div>
     {% else %}
       <p style="text-align: center; color: #666;">
@@ -56,9 +38,6 @@
       </p>
     {% endif %}
 
-    <nav class="subnav">
-      <a href="{{ url_for('index') }}">← Back to Tracker</a>
-    </nav>
   </div>
 </div>
 {% endblock %}
