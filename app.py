@@ -5,7 +5,7 @@ from zoneinfo import ZoneInfo
 from breaks import get_scheduled_break, handle_start_break, handle_skip_break
 from time_helpers import get_iso_timestamp, attach_local_times
 from database import get_db, init_db, close_db
-from time_zone import convert_timedate, convert_to_sydney 
+from time_zone import convert_timedate, convert_to_sydney, format_local_string 
 
 from delivery_routes import start_delivery_logic, stop_delivery_logic
 
@@ -135,8 +135,14 @@ def past_runs():
 def stats():
     conn = get_db()
     run = conn.execute("SELECT * FROM run ORDER BY id DESC LIMIT 1").fetchone()
-    run_id = session["run_id"]
-    drops = conn.execute("SELECT * FROM deliveries WHERE run_id = ?", (run_id,)).fetchall()
+
+    if run:
+        run = dict(run)
+        run_id = session["run_id"]
+        run["start_time"] = format_local_string(run["start_time"])
+        drops = conn.execute("SELECT * FROM deliveries WHERE run_id = ?", (run_id,)).fetchall()
+    else:
+        drops = []
     
     return render_template("stats.html", run=run)
 

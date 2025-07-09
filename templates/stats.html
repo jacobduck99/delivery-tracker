@@ -3,23 +3,16 @@
 {% block title %}Stats{% endblock %}
 
 {% block content %}
-    <div class="summary">
-        <h1>All Runs</h1>
-        <p>This should have a white background and border.</p>
-    </div>
+  <div class="summary-card">
+    <h1>Current Run Stats</h1>
 
-    <table>
-        <tr>
-            <th>Run ID</th>
-            <th>Van</th>
-            <th>Start</th>
-        </tr>
-        <tr>
-            <td>{{ run.id }}</td>
-            <td>{{ run.van_number }}</td>
-            <td>{{ run.start_time }}</td>
-        </tr>
-    </table>
+    <div class="run-card">
+      <div><strong>Run ID:</strong> {{ run.id }}</div>
+      <div><strong>Van:</strong> {{ run.van_number }}</div>
+      <div><strong>Start:</strong> {{ run.start_time or 'N/A' }}</div>
+    </div>
+  </div>
 {% endblock %}
+
 
 

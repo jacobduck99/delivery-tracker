@@ -1,39 +1,64 @@
-body {
-    font-family: sans-serif;
-    background-color: #f4f4f4;
-    padding: 20px;
-    margin: 0;
-}
 
-h1, h2 {
-    margin-top: 0;
-}
-
-.summary {
-    background: #fff;
-    padding: 10px 15px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-}
-
-table {
+@media (max-width: 600px) {
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
     width: 100%;
-    border-collapse: collapse;
-    background: #fff;
-}
+  }
 
-th, td {
+  thead {
+    display: none;
+  }
+
+  tr {
+    margin-bottom: 1rem;
     border: 1px solid #ccc;
-    padding: 8px 12px;
+    border-radius: 8px;
+    background: #fff;
+    padding: 10px;
+  }
+
+  td {
+    padding: 8px;
     text-align: left;
+  }
+
+  td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    display: block;
+    color: #333;
+    margin-bottom: 4px;
+  }
 }
 
-th {
-    background-color: #eee;
+.summary-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 16px;
+  margin: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
-tr:nth-child(even) {
-    background-color: #f9f9f9;
+.summary-card h1 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.run-card > div {
+  padding: 12px 0;
+  font-size: 1.1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.run-card > div:last-child {
+  border-bottom: none;
 }
 
 
