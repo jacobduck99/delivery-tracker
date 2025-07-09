@@ -128,7 +128,17 @@ def reset():
 @app.route("/past_runs")
 def past_runs():
     conn = get_db()
-    runs = conn.execute("SELECT * FROM run ORDER BY id DESC").fetchall()
+    raw_runs = conn.execute("SELECT * FROM run ORDER BY id DESC").fetchall()
+
+
+    runs = []
+    for row in raw_runs:
+        run = dict(row)
+        run_id = session["run_id"]
+        run["start_time"] = format_local_string(run["start_time"])
+        run["end_time"] = format_local_string(run["end_time"]) if run["end_time"] else None
+        runs.append(run)
+    
     return render_template("past_runs.html", runs=runs)
 
 @app.route("/stats")
