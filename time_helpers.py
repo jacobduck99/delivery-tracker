@@ -17,8 +17,8 @@ def attach_local_times(rows):
     result = []
     for d in rows:
         d = dict(d)
-        start_ts = d.get("start_ts")
-        end_ts = d.get("end_ts")
+        start_ts = d.get("start_time")
+        end_ts = d.get("end_time")
 
         # Handle start_ts safely
         if isinstance(start_ts, str):
@@ -50,15 +50,15 @@ def attach_duration_datetimes(rows):
         d["end_dt"] = None
         d["duration_minutes"] = None
 
-        if isinstance(d.get("start_ts"), str):
+        if isinstance(d.get("start_time"), str):
             try:
-                d["start_dt"] = datetime.fromisoformat(d["start_ts"]).replace(tzinfo=ZoneInfo("UTC")).astimezone(TZ)
+                d["start_dt"] = datetime.fromisoformat(d["start_time"]).replace(tzinfo=ZoneInfo("UTC")).astimezone(TZ)
             except ValueError:
                 pass
 
-        if isinstance(d.get("end_ts"), str):
+        if isinstance(d.get("end_time"), str):
             try:
-                d["end_dt"] = datetime.fromisoformat(d["end_ts"]).replace(tzinfo=ZoneInfo("UTC")).astimezone(TZ)
+                d["end_dt"] = datetime.fromisoformat(d["end_time"]).replace(tzinfo=ZoneInfo("UTC")).astimezone(TZ)
             except ValueError:
                 pass
 
