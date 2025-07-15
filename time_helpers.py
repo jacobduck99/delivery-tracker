@@ -17,8 +17,8 @@ def attach_local_times(rows):
     result = []
     for d in rows:
         d = dict(d)
-        start_ts = d.get("start_ts")
-        end_ts = d.get("end_ts")
+        start_ts = d.get("start_ts") or d.get("start_time")
+        end_ts = d.get("end_ts") or d.get("end_time")
 
         # START
         try:

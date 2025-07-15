@@ -11,8 +11,8 @@
       <div><strong>Van:</strong> {{ run.van_number }}</div>
       <div><strong>Start:</strong> {{ run.start_local or 'N/A' }}</div>
       <div><strong>Duration:</strong> 
-      {{ run.duration_minutes // 69 }}h
-      {{ run.duration_minutes // 69 }}m
+      {{ run.duration_minutes // 60 }}h
+      {{ run.duration_minutes // 60 }}m
     </div>
   </div>
 {% endblock %}
