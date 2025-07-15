@@ -17,31 +17,36 @@ def attach_local_times(rows):
     result = []
     for d in rows:
         d = dict(d)
-        start_ts = d.get("start_time")
-        end_ts = d.get("end_time")
+        start_ts = d.get("start_ts")
+        end_ts = d.get("end_ts")
 
-        # Handle start_ts safely
-        if isinstance(start_ts, str):
-            try:
+        # START
+        try:
+            if start_ts:
+                if not isinstance(start_ts, str):
+                    start_ts = str(start_ts)
                 start_utc = datetime.fromisoformat(start_ts)
                 d["start_local"] = start_utc.astimezone(TZ).strftime("%H:%M")
-            except ValueError:
+            else:
                 d["start_local"] = None
-        else:
+        except Exception as e:
             d["start_local"] = None
 
-        # Handle end_ts safely
-        if isinstance(end_ts, str):
-            try:
+        # END
+        try:
+            if end_ts:
+                if not isinstance(end_ts, str):
+                    end_ts = str(end_ts)
                 end_utc = datetime.fromisoformat(end_ts)
                 d["end_local"] = end_utc.astimezone(TZ).strftime("%H:%M")
-            except ValueError: 
+            else:
                 d["end_local"] = None
-        else:
+        except Exception as e:
             d["end_local"] = None
 
         result.append(d)
     return result
+
 
 
 def attach_duration_datetimes(rows):

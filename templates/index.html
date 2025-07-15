@@ -58,8 +58,8 @@
           {% else %}
             <!-- completed: show Sydney times -->
             
-            <p><strong>Started at:</strong> {{ d.start_local }}</p>
-            <p><strong>Ended at:</strong> {{ d.end_local }}</p>
+            <p><strong>Started at:</strong> {{ d.start_local or 'N/A' }}</p>
+            <p><strong>Ended at:</strong> {{ d.end_local or 'N/A' }}</p>
 
             <p class="drop-elapsed"><strong>Total-Time:</strong> {{ d.elapsed }}</p>
           {% endif %}
