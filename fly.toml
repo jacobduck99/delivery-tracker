@@ -1,0 +1,22 @@
+# fly.toml app configuration file generated for delivery-tracker-autumn-sea-6631 on 2025-07-25T10:14:37+10:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'delivery-tracker-autumn-sea-6631'
+primary_region = 'syd'
+
+[build]
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
+
+[[vm]]
+  memory = '1gb'
+  cpu_kind = 'shared'
+  cpus = 1
