@@ -43,7 +43,7 @@ def signup():
         """, (email, generate_password_hash(password),))
 
             conn.commit()
-            return redirect(url_for("index"))
+            return redirect(url_for("configuration"))
         except IntegrityError:
             flash("That email is already registered. Please log in.", "error")
             return redirect(url_for("signup"))
