@@ -1,5 +1,7 @@
 CREATE TABLE IF NOT EXISTS run (
   id              INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id         INTEGER NOT NULL,
+  FOREIGN KEY(user_id) REFERENCES users(id),
   van_number      INTEGER NOT NULL,
   van_name        TEXT    NOT NULL,
   start_time      TEXT    NOT NULL,
@@ -31,4 +33,12 @@ CREATE TABLE IF NOT EXISTS breaks (
   status TEXT,
   FOREIGN KEY (run_id) REFERENCES run(id),
   UNIQUE (run_id, break_number)
+);
+
+CREATE TABLE IF NOT EXISTS users (
+  id              INTEGER PRIMARY KEY AUTOINCREMENT,
+  email           TEXT NOT NULL UNIQUE,
+  password_hash        TEXT NOT NULL,
+  status          INTEGER NOT NULL DEFAULT 1,
+  created_at      TEXT DEFAULT CURRENT_TIMESTAMP
 );
