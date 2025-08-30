@@ -1,21 +1,54 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 import sqlite3
+from sqlite3 import IntegrityError
 from datetime import datetime, timezone, date
 from zoneinfo import ZoneInfo
 from breaks import get_scheduled_break, handle_start_break, handle_skip_break
 from time_helpers import get_iso_timestamp, attach_local_times, attach_duration_datetimes
 from database import get_db, init_db, close_db
 from time_zone import convert_timedate, convert_to_sydney, format_local_string 
-
 from delivery_routes import start_delivery_logic, stop_delivery_logic
+from flask_login import LoginManager
+from werkzeug.security import generate_password_hash
 
 app = Flask(__name__)
+
+login_manager = LoginManager()
+
+login_manager.init_app(app)
 app.secret_key = "a-very-secret-value"
 
 with app.app_context():
     init_db()
 
 app.teardown_appcontext(close_db)
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.get(user_id)
+
+@app.route("/signup", methods=["GET", "POST"])
+def signup():
+    if request.method == "POST":
+        email = request.form.get("email")
+        password = request.form.get("password")
+        
+        conn = get_db()
+        cur = conn.cursor()
+        try:
+            cur.execute("""
+            INSERT INTO users 
+            (email, password_hash)
+            VALUES (?,?)
+        """, (email, generate_password_hash(password),))
+
+            conn.commit()
+            return redirect(url_for("index"))
+        except IntegrityError:
+            flash("That email is already registered. Please log in.", "error")
+            return redirect(url_for("signup"))
+
+    return render_template("signup.html")
 
 @app.route("/configuration", methods=["GET", "POST"])
 def configuration():
