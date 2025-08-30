@@ -27,7 +27,7 @@ app.teardown_appcontext(close_db)
 def load_user(user_id):
     return User.get(user_id)
 
-@app.route("/signup", methods=["GET", "POST"])
+@app.route("/", methods=["GET", "POST"])
 def signup():
     if request.method == "POST":
         email = request.form.get("email")
@@ -50,7 +50,7 @@ def signup():
 
     return render_template("signup.html")
 
-@app.route("/configuration", methods=["GET", "POST"])
+@app.route("/configuration", methods=["GET", "POST"]) 
 def configuration():
     if request.method == "POST":
         van_num = request.form.get("van_number")
