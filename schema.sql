@@ -1,44 +1,55 @@
-CREATE TABLE IF NOT EXISTS run (
-  id              INTEGER PRIMARY KEY AUTOINCREMENT,
-  user_id         INTEGER NOT NULL,
-  FOREIGN KEY(user_id) REFERENCES users(id),
-  van_number      INTEGER NOT NULL,
-  van_name        TEXT    NOT NULL,
-  start_time      TEXT    NOT NULL,
-  first_break     TEXT    NOT NULL,
-  second_break    TEXT    NOT NULL,
-  end_time        TEXT,
-  number_of_drops INTEGER NOT NULL
+PRAGMA foreign_keys = ON;
+
+create table if not exists users (
+  id              integer primary key autoincrement,
+  email           text not null unique,
+  password_hash   text not null,
+  status          integer not null default 1,
+  created_at      text default current_timestamp
 );
 
-CREATE TABLE IF NOT EXISTS deliveries (
-  id        INTEGER PRIMARY KEY AUTOINCREMENT,
-  run_id    INTEGER NOT NULL,
-  drop_idx  INTEGER NOT NULL,
-  start_ts  TEXT,
-  end_ts    TEXT,
-  elapsed   INTEGER,
-  expected_minutes REAL,
-  status    TEXT,
-  FOREIGN KEY (run_id) REFERENCES run(id)
+create table if not exists run (
+  id              integer primary key autoincrement,
+  user_id         integer not null,
+  van_number      integer not null,
+  van_name        text    not null,
+  start_time      text    not null,
+  first_break     text    not null,
+  second_break    text    not null,
+  end_time        text,
+  number_of_drops integer not null,
+  foreign key(user_id) references users(id) on delete cascade
 );
 
-CREATE TABLE IF NOT EXISTS breaks (
-  id              INTEGER PRIMARY KEY AUTOINCREMENT,
-  run_id          INTEGER NOT NULL,
-  break_number    INTEGER NOT NULL,
-  scheduled_time  TEXT    NOT NULL,
-  actual_time     TEXT,
-  late_minutes INTEGER,
-  status TEXT,
-  FOREIGN KEY (run_id) REFERENCES run(id),
-  UNIQUE (run_id, break_number)
+create index if not exists idx_run_user_id on run(user_id);
+
+create table if not exists deliveries (
+  id        integer primary key autoincrement,
+  run_id    integer not null,
+  drop_idx  integer not null,
+  start_ts  text,
+  end_ts    text,
+  elapsed   integer,
+  expected_minutes real,
+  status    text,
+  foreign key (run_id) references run(id) on delete cascade,
+  unique (run_id, drop_idx)
 );
 
-CREATE TABLE IF NOT EXISTS users (
-  id              INTEGER PRIMARY KEY AUTOINCREMENT,
-  email           TEXT NOT NULL UNIQUE,
-  password_hash        TEXT NOT NULL,
-  status          INTEGER NOT NULL DEFAULT 1,
-  created_at      TEXT DEFAULT CURRENT_TIMESTAMP
+create index if not exists idx_deliveries_run_id on deliveries(run_id);
+
+create table if not exists breaks (
+  id              integer primary key autoincrement,
+  run_id          integer not null,
+  break_number    integer not null,
+  scheduled_time  text    not null,
+  actual_time     text,
+  late_minutes integer,
+  status text,
+  foreign key (run_id) references run(id) on delete cascade,
+  unique (run_id, break_number)
 );
+
+create index if not exists idx_breaks_run_id on breaks(run_id);
+
+
