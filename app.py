@@ -86,7 +86,7 @@ def configuration():
     return render_template("configuration.html")
 
 
-@app.route("/", methods=["GET"])
+@app.route("/index", methods=["GET"])
 def index():
     conn = get_db()
     run_id = session.get("run_id")
