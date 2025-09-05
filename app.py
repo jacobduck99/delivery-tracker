@@ -27,7 +27,7 @@ app.teardown_appcontext(close_db)
 def load_user(user_id):
     return User.get(user_id)
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/signup", methods=["GET", "POST"])
 def signup():
     if request.method == "POST":
         email = request.form.get("email")
@@ -43,14 +43,16 @@ def signup():
         """, (email, generate_password_hash(password),))
 
             conn.commit()
+
             return redirect(url_for("configuration"))
+
         except IntegrityError:
             flash("That email is already registered. Please log in.", "error")
             return redirect(url_for("signup"))
 
     return render_template("signup.html")
 
-@app.route("/configuration", methods=["GET", "POST"]) 
+@app.route("/configuration", methods=["GET", "POST"])
 def configuration():
     if request.method == "POST":
         van_num = request.form.get("van_number")
