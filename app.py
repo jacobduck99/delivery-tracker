@@ -90,16 +90,18 @@ def configuration():
 
         drops = int(request.form.get("num_drops"))
 
+        user_id = current_user.id
+
         conn = get_db()
         cur = conn.cursor()
         cur.execute(
             """
             INSERT INTO run
-              (van_number, van_name, start_time, first_break, second_break,
+              (user_id, van_number, van_name, start_time, first_break, second_break,
               end_time, number_of_drops)
-            VALUES (?,?,?,?,?,?,?)
+            VALUES (?,?,?,?,?,?,?,?)
             """,
-            (van_num, van_name, start_ts, first_break_ts, second_break_ts, end_ts, drops),
+            (user_id, van_num, van_name, start_ts, first_break_ts, second_break_ts, end_ts, drops),
         )
         new_id = cur.lastrowid
 
