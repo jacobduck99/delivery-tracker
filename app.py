@@ -9,7 +9,7 @@ from database import get_db, init_db, close_db
 from time_zone import convert_timedate, convert_to_sydney, format_local_string 
 from delivery_routes import start_delivery_logic, stop_delivery_logic
 from flask_login import LoginManager, login_user, current_user, login_required
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 from auth import User 
 
 app = Flask(__name__) 
@@ -75,6 +75,31 @@ def signup():
 
     return render_template("signup.html")
 
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        email = (request.form.get("email") or "").strip().lower()
+
+        conn = get_db()
+        cur = conn.cursor()
+        row = cur.execute("SELECT id, email, password_hash FROM users WHERE email = ?", (email,)).fetchone()
+
+        if row is None:
+            flash("No account found")
+            return render_template("login.html")
+
+        user = User.from_row(row)
+
+        password = request.form.get("password")
+
+        if not check_password_hash(user.password_hash, password):
+            flash("Wrong email/password")
+            return render_template("login.html")
+
+        login_user(user, remember=True)
+        return redirect(url_for("configuration"))
+            
+    return render_template("login.html")
 
 @app.route("/configuration", methods=["GET", "POST"])
 @login_required
