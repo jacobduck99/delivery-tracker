@@ -8,7 +8,7 @@ from time_helpers import get_iso_timestamp, attach_local_times, attach_duration_
 from database import get_db, init_db, close_db
 from time_zone import convert_timedate, convert_to_sydney, format_local_string 
 from delivery_routes import start_delivery_logic, stop_delivery_logic
-from flask_login import LoginManager, login_user, current_user
+from flask_login import LoginManager, login_user, current_user, login_required
 from werkzeug.security import generate_password_hash
 from auth import User 
 
@@ -24,9 +24,23 @@ with app.app_context():
 
 app.teardown_appcontext(close_db)
 
+
+@login_manager.unauthorized_handler
+def unauthorized():
+    flash("To Access App Please register or login to continue.", "error")
+    return redirect(url_for("signup")) #can change to login later
+
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.get(user_id)
+
+@app.route("/")
+def home():
+    if current_user.is_authenticated:
+        return redirect(url_for("configuration.html"))
+    else:
+        return redirect(url_for("signup"))
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
@@ -47,7 +61,7 @@ def signup():
 
             user_id = cur.lastrowid
 
-            row = "SELECT id, email, password_hash FROM users WHERE row = ?",(user_id,).fetchone()
+            row = conn.execute("SELECT id, email, password_hash FROM users WHERE id = ?",(user_id,)).fetchone()
 
             user = User.from_row(row)
 
@@ -61,7 +75,9 @@ def signup():
 
     return render_template("signup.html")
 
+
 @app.route("/configuration", methods=["GET", "POST"])
+@login_required
 def configuration():
     if request.method == "POST":
         van_num = request.form.get("van_number")
@@ -98,6 +114,7 @@ def configuration():
 
 
 @app.route("/index", methods=["GET"])
+@login_required
 def index():
     conn = get_db()
     run_id = session.get("run_id")
@@ -169,7 +186,8 @@ def reset():
     session.clear()
     return redirect(url_for("configuration"))
 
-@app.route("/past_runs")
+@app.route("/pastruns") #known as history in app
+@login_required
 def past_runs():
     conn = get_db()
     raw_runs = conn.execute("SELECT * FROM run ORDER BY id DESC").fetchall()
@@ -180,6 +198,7 @@ def past_runs():
     return render_template("past_runs.html", runs=runs)
 
 @app.route("/stats")
+@login_required
 def stats():
     conn = get_db()
     run = conn.execute("SELECT * FROM run ORDER BY id DESC LIMIT 1").fetchone()
