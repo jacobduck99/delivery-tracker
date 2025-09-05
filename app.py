@@ -8,7 +8,7 @@ from time_helpers import get_iso_timestamp, attach_local_times, attach_duration_
 from database import get_db, init_db, close_db
 from time_zone import convert_timedate, convert_to_sydney, format_local_string 
 from delivery_routes import start_delivery_logic, stop_delivery_logic
-from flask_login import LoginManager, login_user, current_user, login_required
+from flask_login import LoginManager, login_user, current_user, login_required, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from auth import User 
 
@@ -100,6 +100,12 @@ def login():
         return redirect(url_for("configuration"))
             
     return render_template("login.html")
+
+@app.route("/logout", methods=["GET", "POST"])
+def logout():
+    logout_user()
+    session.clear()
+    return redirect(url_for("login"))
 
 @app.route("/configuration", methods=["GET", "POST"])
 @login_required
