@@ -210,7 +210,8 @@ def stats():
         attach_duration_datetimes([run])
         drops = conn.execute("SELECT * FROM deliveries WHERE run_id = ?", (run_id,)).fetchall()
     else:
-        drops = []
+        flash("No runs found yet. Please start a new configuration first.", "info")
+        return redirect(url_for("configuration"))
     
     return render_template("stats.html", run=run)
 
