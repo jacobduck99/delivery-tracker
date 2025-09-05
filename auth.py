@@ -5,7 +5,19 @@ from databsae import get_db, init_db, close_db
 
 class user(UserMixin):
     def __init__(self, id, email, password_hash):
-        self.id = id
+        self.id = str(id)
         self.email = email
         self.password_hash = password_hash
+    
+    @classmethod
+    def from_row(cls, row):
+        return cls(row["id"], row["email"], row["password_hash"])
 
+    @staticmethod
+    def get(user_id: str):
+        conn = get_db()
+        row = conn.execute(
+            "select id, email, password_hash from users where id = ?",
+            (user_id,)
+        ).fetchone()
+        return User.from_row(row) if row else none
