@@ -8,8 +8,9 @@ from time_helpers import get_iso_timestamp, attach_local_times, attach_duration_
 from database import get_db, init_db, close_db
 from time_zone import convert_timedate, convert_to_sydney, format_local_string 
 from delivery_routes import start_delivery_logic, stop_delivery_logic
-from flask_login import LoginManager
+from flask_login import LoginManager, login_user, current_user
 from werkzeug.security import generate_password_hash
+from auth import User 
 
 app = Flask(__name__)
 
@@ -43,6 +44,14 @@ def signup():
         """, (email, generate_password_hash(password),))
 
             conn.commit()
+
+            user_id = cur.lastrowid
+
+            row = "SELECT id, email, password_hash FROM users WHERE row = ?",(user_id,).fetchone()
+
+            user = User.from_row(row)
+
+            login_user(user)
 
             return redirect(url_for("configuration"))
 

@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 import sqlite3
 from databsae import get_db, init_db, close_db
 
-class user(UserMixin):
+class User(UserMixin):
     def __init__(self, id, email, password_hash):
         self.id = str(id)
         self.email = email
