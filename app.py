@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 import sqlite3
 from sqlite3 import IntegrityError
-from datetime import datetime, timezone, date
+from datetime import datetime, timezone, date, timedelta
 from zoneinfo import ZoneInfo
 from breaks import get_scheduled_break, handle_start_break, handle_skip_break
 from time_helpers import get_iso_timestamp, attach_local_times, attach_duration_datetimes
@@ -12,24 +12,24 @@ from flask_login import LoginManager, login_user, current_user, login_required
 from werkzeug.security import generate_password_hash
 from auth import User 
 
-app = Flask(__name__)
+app = Flask(__name__) 
+app.secret_key = "a-very-secret-value"
+app.config['remember_cookie_duration'] = timedelta(days=7) 
+
 
 login_manager = LoginManager()
-
+login_manager.login_view = "signup" #can change to login
 login_manager.init_app(app)
-app.secret_key = "a-very-secret-value"
 
 with app.app_context():
     init_db()
 
 app.teardown_appcontext(close_db)
 
-
 @login_manager.unauthorized_handler
 def unauthorized():
-    flash("To Access App Please register or login to continue.", "error")
+    flash("to access app please register or login to continue.", "error")
     return redirect(url_for("signup")) #can change to login later
-
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -38,7 +38,7 @@ def load_user(user_id):
 @app.route("/")
 def home():
     if current_user.is_authenticated:
-        return redirect(url_for("configuration.html"))
+        return redirect(url_for("configuration"))
     else:
         return redirect(url_for("signup"))
 
@@ -65,7 +65,7 @@ def signup():
 
             user = User.from_row(row)
 
-            login_user(user)
+            login_user(user, remember=True)
 
             return redirect(url_for("configuration"))
 
@@ -112,7 +112,7 @@ def configuration():
 
         return redirect(url_for("index"))
 
-    return render_template("configuration.html")
+    return render_template("configuration.html", user=current_user)
 
 
 @app.route("/index", methods=["GET"])
