@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flashV
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 import sqlite3
 from sqlite3 import IntegrityError
 from datetime import datetime, timezone, date, timedelta
