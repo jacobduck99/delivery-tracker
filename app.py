@@ -48,7 +48,7 @@ def load_user(user_id: str):
 @app.route("/")
 def home():
     if current_user.is_authenticated:
-        return redirect(url_for("configuration"))
+        return redirect(url_for("index"))
     else:
         return redirect(url_for("signup"))
 
