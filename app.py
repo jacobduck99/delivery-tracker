@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, session, flashV
 import sqlite3
 from sqlite3 import IntegrityError
 from datetime import datetime, timezone, date, timedelta
@@ -179,6 +179,7 @@ def index():
     )
 
 @app.route("/deliveries", methods=["POST"])
+@login_required
 def start_delivery():
     action = request.form.get("action")
     drop_idx = int(request.form["drop_index"])
@@ -192,6 +193,7 @@ def start_delivery():
     return redirect(url_for("index", _anchor=f"drop-{drop_idx}")) 
 
 @app.route("/breaks", methods=["POST"])
+@login_required
 def breaks():
     action = request.form.get("action")
     break_number = int(request.form.get("break_number"))
@@ -215,6 +217,7 @@ def breaks():
 
 
 @app.route("/reset")
+@login_required
 def reset():
     session.clear()
     return redirect(url_for("configuration"))
