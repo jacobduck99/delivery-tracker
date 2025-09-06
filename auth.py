@@ -15,9 +15,16 @@ class User(UserMixin):
 
     @staticmethod
     def get(user_id: str):
-        conn = get_db()
-        row = conn.execute(
-            "select id, email, password_hash from users where id = ?",
-            (int(user_id),)
-        ).fetchone()
-        return User.from_row(row) if row else None
+        if not user_id:
+            return None
+        try:
+            conn = get_db()
+            row = conn.execute(
+                "SELECT id, email, password_hash FROM users WHERE id = ?",
+                (int(user_id),)
+            ).fetchone()
+            return User.from_row(row) if row else None
+        except (ValueError, TypeError):
+        # If cast fails or no such row → not logged in
+            return None
+

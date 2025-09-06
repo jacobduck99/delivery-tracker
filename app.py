@@ -31,17 +31,18 @@ def unauthorized():
     flash("to access app please register or login to continue.", "error")
     return redirect(url_for("signup")) #can change to login later
 
+
 @login_manager.user_loader
 def load_user(user_id: str):
-    # Reject missing/invalid/negative IDs up front
+    print("user_loader called with:", repr(user_id))
     try:
         uid = int(user_id)
         if uid <= 0:
             return None
     except (TypeError, ValueError):
         return None
+    return User.get(uid)
 
-    return User.get(uid)  # your method, unchanged
 @app.route("/")
 def home():
     if current_user.is_authenticated:
