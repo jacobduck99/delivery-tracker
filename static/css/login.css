@@ -98,20 +98,6 @@ form[method="POST"] input[name="password"]:focus {
   box-shadow: 0 0 0 3px rgba(0,105,255,.15);
 }
 
-/* Submit button matches your variables */
-form[method="POST"] button[type="submit"] {
-  width: 100%;
-  margin-top: 1rem;
-  padding: 0.75rem 1rem;
-  border: 0;
-  border-radius: 10px;
-  background: var(--primary, #0069ff);
-  color: #fff;
-  font-weight: 700;
-  cursor: pointer;
-  transition: filter .15s ease, transform .05s ease;
-}
-
 form[method="POST"] button[type="submit"]:hover {
   filter: brightness(1.05);
 }
