@@ -32,8 +32,13 @@ def unauthorized():
     return redirect(url_for("signup")) #can change to login later
 
 @login_manager.user_loader
-def load_user(user_id):
-    return User.get(user_id)
+def load_user(user_id: str):
+    if not user_id:
+        return None
+    try: 
+        return User.get(user_id)
+    except (TypeError, ValueError):
+        return None
 
 @app.route("/")
 def home():

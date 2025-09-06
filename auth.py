@@ -20,4 +20,4 @@ class User(UserMixin):
             "select id, email, password_hash from users where id = ?",
             (user_id,)
         ).fetchone()
-        return User.from_row(row) if row else none
+        return User.from_row(row) if row else None
