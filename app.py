@@ -221,18 +221,23 @@ def breaks():
     return redirect(url_for("index"))
 
 
-@app.route("/pastruns") #known as history in app
+@app.route("/pastruns")
 @login_required
 def past_runs():
     conn = get_db()
-    raw_runs = conn.execute("SELECT * FROM run WHERE user_id = ? ORDER BY start_time DESC, id DESC",(current_user.id,)).fetchall()
-    if not raw_runs:
-        flash("No runs recorded. Please complete a shift to access history data")
-        return render_template("past_runs.html", runs=runs)
-    runs = attach_local_times(raw_runs)
-    attach_duration_datetimes(runs)
+    raw_runs = conn.execute(
+        "SELECT * FROM run WHERE user_id = ? ORDER BY start_time DESC, id DESC",
+        (current_user.id,)
+    ).fetchall()
+
+    runs = attach_local_times(raw_runs)   # [] is fine
+    attach_duration_datetimes(runs)       # safely no-ops on []
+
+    if not runs:
+        flash("No runs recorded. Please complete a shift to access history data", "info")
 
     return render_template("past_runs.html", runs=runs)
+
 
 @app.route("/stats") #current run info
 @login_required
