@@ -14,7 +14,7 @@ from auth import User
 
 app = Flask(__name__) 
 app.secret_key = "a-very-secret-value"
-app.config['remember_cookie_duration'] = timedelta(days=7) 
+app.config['REMEMBER_COOKIE_DURATION'] = timedelta(days=7) 
 
 
 login_manager = LoginManager()
