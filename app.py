@@ -5,14 +5,16 @@ from datetime import datetime, timezone, date, timedelta
 from zoneinfo import ZoneInfo
 from breaks import get_scheduled_break, handle_start_break, handle_skip_break
 from time_helpers import get_iso_timestamp, attach_local_times, attach_duration_datetimes
-from database import get_db, init_db, close_db
+from database import get_db, init_db, close_db, ensure_db
 from time_zone import convert_timedate, convert_to_sydney, format_local_string 
 from delivery_routes import start_delivery_logic, stop_delivery_logic
 from flask_login import LoginManager, login_user, current_user, login_required, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from auth import User 
+import os
 
-app = Flask(__name__) 
+app = Flask(__name__)
+ensure_db()
 app.secret_key = "a-very-secret-value"
 app.config['REMEMBER_COOKIE_DURATION'] = timedelta(days=7) 
 
@@ -321,5 +323,8 @@ def reset_db():
     return "Database reset with new schema!"
 
 
+
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    port = int(os.environ.get("PORT", 8080))  # <- use Fly's PORT
+    app.run(host="0.0.0.0", port=port, debug=True)
+

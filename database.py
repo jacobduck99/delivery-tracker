@@ -1,24 +1,42 @@
-import sqlite3
+
+# database.py
+import os, pathlib, sqlite3
 from flask import g
 
-DATABASE = 'database.db'
-SCHEMA   = 'schema.sql'
+DATABASE = os.getenv("DATABASE", "/data/database.db")
+SCHEMA   = os.getenv("SCHEMA", "/code/schema.sql")
+
+def _ensure_dir():
+    pathlib.Path(DATABASE).parent.mkdir(parents=True, exist_ok=True)
 
 def init_db():
-    """Load tables from SCHEMA into DATABASE (run once at startup)."""
+    _ensure_dir()
     with sqlite3.connect(DATABASE) as conn:
-        with open(SCHEMA) as f:
+        conn.execute("PRAGMA foreign_keys = ON")
+        with open(SCHEMA, "r") as f:
             conn.executescript(f.read())
 
+def ensure_db():
+    _ensure_dir()
+    p = pathlib.Path(DATABASE)
+    if (not p.exists()) or p.stat().st_size == 0:
+        init_db()
+
 def get_db():
-    """Get (and cache) a per-request SQLite connection on flask.g."""
-    if 'db' not in g:
-        g.db = sqlite3.connect(DATABASE)
+    if "db" not in g:
+        _ensure_dir()
+        g.db = sqlite3.connect(DATABASE, check_same_thread=False)
         g.db.row_factory = sqlite3.Row
+        g.db.execute("PRAGMA foreign_keys = ON")
+        g.db.execute("PRAGMA journal_mode = WAL")
     return g.db
 
 def close_db(error=None):
-    """Close the request’s DB connection, if any."""
-    db = g.pop('db', None)
+    db = g.pop("db", None)
     if db is not None:
         db.close()
+
+
+
+
+
