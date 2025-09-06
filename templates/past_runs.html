@@ -16,33 +16,29 @@
   <div class="past-runs-card">
     <h1>Past Runs</h1>
 
-    {% if runs %}
-     
-<div class="past-run-cards">
-  {% for r in runs %}
-    <div class="run-card">
-      <div><strong>Run ID:</strong> {{ r.id }}</div> 
-    <div><strong>Date:</strong> {{ r.start_dt.strftime('%Y-%m-%d') if r.start_dt else 'N/A' }}</div>
-      <div><strong>Van:</strong> {{ r.van_number }} ({{ r.van_name }})</div>
-      <div><strong>Drops:</strong> {{ r.number_of_drops }}</div>
-      <div><strong>Start:</strong> {{ r.start_local or 'N/A' }}</div>
-      <div><strong>End:</strong> {{   r.end_local or 'N/A' }}</div>
-    {% if r.duration_minutes %}
-  <div><strong>Duration:</strong> 
-    {{ r.duration_minutes // 60 }}h 
-    {{ r.duration_minutes % 60 }}m
-  </div>
-{% endif %}
-    </div>
-  {% endfor %}
-</div>
+ 
+{% if runs %}
+  <div class="past-run-cards">
+    {% for r in runs %}
+      <div class="run-card">
+        <div><strong>Run ID:</strong> {{ r.id }}</div>
+        <div><strong>Date:</strong> {{ r.start_dt.strftime('%Y-%m-%d') if r.start_dt else 'N/A' }}</div>
+        <div><strong>Van:</strong> {{ r.van_number }} ({{ r.van_name }})</div>
+        <div><strong>Drops:</strong> {{ r.number_of_drops }}</div>
+        <div><strong>Start:</strong> {{ r.start_local or 'N/A' }}</div>
+        <div><strong>End:</strong> {{ r.end_local or 'N/A' }}</div>
+        {% if r.duration_minutes %}
+          <div><strong>Duration:</strong> {{ r.duration_minutes // 60 }}h {{ r.duration_minutes % 60 }}m</div>
+        {% endif %}
       </div>
-    {% else %}
-      <p style="text-align: center; color: #666;">
-        No past runs yet.<br>
-        <a href="{{ url_for('configuration') }}">Create your first run</a>.
-      </p>
-    {% endif %}
+    {% endfor %}
+  </div>  {# closes past-run-cards #}
+{% else %}
+  <p style="text-align: center; color: #666;">
+    No past runs yet.<br>
+    <a href="{{ url_for('configuration') }}">Create your first run</a>.
+  </p>
+{% endif %}
 
   </div>
 </div>

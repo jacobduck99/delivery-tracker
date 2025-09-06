@@ -221,6 +221,9 @@ def breaks():
 def past_runs():
     conn = get_db()
     raw_runs = conn.execute("SELECT * FROM run WHERE user_id = ? ORDER BY start_time DESC, id DESC",(current_user.id,)).fetchall()
+    if not raw_runs:
+        flash("No runs recorded. Please complete a shift to access history data")
+        return render_template("past_runs.html", runs=runs)
     runs = attach_local_times(raw_runs)
     attach_duration_datetimes(runs)
 
