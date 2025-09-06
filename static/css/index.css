@@ -30,6 +30,9 @@ h1 {
 /* ===== make each <form> lay out its buttons in a row ===== */
 .break form {
   display: flex;
+  border: 2px solid var(--border-color, #d1d5da);
+  border-radius: 10px;
+  padding: 0.6rem 0.9rem;
   justify-content: center;     /* center the two buttons horizontally */
   gap: 0.75rem;                /* space between the two buttons */
 }

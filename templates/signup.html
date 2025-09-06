@@ -5,14 +5,54 @@
 {% block content %}
   <div class="auth-center">
     <div class="auth-card">
-      <h1>Signup</h1>
-      <form method="POST">
-        <label>Email <input type="text" name="email"></label>
-        <label>Password <input type="password" name="password"></label>
-        <button type="submit">Signup</button>
-        <div><p>Already have an account? <a href="login">login</a><div>
+      <h1>Create Account</h1>
+
+      {# show flash messages if any #}
+      {% with msgs = get_flashed_messages(with_categories=true) %}
+        {% if msgs %}
+          <ul class="flashes">
+            {% for category, msg in msgs %}
+              <li class="flash {{ category }}">{{ msg }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+
+      <form method="POST" action="{{ url_for('signup') }}">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          name="email"
+          placeholder="bryden@user1.com"
+          required
+          autocomplete="username"
+          inputmode="email"
+          autocapitalize="off"
+          spellcheck="false"
+          autofocus
+          value="{{ request.form.get('email', '') }}"
+        >
+
+        <label for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          name="password"
+          required
+          minlength="8"
+          autocomplete="new-password"
+          aria-describedby="pwd-hint"
+        >
+        <small id="pwd-hint" style="color:#6b7280;">At least 8 characters.</small>
+
+        <button type="submit">Sign up</button>
       </form>
+
+      <p class="auth-switch">
+        Already have an account?
+        <a href="{{ url_for('login') }}">Log in</a>
+      </p>
     </div>
   </div>
 {% endblock %}
-
