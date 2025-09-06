@@ -1,36 +1,36 @@
-/* Smaller, non-overlapping sticky nav */
-:root { --header-height: 40px; } /* was 60px; shrink the bar */
 
-/* 1) Sticky bar in normal flow (won’t overlay content) */
+:root {
+  --header-height: 34px; /* a little shorter than 36/40px */
+}
+
 nav {
   position: sticky;
-  top: 0;                 /* required */
+  top: 0;
   z-index: 1000;
   background: #0069ff;
   border-bottom: 1px solid rgba(0,0,0,.06);
   box-shadow: 0 1px 4px rgba(0,0,0,.06);
-  padding: 0 .75rem;      /* slimmer left/right */
+  padding: 0 .5rem;       /* slim left/right */
 }
 
-/* 2) Compact row of links */
 ul.navbar {
   list-style: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1rem;              /* was 2rem */
+  gap: 1.5rem;            /* ⬅️ more space between words */
   min-height: var(--header-height);
   margin: 0;
-  padding: 0;             /* no extra vertical padding */
+  padding: 0;
 }
 
-/* 3) Link sizing */
 ul.navbar li a {
   color: #fff;
   text-decoration: none;
-  font-size: 0.95rem;     /* smaller text */
+  font-size: 0.9rem;      /* slightly smaller text */
   font-weight: 500;
-  padding: .35rem .5rem;  /* slimmer hit box */
+  line-height: 1;
+  padding: 0.2rem 0.4rem; /* ⬅️ smaller box height */
   border-radius: 4px;
   transition: background .2s;
 }
@@ -38,16 +38,5 @@ ul.navbar li a:hover,
 ul.navbar li a:focus { background: rgba(255,255,255,.2); }
 ul.navbar li a.active   { background: rgba(255,255,255,.3); }
 
-/* 4) Give content a tiny breath below the bar (purely visual) */
-main { padding-top: 8px; }  /* adjust or remove to taste */
 
-/* 5) If you have a floating flash overlay, keep it under the bar */
-.flash-stack {
-  top: calc(var(--header-height, 48px) + 12px);
-}
 
-/* Mobile tweaks */
-@media (max-width: 480px) {
-  ul.navbar li a { font-size: 0.9rem; padding: .3rem .45rem; }
-  nav { padding: 0 .5rem; }
-}
