@@ -7,17 +7,6 @@
     <div class="auth-card">
       <h1>Create Account</h1>
 
-      {# show flash messages if any #}
-      {% with msgs = get_flashed_messages(with_categories=true) %}
-        {% if msgs %}
-          <ul class="flashes">
-            {% for category, msg in msgs %}
-              <li class="flash {{ category }}">{{ msg }}</li>
-            {% endfor %}
-          </ul>
-        {% endif %}
-      {% endwith %}
-
       <form method="POST" action="{{ url_for('signup') }}">
         <label for="email">Email</label>
         <input

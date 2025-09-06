@@ -13,3 +13,80 @@ nav.subnav a {
   font-size: 1rem;           /* at least 16px */
   padding: 0.75rem 1rem;     /* ~44px tall tap area */
 }
+
+/* Flash stack sits just under the navbar and stays visible */
+
+
+/* Overlay flash below the navbar */
+.flash-stack {
+  position: fixed;
+  top: calc(var(--header-height, 60px) + 12px); /* was 12px */
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(92%, 640px);
+  z-index: 2000;
+  margin: 0;
+  padding: 0;
+  pointer-events: none;
+}
+.flash { pointer-events: auto; }
+
+/* Each flash message as a chunky card */
+.flash {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  margin: 8px 0;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  color: #111827;
+  box-shadow: 0 4px 14px rgba(0,0,0,.06);
+  font-size: 1rem;              /* nice and readable */
+  line-height: 1.4;
+}
+
+/* Icon and content */
+.flash-icon { font-size: 1.1rem; line-height: 1; margin-top: 2px; }
+.flash-content { flex: 1; }
+
+/* Dismiss button */
+.flash-close {
+  background: transparent;
+  border: 0;
+  font-size: 1.25rem;
+  line-height: 1;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 0 2px;
+}
+.flash-close:hover { color: #111827; }
+
+/* Category themes */
+.flash.is-info {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+  color: #1e3a8a;
+}
+.flash.is-success {
+  background: #ecfdf5;
+  border-color: #a7f3d0;
+  color: #065f46;
+}
+.flash.is-warning {
+  background: #fffbeb;
+  border-color: #fde68a;
+  color: #92400e;
+}
+.flash.is-error {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #7f1d1d;
+}
+
+/* Mobile tweaks */
+@media (max-width: 480px) {
+  .flash-stack { width: 94%; margin-top: 0.5rem; }
+  .flash { font-size: 1.05rem; padding: 12px; }
+}

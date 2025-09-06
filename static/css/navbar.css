@@ -1,86 +1,53 @@
-/* ===== navbar.css ===== */
+/* Smaller, non-overlapping sticky nav */
+:root { --header-height: 40px; } /* was 60px; shrink the bar */
 
-/* 1) Style the nav bar container */
+/* 1) Sticky bar in normal flow (won’t overlay content) */
 nav {
-  background-color: #0069ff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-
-  /* ADD this: a bit of padding on the nav wrapper */
-  padding: 0.5rem 1rem;          /* 0.5rem top/bottom, 1rem left/right */
+  position: sticky;
+  top: 0;                 /* required */
+  z-index: 1000;
+  background: #0069ff;
+  border-bottom: 1px solid rgba(0,0,0,.06);
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+  padding: 0 .75rem;      /* slimmer left/right */
 }
 
-/* 2) Wrap links in a flex row & remove bullets */
+/* 2) Compact row of links */
 ul.navbar {
   list-style: none;
-  margin: 0;
-
-  /* TONE DOWN this padding, since nav now has it */
-  padding: 0;                    /* remove the 0.75rem/2rem here */
-
   display: flex;
+  align-items: center;
   justify-content: center;
-  gap: 2rem;
+  gap: 1rem;              /* was 2rem */
+  min-height: var(--header-height);
+  margin: 0;
+  padding: 0;             /* no extra vertical padding */
 }
 
-/* 3) Style each link */
+/* 3) Link sizing */
 ul.navbar li a {
-  color: #ffffff;
+  color: #fff;
   text-decoration: none;
-  
-  /* SLIGHTLY SMALLER on desktop */
-  font-size: 1rem;               /* ~16px instead of 1.125rem */
+  font-size: 0.95rem;     /* smaller text */
   font-weight: 500;
-
-  /* TIGHTER padding */
-  padding: 0.4rem 0.6rem;        /* slightly smaller tap targets */
+  padding: .35rem .5rem;  /* slimmer hit box */
   border-radius: 4px;
-  transition: background 0.2s;
+  transition: background .2s;
 }
-
-/* 4) Hover & focus states */
 ul.navbar li a:hover,
-ul.navbar li a:focus {
-  background: rgba(255, 255, 255, 0.2);
+ul.navbar li a:focus { background: rgba(255,255,255,.2); }
+ul.navbar li a.active   { background: rgba(255,255,255,.3); }
+
+/* 4) Give content a tiny breath below the bar (purely visual) */
+main { padding-top: 8px; }  /* adjust or remove to taste */
+
+/* 5) If you have a floating flash overlay, keep it under the bar */
+.flash-stack {
+  top: calc(var(--header-height, 48px) + 12px);
 }
 
-/* 5) Active link styling */
-ul.navbar li a.active {
-  background: rgba(255, 255, 255, 0.3);
+/* Mobile tweaks */
+@media (max-width: 480px) {
+  ul.navbar li a { font-size: 0.9rem; padding: .3rem .45rem; }
+  nav { padding: 0 .5rem; }
 }
-
-/* ===== Override for the “Back to Tracker” subnav ===== */
-nav.subnav {
-  background: none;
-  box-shadow: none;
-  padding: 0;
-  margin-top: 1.5rem;
-  text-align: center;
-}
-
-nav.subnav a {
-  display: inline-block;
-  background: none;
-  width: auto;
-  color: #0069ff;
-  text-decoration: none;
-  font-size: 0.95rem;
-  padding: 0.5rem 0;
-  transition: color 0.2s;
-}
-
-nav.subnav a:hover,
-nav.subnav a:focus {
-  text-decoration: underline;
-}
-
-  /* Even smaller link text & padding */
-  ul.navbar li a {
-    font-size: 0.9rem;            /* ~14.4px */
-    padding: 0.3rem 0.5rem;       /* more compact tap area */
-  }
-
-  /* Reduce nav wrapper padding further */
-  nav {
-    padding: 0.25rem 0.5rem;
-  }
-
