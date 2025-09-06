@@ -1,30 +1,47 @@
+/* ==== Centered login card (mobile-first) ==== */
 
-/* Card-like login form without changing your HTML */
-body {
+/* Full-viewport centering with mobile-safe dynamic viewport */
+.auth-center {
+  /* Fallback for older browsers, then mobile-safe unit overrides it */
+  min-height: calc(100vh - var(--header-height, 0px));
+  min-height: calc(100dvh - var(--header-height, 0px));
+
+  display: grid;
+  place-items: center;
+
+  /* top/bottom breathing room + notches */
+  padding-block: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-bottom));
   background: var(--bg-page, #f5f7fa);
 }
 
-h1 {
-  text-align: center;
-  margin: 2rem 0 1rem;
-  color: var(--text-high, #212529);
-  font-size: 1.3rem;
-}
-
-/* Make the <form> look like a centered card */
-form[method="POST"] {
+/* The card that contains h1 + form */
+.auth-card {
   width: 92%;
   max-width: 380px;
-  margin: 0 auto 2rem;
-  padding: 1rem;
   background: var(--bg-card, #fff);
   border: 1px solid var(--border-color, #d1d5da);
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,.06);
+  padding: 1rem;
+
+  /* If the viewport is tiny, allow the card to scroll instead of pushing off-screen */
+  max-height: calc(100dvh - var(--header-height, 0px) - 24px);
+  overflow: auto;
 }
 
-/* Labels on their own lines */
-form[method="POST"] > label {
+/* Title directly above the form */
+.auth-card h1 {
+  margin: 0 0 0.75rem; /* no top margin so it stays centered with the card */
+  text-align: center;
+  color: var(--text-high, #212529);
+  font-size: 1.3rem;
+}
+
+/* Form inside the card */
+.auth-card form { margin: 0; }
+
+/* Labels & inputs */
+.auth-card form > label {
   display: block;
   margin: 0.6rem 0 0.3rem;
   color: var(--text-med, #495057);
@@ -32,9 +49,8 @@ form[method="POST"] > label {
   font-size: 0.95rem;
 }
 
-/* Inputs inherit your base font sizing */
-form[method="POST"] input[name="email"],
-form[method="POST"] input[name="password"] {
+.auth-card input[name="email"],
+.auth-card input[name="password"] {
   display: block;
   width: 100%;
   margin-top: 0.35rem;
@@ -47,14 +63,14 @@ form[method="POST"] input[name="password"] {
   font: inherit;
 }
 
-form[method="POST"] input[name="email"]:focus,
-form[method="POST"] input[name="password"]:focus {
+.auth-card input[name="email"]:focus,
+.auth-card input[name="password"]:focus {
   border-color: var(--primary, #0069ff);
   box-shadow: 0 0 0 3px rgba(0,105,255,.15);
 }
 
-/* Submit button matches your variables */
-form[method="POST"] button[type="submit"] {
+/* Submit */
+.auth-card button[type="submit"] {
   width: 100%;
   margin-top: 1rem;
   padding: 0.75rem 1rem;
@@ -66,23 +82,10 @@ form[method="POST"] button[type="submit"] {
   cursor: pointer;
   transition: filter .15s ease, transform .05s ease;
 }
+.auth-card button[type="submit"]:hover { filter: brightness(1.05); }
+.auth-card button[type="submit"]:active { transform: translateY(1px); }
 
-form[method="POST"] button[type="submit"]:hover {
-  filter: brightness(1.05);
-}
-form[method="POST"] button[type="submit"]:active {
-  transform: translateY(1px);
-}
-
-/* Small screens: keep it comfy */
+/* Small screens: slightly tighter padding */
 @media (max-width: 480px) {
-  form[method="POST"] { padding: 0.9rem; }
-  h1 { margin: 1.25rem 0 0.75rem; }
-}
-
-/* Optional: flash messages from Flask */
-.flash, .flashes li {
-  max-width: 380px; margin: 0.5rem auto; padding: 0.6rem 0.75rem;
-  border-radius: 8px; list-style: none;
-  background: #fff7ed; color: #92400e; border: 1px solid #fdba74;
+  .auth-card { padding: 0.9rem; }
 }
