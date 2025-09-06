@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 from time_helpers import attach_local_times
-from flask import session, redirect, url_for
+from flask import session, redirect, url_for, flash
 from database import get_db
 from time_zone import convert_to_sydney
 
@@ -32,6 +32,10 @@ def stop_delivery_logic(run_id, drop_idx):
     ).fetchone()
 
     start_ts = row["start_ts"]
+
+    if not start_ts:
+        flash("No start time recorded for this drop", "error")
+        return redirect(url_for("index", _anchor=f"drop-{drop_idx}"))
 
     # Convert to datetime objects
     end_dt = datetime.fromisoformat(end_ts)

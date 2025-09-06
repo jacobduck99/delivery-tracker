@@ -146,7 +146,6 @@ def configuration():
             (user_id, van_num, van_name, start_ts, first_break_ts, second_break_ts, end_ts, drops),
         )
         new_id = cur.lastrowid
-
         conn.commit()
 
         session["run_id"] = new_id
