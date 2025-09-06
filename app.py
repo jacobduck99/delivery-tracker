@@ -33,13 +33,15 @@ def unauthorized():
 
 @login_manager.user_loader
 def load_user(user_id: str):
-    if not user_id:
-        return None
-    try: 
-        return User.get(user_id)
+    # Reject missing/invalid/negative IDs up front
+    try:
+        uid = int(user_id)
+        if uid <= 0:
+            return None
     except (TypeError, ValueError):
         return None
 
+    return User.get(uid)  # your method, unchanged
 @app.route("/")
 def home():
     if current_user.is_authenticated:
@@ -110,7 +112,10 @@ def login():
 def logout():
     logout_user()
     session.clear()
-    return redirect(url_for("login"))
+    resp = redirect(url_for("login"))
+    resp.delete_cookie("remember_token")
+    resp.delete_cookie("session")
+    return resp
 
 @app.route("/configuration", methods=["GET", "POST"])
 @login_required

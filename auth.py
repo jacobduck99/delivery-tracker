@@ -18,6 +18,6 @@ class User(UserMixin):
         conn = get_db()
         row = conn.execute(
             "select id, email, password_hash from users where id = ?",
-            (user_id,)
+            (int(user_id),)
         ).fetchone()
         return User.from_row(row) if row else None
