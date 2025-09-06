@@ -1,16 +1,16 @@
 
 :root {
-  --header-height: 34px; /* a little shorter than 36/40px */
+  --header-height: 30px; /* smaller overall bar */
 }
 
 nav {
   position: sticky;
   top: 0;
   z-index: 1000;
-  background: #0069ff;
+  background: linear-gradient(180deg, #3399ff 0%, #0066cc 100%);
   border-bottom: 1px solid rgba(0,0,0,.06);
-  box-shadow: 0 1px 4px rgba(0,0,0,.06);
-  padding: 0 .5rem;       /* slim left/right */
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06); /* lighter shadow */
+  padding: 0 .5rem;
 }
 
 ul.navbar {
@@ -18,25 +18,28 @@ ul.navbar {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1.5rem;            /* ⬅️ more space between words */
+  gap: 1.25rem;        /* balanced spacing */
   min-height: var(--header-height);
   margin: 0;
   padding: 0;
 }
 
 ul.navbar li a {
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
   color: #fff;
   text-decoration: none;
-  font-size: 0.9rem;      /* slightly smaller text */
-  font-weight: 500;
+  font-size: 0.85rem;   /* smaller text */
+  font-weight: 600;
   line-height: 1;
-  padding: 0.2rem 0.4rem; /* ⬅️ smaller box height */
+  padding: 0.15rem 0.35rem; /* slimmer box */
   border-radius: 4px;
   transition: background .2s;
 }
 ul.navbar li a:hover,
-ul.navbar li a:focus { background: rgba(255,255,255,.2); }
-ul.navbar li a.active   { background: rgba(255,255,255,.3); }
+ul.navbar li a:focus { background: rgba(255,255,255,.15); }
+ul.navbar li a.active   { background: rgba(255,255,255,.25); }
+
 
 
 
