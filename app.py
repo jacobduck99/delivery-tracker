@@ -216,40 +216,39 @@ def breaks():
     return redirect(url_for("index"))
 
 
-@app.route("/reset")
-@login_required
-def reset():
-    session.clear()
-    return redirect(url_for("configuration"))
-
 @app.route("/pastruns") #known as history in app
 @login_required
 def past_runs():
     conn = get_db()
-    raw_runs = conn.execute("SELECT * FROM run ORDER BY id DESC").fetchall()
+    raw_runs = conn.execute("SELECT * FROM run WHERE user_id = ? ORDER BY start_time DESC, id DESC",(current_user.id,)).fetchall()
     runs = attach_local_times(raw_runs)
     attach_duration_datetimes(runs)
 
-    
     return render_template("past_runs.html", runs=runs)
 
-@app.route("/stats")
+@app.route("/stats") #current run info
 @login_required
 def stats():
     conn = get_db()
-    run = conn.execute("SELECT * FROM run ORDER BY id DESC LIMIT 1").fetchone()
-
-    if run:
-        run = dict(run)
-        run_id = session.get("run_id") or run["id"]
-        run = attach_local_times([run])[0] 
-        attach_duration_datetimes([run])
-        drops = conn.execute("SELECT * FROM deliveries WHERE run_id = ?", (run_id,)).fetchall()
-    else:
-        flash("No runs found yet. Please start a new configuration first.", "info")
+    run_id = session.get("run_id")
+    if run_id is None:
+        flash("No active run. Start a run first.", "info")
         return redirect(url_for("configuration"))
-    
-    return render_template("stats.html", run=run)
+
+    run_row = conn.execute("SELECT * FROM run WHERE id = ? AND user_id = ?",(run_id, current_user.id)).fetchone()
+
+    if not run_row:
+        session.pop("run_id", None)
+        flash("No active run. Start a run first.", "info")
+        return redirect(url_for("configuration"))
+        
+    run = dict(run_row)
+    run = attach_local_times([run])[0] 
+    attach_duration_datetimes([run])
+
+    drops = conn.execute("SELECT * FROM deliveries WHERE run_id = ? ORDER BY drop_idx", (run_id,)).fetchall()
+
+    return render_template("stats.html", run=run, drops=drops)
 
 
 @app.route("/reset-db")
