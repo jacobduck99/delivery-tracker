@@ -125,7 +125,7 @@ def logout():
 @login_required
 def configuration():
     if request.method == "POST":
-        # ---- normalise fields ----
+
         van_name = (request.form.get("van_name") or "").strip()
         van_num_raw = (request.form.get("van_number") or "").strip()
         drops_raw = (request.form.get("num_drops") or "").strip()
@@ -135,8 +135,7 @@ def configuration():
         if truck_damage and len(truck_damage) > 255:
             flash("Truck damage must be 255 characters or less")
             return redirect(url_for("configuration"))
-
-        # ---- validate required text/ints ----
+ 
         if not van_name:
             flash("Van name is required")
             return redirect(url_for("configuration"))
