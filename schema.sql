@@ -18,6 +18,7 @@ create table if not exists run (
   second_break    text    not null,
   end_time        text,
   number_of_drops integer not null,
+  truck_damage text DEFAULT '', 
   foreign key(user_id) references users(id) on delete cascade
 );
 
