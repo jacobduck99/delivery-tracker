@@ -137,7 +137,7 @@ def configuration():
         val = request.form.get("truck_damage")
         truck_damage = val.strip() if val else None
 
-        if len(truck_damage) > 255:
+        if truck_damage and len(truck_damage) > 255:
             flash("You are out of characters")
             return redirect(url_for("configuration"))
 
