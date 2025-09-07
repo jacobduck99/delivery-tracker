@@ -134,6 +134,13 @@ def configuration():
 
         drops = int(request.form.get("num_drops"))
 
+        val = request.form.get("truck_damage")
+        truck_damage = val.strip() if val else None
+
+        if len(truck_damage) > 255:
+            flash("You are out of characters")
+            return redirect(url_for("configuration"))
+
         user_id = current_user.id
 
         conn = get_db()
@@ -142,10 +149,10 @@ def configuration():
             """
             INSERT INTO run
               (user_id, van_number, van_name, start_time, first_break, second_break,
-              end_time, number_of_drops)
-            VALUES (?,?,?,?,?,?,?,?)
+              end_time, number_of_drops, truck_damage)
+            VALUES (?,?,?,?,?,?,?,?,?)
             """,
-            (user_id, van_num, van_name, start_ts, first_break_ts, second_break_ts, end_ts, drops),
+            (user_id, van_num, van_name, start_ts, first_break_ts, second_break_ts, end_ts, drops, truck_damage),
         )
         new_id = cur.lastrowid
         conn.commit()
