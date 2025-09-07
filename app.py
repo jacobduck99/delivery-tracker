@@ -120,49 +120,73 @@ def logout():
     resp.delete_cookie("session")
     return resp
 
+
 @app.route("/configuration", methods=["GET", "POST"])
 @login_required
 def configuration():
     if request.method == "POST":
-        van_num = request.form.get("van_number")
-        van_name = request.form.get("van_name")
+        # ---- normalise fields ----
+        van_name = (request.form.get("van_name") or "").strip()
+        van_num_raw = (request.form.get("van_number") or "").strip()
+        drops_raw = (request.form.get("num_drops") or "").strip()
 
-        start_ts = get_iso_timestamp("shift_start") 
-        first_break_ts = get_iso_timestamp("first_break")
-        second_break_ts = get_iso_timestamp("second_break")
-        end_ts = get_iso_timestamp("shift_end")
-
-        drops = int(request.form.get("num_drops"))
-
-        val = request.form.get("truck_damage")
-        truck_damage = val.strip() if val else None
-
+        # optional short text -> NULL if blank, trim spaces
+        truck_damage = ((request.form.get("truck_damage") or "").strip()) or None
         if truck_damage and len(truck_damage) > 255:
-            flash("You are out of characters")
+            flash("Truck damage must be 255 characters or less")
             return redirect(url_for("configuration"))
 
-        user_id = current_user.id
+        # ---- validate required text/ints ----
+        if not van_name:
+            flash("Van name is required")
+            return redirect(url_for("configuration"))
 
+        try:
+            van_num = int(van_num_raw)
+        except ValueError:
+            flash("Van number must be a whole number")
+            return redirect(url_for("configuration"))
+
+        try:
+            drops = int(drops_raw)
+        except ValueError:
+            flash("Number of drops must be a whole number")
+            return redirect(url_for("configuration"))
+
+        # ---- timestamps (start/first/second are NOT NULL in schema) ----
+        start_ts = get_iso_timestamp("shift_start")
+        first_break_ts = get_iso_timestamp("first_break")
+        second_break_ts = get_iso_timestamp("second_break")
+        end_ts = get_iso_timestamp("shift_end")  # nullable
+
+        if not (start_ts and first_break_ts and second_break_ts):
+            flash("Start time and both break times are required")
+            return redirect(url_for("configuration"))
+
+        user_id = current_user.id  # ensure this matches users.id
+
+        # ---- insert ----
         conn = get_db()
+        # make sure PRAGMA foreign keys is ON in get_db()
         cur = conn.cursor()
         cur.execute(
             """
             INSERT INTO run
               (user_id, van_number, van_name, start_time, first_break, second_break,
-              end_time, number_of_drops, truck_damage)
+               end_time, number_of_drops, truck_damage)
             VALUES (?,?,?,?,?,?,?,?,?)
             """,
-            (user_id, van_num, van_name, start_ts, first_break_ts, second_break_ts, end_ts, drops, truck_damage),
+            (user_id, van_num, van_name, start_ts, first_break_ts, second_break_ts,
+             end_ts, drops, truck_damage),
         )
-        new_id = cur.lastrowid
         conn.commit()
 
-        session["run_id"] = new_id
+        session["run_id"] = cur.lastrowid
         session["num_drops"] = drops
-
         return redirect(url_for("index"))
 
     return render_template("configuration.html", user=current_user)
+
 
 
 @app.route("/index", methods=["GET"])
