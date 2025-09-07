@@ -8,3 +8,5 @@ __pycache__/
 database.db
 *.db-wal
 *.db-shm
+
+nuke_db.sh
