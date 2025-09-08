@@ -52,8 +52,6 @@
 
           {% else %}
             <!-- completed -->
-            <p><strong>Started at:</strong> {{ d.start_local or 'N/A' }}</p>
-            <p><strong>Ended at:</strong> {{ d.end_local or 'N/A' }}</p>
             <p class="drop-elapsed"><strong>Total-Time:</strong> {{ d.elapsed }}</p>
           {% endif %}
         </div>
@@ -64,10 +62,6 @@
       <a href="{{ url_for('configuration') }}">Configure your shift.</a>
     </p>
   {% endif %}
-
-  <nav class="subnav">
-    <a href="{{ url_for('configuration') }}">⚙️ Configure Shift</a>
-  </nav>
 </div>
 
 <style>
