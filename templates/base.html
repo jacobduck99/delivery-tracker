@@ -17,8 +17,8 @@
 
   {% block head %}{% endblock %}
 </head>
-<body class="{% if current_user.is_authenticated and request.endpoint in ['index', 'stats'] %}index-page{% endif %}">
-  {% if current_user.is_authenticated %}
+<body class="{% if current_user.is_authenticated and request.endpoint in ['index', 'stats'] and request.endpoint != 'configuration' %}index-page{% endif %}">
+  {% if current_user.is_authenticated and request.endpoint != 'configuration' %}
   <nav>
     <ul class="navbar"> 
       <li><a href="{{ url_for('index') }}">Live</a></li>          
@@ -27,7 +27,6 @@
     </ul>
   </nav>
   {% endif %}
-
   <main>
 
 {% with messages = get_flashed_messages(with_categories=true) %}
