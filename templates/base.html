@@ -17,43 +17,28 @@
 
   {% block head %}{% endblock %}
 </head>
-<body class="{% if request.endpoint=='index' %}index-page{% endif %}">
+<body class="{% if current_user.is_authenticated and request.endpoint in ['index', 'stats'] %}index-page{% endif %}">
+  {% if current_user.is_authenticated %}
   <nav>
-    <ul class="navbar">
-      <li><a href="{{ url_for('configuration') }}">Setup</a></li>
+    <ul class="navbar"> 
       <li><a href="{{ url_for('index') }}">Live</a></li>          
       <li><a href="{{ url_for('stats') }}">Stats</a></li>
       <li><a href="{{ url_for('past_runs') }}">History</a></li>
     </ul>
   </nav>
+  {% endif %}
 
   <main>
 
-{% with msgs = get_flashed_messages(with_categories=true) %}
-  {% if msgs %}
-    <div class="flash-stack" role="region" aria-label="Notifications">
-      {% for category, message in msgs %}
-        {% set cat = (category or 'info') %}
-        <div class="flash is-{{ cat }}" role="alert">
-          <span class="flash-icon" aria-hidden="true">
-            {% if cat == 'success' %}
-              ✔
-            {% elif cat == 'error' %}
-              ⚠
-            {% elif cat == 'warning' %}
-              !
-            {% else %}
-              ℹ
-            {% endif %}
-          </span>
-          <div class="flash-content">{{ message }}</div>
-          <button type="button" class="flash-close" aria-label="Dismiss" onclick="this.closest('.flash').remove()">×</button>
-        </div>
-      {% endfor %}
-    </div>
-  {% endif %}
-{% endwith %}
-                
+{% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flashes">
+          {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
     {% block content %}{% endblock %}
   </main>
 </body>
