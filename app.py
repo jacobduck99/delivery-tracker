@@ -18,7 +18,6 @@ ensure_db()
 app.secret_key = "a-very-secret-value"
 app.config['REMEMBER_COOKIE_DURATION'] = timedelta(days=7) 
 
-
 login_manager = LoginManager()
 login_manager.login_view = "signup" #can change to login
 login_manager.init_app(app)
@@ -33,10 +32,8 @@ def unauthorized():
     flash("to access app please register or login to continue.", "error")
     return redirect(url_for("signup")) #can change to login later
 
-
 @login_manager.user_loader
 def load_user(user_id: str):
-    print("user_loader called with:", repr(user_id))
     try:
         uid = int(user_id)
         if uid <= 0:
@@ -186,8 +183,6 @@ def configuration():
 
     return render_template("configuration.html", user=current_user)
 
-
-
 @app.route("/index", methods=["GET"])
 @login_required
 def index():
@@ -257,7 +252,6 @@ def breaks():
 
     return redirect(url_for("index"))
 
-
 @app.route("/pastruns")
 @login_required
 def past_runs():
@@ -274,7 +268,6 @@ def past_runs():
         flash("No runs recorded. Please complete a shift to access history data", "info")
 
     return render_template("past_runs.html", runs=runs)
-
 
 @app.route("/stats") #current run info
 @login_required
@@ -299,60 +292,6 @@ def stats():
     drops = conn.execute("SELECT * FROM deliveries WHERE run_id = ? ORDER BY drop_idx", (run_id,)).fetchall()
 
     return render_template("stats.html", run=run, drops=drops)
-
-
-@app.route("/reset-db")
-def reset_db():
-    conn = get_db()
-    cur = conn.cursor()
-
-    # DROP old tables
-    cur.execute("DROP TABLE IF EXISTS deliveries;")
-    cur.execute("DROP TABLE IF EXISTS breaks;")
-    cur.execute("DROP TABLE IF EXISTS run;")
-
-    # CREATE new schema
-    cur.executescript("""
-    CREATE TABLE IF NOT EXISTS run (
-      id              INTEGER PRIMARY KEY AUTOINCREMENT,
-      van_number      INTEGER NOT NULL,
-      van_name        TEXT    NOT NULL,
-      start_time      TEXT    NOT NULL,
-      first_break     TEXT    NOT NULL,
-      second_break    TEXT    NOT NULL,
-      end_time        TEXT,
-      number_of_drops INTEGER NOT NULL
-    );
-
-    CREATE TABLE IF NOT EXISTS deliveries (
-      id        INTEGER PRIMARY KEY AUTOINCREMENT,
-      run_id    INTEGER NOT NULL,
-      drop_idx  INTEGER NOT NULL,
-      start_ts  TEXT,
-      end_ts    TEXT,
-      elapsed   INTEGER,
-      expected_minutes REAL,
-      status    TEXT,
-      FOREIGN KEY (run_id) REFERENCES run(id)
-    );
-
-    CREATE TABLE IF NOT EXISTS breaks (
-      id              INTEGER PRIMARY KEY AUTOINCREMENT,
-      run_id          INTEGER NOT NULL,
-      break_number    INTEGER NOT NULL,
-      scheduled_time  TEXT    NOT NULL,
-      actual_time     TEXT,
-      late_minutes    INTEGER,
-      status          TEXT,
-      FOREIGN KEY (run_id) REFERENCES run(id),
-      UNIQUE (run_id, break_number)
-    );
-    """)
-
-    conn.commit()
-    return "Database reset with new schema!"
-
-
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))  # <- use Fly's PORT
