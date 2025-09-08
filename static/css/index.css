@@ -101,7 +101,7 @@ img{max-width:100%;height:auto}
   display:flex;
   flex-direction:column;
   gap:10px;
-  min-height:160px;   /* grows with content */
+  min-height:160px;
 }
 1
 .drop-card h4 {
@@ -118,20 +118,12 @@ img{max-width:100%;height:auto}
   line-height: 1.2;
 }
 
-.drop-elapsed {
-  margin-top: 2px;          /* reduced spacing */
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #111;
-  line-height: 1.2;
-}
-
-
 /* button area at bottom */
 .drop-card form{
   margin-top:auto;
   display: flex;
   justify-content: center;
+  text-align: left;
 }
 /* make card buttons full width and consistent */
 .drop-card button{
@@ -193,4 +185,15 @@ img{max-width:100%;height:auto}
   .break button{width:100%}
   .drop-card{padding:10px}
   .drop-card button{font-size:.9rem}
+}
+
+
+.drop-elapsed {
+  margin-top: 4px;  /* pick one value */
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: #111;      /* darker = highlight */
+  line-height: 1.2;
+  text-align: left; /* keep left aligned */
 }
