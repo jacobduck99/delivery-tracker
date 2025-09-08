@@ -1,398 +1,197 @@
-/* ===== Main Container ===== */
-.container {
-  max-width: 1000px;
-  margin: 2rem auto;
-  padding: 1.5rem;
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+/* =============================
+   Delivery Tracker – index.css
+   (aligned to your HTML)
+   ============================= */
+
+/* ---- tokens ---- */
+:root{
+  --brand:#5559ff;    /* Arrived/Delivered */
+  --danger:#e53e3e;   /* stop */
+  --info:#5bc0de;     /* 30m break */
+  --neutral:#6c757d;  /* skip */
+  --ink:#222;
+  --muted:#6b7686;
+  --line:#e7ecf4;
+  --panel:#f1f3f6;
+  --radius:12px;
+  --shadow:0 6px 18px rgba(23,32,56,.06);
 }
 
-/* ===== Page Heading ===== */
-h1 {
-  text-align: center;
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  color: #222;
+/* ---- base ---- */
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font:16px/1.4 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink)}
+img{max-width:100%;height:auto}
+
+/* ---- container + title ---- */
+.container{
+  max-width:980px;
+  margin:1.25rem auto;
+  padding:1rem 12px;
+  background:#fff;
+  border-radius:16px;
+  box-shadow:var(--shadow);
+}
+.container > h1{
+  text-align:center;
+  font-size:clamp(1.4rem,2.5vw + 1rem,2rem);
+  margin:.5rem 0 1rem;
 }
 
-/* 1) Ensure the .break wrapper sits at the top of its container */
-/* 1) Lay out both buttons side by side with a gap */
-/* 1) Ensure the .break wrapper sits at the top of its container */
-/* ===== .break wrapper ===== */
-.break {
-  display: flex;
-  flex-direction: column;      /* stack Form 1 above Form 2 */
-  gap: 1rem;                   /* space between the two forms */
-  margin-top: 1rem;
+/* =========================
+   BREAK CONTROLS (your .break forms)
+   ========================= */
+.break{
+  display:flex;
+  flex-direction:column;
+  gap:1rem;
+  margin-top:1rem;
 }
-
-/* ===== make each <form> lay out its buttons in a row ===== */
-.break form {
-  display: flex;
-  border: 2px solid var(--border-color, #d1d5da);
-  border-radius: 10px;
-  padding: 0.6rem 0.9rem;
-  justify-content: center;     /* center the two buttons horizontally */
-  gap: 0.75rem;                /* space between the two buttons */
+.break form{
+  display:flex;
+  justify-content:center;
+  gap:.75rem;
+  padding:10px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:#fff;
+  box-shadow:var(--shadow);
 }
-
-/* ===== Base styling for all buttons inside .break ===== */
-.break button {
-  padding: 0.6rem 1.25rem;
-  font-size: 0.7rem;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  transition: background-color 0.2s, transform 0.1s;
-
-  width: 140px;                /* force every button to be exactly 140px wide */
-  text-align: center;
-}
-
-/* ===== “Take 15 min” button styling ===== */
-.btn-break {
-  background-color: #d9534f;
-  color: white;
-}
-.btn-break:hover {
-  background-color: #c9302c;
-  transform: translateY(-1px);
-}
-.btn-break:active {
-  background-color: #ac2925;
-  transform: translateY(0);
-}
-
-/* ===== “Take 30 min” button styling ===== */
-.break-btn {
-  background-color: #5bc0de;
-  color: white;
-}
-.break-btn:hover {
-  background-color: #31b0d5;
-  transform: translateY(-1px);
-}
-.break-btn:active {
-  background-color: #269abc;
-  transform: translateY(0);
-}
-
-/* ===== “Skip Break” button styling ===== */
-.btn-skip {
-  background-color: #6c757d;
-  color: white;
-}
-.btn-skip:hover {
-  background-color: #5a6268;
-  transform: translateY(-1px);
-}
-.btn-skip:active {
-  background-color: #545b62;
-  transform: translateY(0);
-}
-
-
-
-
-/* ===== Drop Grid ===== */
-.drop-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
-  margin: 1rem 0;
-  padding: 0 1rem;
-}
-
-/* ===== Drop Card ===== */
-.drop-card {
-  width: 300px;
-  height: 180px;
-  padding: 0.75rem;
-  box-sizing: border-box;
-  background: #e0dede;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-
-  /* flex layout: content top, button/elapsed bottom */
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  /* wrap long text */
-  white-space: normal;
-  overflow-wrap: anywhere;
-}
-
-/* ===== Card Title ===== */
-.drop-card h4 {
-  margin: 0 0 0.5rem;
-  font-size: 1.1rem;
-  color: #333;
-}
-
-/* ===== Paragraphs in Card ===== */
-.drop-card p {
-  margin: 0.25rem 0;
+/* keep consistent tap targets */
+.break button{
+  width:120px;
+  padding:8px 10px;
+  border:0;
+  border-radius:12px;
+  font-weight:700;
   font-size: 0.9rem;
+  cursor:pointer;
+  color:#fff;
+  box-shadow:0 2px 6px rgba(0,0,0,.08);
+  transition:transform .04s ease, filter .15s ease;
+}
+.break button:active{transform:translateY(1px)}
+/* 15 min */
+.btn-break{background:#d9534f}
+.btn-break:hover{filter:brightness(1.05)}
+/* 30 min */
+.break-btn{background:var(--info); color:#0c2a33}
+.break-btn:hover{filter:brightness(1.05)}
+/* skip */
+.btn-skip{background:var(--neutral)}
+.btn-skip:hover{filter:brightness(1.05)}
+
+/* =========================
+   DROPS GRID + CARDS
+   ========================= */
+.drop-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
+  gap:12px;
+  margin:1rem 0;
+  padding:0;
+}
+
+.drop-card{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:12px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  min-height:160px;   /* grows with content */
+}
+
+
+.drop-card h4 {
+  font-size: 0.95rem;       /* a touch smaller */
+  font-weight: 700;
+  margin: 0 0 2px;          /* less margin under the title */
+  line-height: 1.2;         /* tighter line spacing */
+}
+
+.drop-card p {
+  font-size: 0.8rem;        /* slightly smaller */
+  color: #555;
+  margin: 1px 0;            /* collapse vertical spacing */
   line-height: 1.2;
 }
 
-/* ===== Button Wrapper ===== */
-.drop-card form {
-  width: 100%;
+.drop-elapsed {
+  margin-top: 2px;          /* reduced spacing */
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #111;
+  line-height: 1.2;
+}
+
+
+/* button area at bottom */
+.drop-card form{
+  margin-top:auto;
   display: flex;
   justify-content: center;
-  margin-top: auto; /* push to bottom */
+}
+/* make card buttons full width and consistent */
+.drop-card button{
+  width:auto;
+  min-width: 200px;
+  padding:12px 10px;
+  border:0;
+  border-radius:12px;
+  font-weight:700;
+  font-size:.95rem;
+  color:#fff;
+  cursor:pointer;
+  box-shadow:0 2px 6px rgba(0,0,0,.08);
+  transition:transform .04s ease, filter .15s ease;
+}
+.drop-card button:active{transform:translateY(1px)}
+/* attribute selectors match your HTML exactly */
+.drop-card button[name="action"][value="start"]{ background:var(--brand) }
+.drop-card button[name="action"][value="start"]:hover{ filter:brightness(1.05) }
+
+.drop-card button[name="action"][value="stop"]{ background:var(--danger) }
+.drop-card button[name="action"][value="stop"]:hover{ filter:brightness(1.05) }
+
+.drop-elapsed{
+  margin-top:6px;
+  font:600 .85rem ui-monospace,SFMono-Regular,Menlo,monospace;
+  color:#394150;
+  text-align:center;
 }
 
-/* ===== Buttons ===== */
-.drop-card button {
-  padding: 0.4rem 1rem;
-  font-size: 0.85rem;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  transition: background 0.2s ease;
+/* subnav */
+.subnav a{
+  display:inline-flex;
+  align-items:center;
+  gap:.5rem;
+  color:var(--brand);
+  text-decoration:none;
+  font-size:.9rem;
+  margin-top:1.5rem;
+}
+.subnav a:hover{text-decoration:underline}
+
+/* completed state (you already add this class via JS) */
+.drop-complete{ opacity:.6; outline:2px dashed #999 }
+
+/* ---- anchor offset for sticky header ---- */
+.drop-card,[id^="drop-"],.anchor-target{
+  scroll-margin-top:calc(var(--header-height,56px) + env(safe-area-inset-top,0px) + 8px);
 }
 
-/* Start = Indigo */
-.drop-card button[name="action"][value="start"] {
-  background: #5559ff;
-  padding: 12px 24px;     /* top/bottom 12 px, left/right 24 px */
-  min-width: 150px;       /* or max-width: 200px; width: 100%; */
-  color: #fff;
-  font-size: 0.8rem;
+/* =========================
+   RESPONSIVE
+   ========================= */
+@media (max-width:1024px){
+  .container{max-width:none;margin:1rem auto;padding:12px}
 }
-
-.drop-card button[name="action"][value="start"]:hover {
-  background: #4448d8;
-}
-
-/* Stop = Red */
-.drop-card button[name="action"][value="stop"] {
-  background: #e53e3e;
-  padding: 12px 24px;
-  min-width: 150px;
-  color: #fff;
-  font-size: 0.8rem;
-}
-.drop-card button[name="action"][value="stop"]:hover {
-  background: #c53030;
-}
-
-/* ===== Elapsed Text ===== */
-.drop-elapsed {
-  font-family: monospace;
-  font-size: 0.9rem;
-  color: #222;
-  text-align: center;
-  margin-top: 0.5rem;  /* spacing above elapsed */
-}
-
-/* ===== Configure Link ===== */
-.subnav a {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: #5559ff;
-  text-decoration: none;
-  font-size: 0.9rem;
-  margin-top: 1.5rem;
-}
-.subnav a:hover {
-  text-decoration: underline;
-}
-
-/* ===== Mobile & Tablet Breakpoints ===== */
-@media (max-width: 1024px) {
-  /* 1) Fluid container */
-  .container {
-    width: 90%;
-    max-width: none;      /* remove the 800px cap on smaller screens */
-    margin: 1.5rem auto;
-    padding: 1rem;
-  }
-
-  /* 2) Collapse grid from 4 → 2 columns */
-  .drop-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.5rem;
-    padding: 0;           /* remove horizontal padding */
-  }
-
-  /* 3) Make drop cards fill their column */
-  .drop-card {
-    width: 100%;          /* full column width */
-    height: 170px;         /* let the content define height */
-  }
-}
-
-@media (max-width: 480px) {
-  /* 4) On small phones, stack everything */
-  .drop-grid {
-    grid-template-columns: 1fr;  /* single column */
-  }
-
-  /* 5) Tweak card padding & font-sizes */
-  .drop-card {
-    padding: 0.5rem;
-  }
-  .drop-card h4 {
-    font-size: 0.9rem;
-  }
-  .drop-card p,
-  .drop-elapsed {
-    font-size: 0.8rem;
-  }
-
-  /* Shrink the button text size on mobile */
-  .drop-card button {
-    padding: 0.4rem 0.75rem;
-    font-size: 0.75rem;  /* made slightly smaller than 0.8rem */
-  }
-
-  /* 6) Slim down the subnav link */
-  .subnav a {
-    font-size: 0.85rem;
-    padding: 0.4rem 0.6rem;
-  }
-}
-
-/* ────────────────────────────────────────────────────────────── */
-/* 7) “Log details” Toggle Button Styling                        */
-/* ────────────────────────────────────────────────────────────── */
-
-/* Make the Log details button match your Indigo theme */
-.log-details-btn {
-  display: inline-block;
-  margin-top: 0.5rem;           /* same vertical spacing as your main buttons */
-  padding: 0.6rem 1.2rem;       /* a comfortable tap area */
-  font-size: 0.95rem;           /* slightly larger than 0.85rem so it stands out */
-  background-color: #5559ff;    /* Indigo (same as Start button) */
-  color: #fff;                  /* White text */
-  border: none;
-  border-radius: 6px;           /* match your drop-card button radius */
-  cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  transition: background 0.2s ease-in-out, transform 0.1s ease-in-out;
-}
-
-.log-details-btn:hover {
-  background-color: #4448d8;    /* Slightly darker Indigo on hover */
-  transform: translateY(-1px);
-}
-
-.log-details-btn:active {
-  background-color: #3339aa;    /* Even darker when pressed */
-  transform: translateY(0);
-}
-
-/* ────────────────────────────────────────────────────────────── */
-/* 8) Hidden Inline Form Container (details-form-container)       */
-/* ────────────────────────────────────────────────────────────── */
-
-/* When the JS toggles display:block, these styles will apply */
-.details-form-container {
-  margin-top: 0.6rem;                 /* a bit more space above the form */
-  padding: 0.75rem 0.9rem;            /* inner padding for breathing room */
-  background-color: #f9f9f9;          /* very light grey background */
-  border: 1px solid #ddd;             /* light border that matches your card shadows */
-  border-radius: 8px;                 /* match drop-card radius */
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
-}
-
-/* Style the textarea inside the hidden form */
-.details-form-container textarea {
-  width: 100%;
-  min-height: 80px;                   /* enough room for 2–3 lines */
-  font-size: 0.9rem;                  /* match drop-card paragraph font */
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  resize: vertical;                   /* allow users to expand vertically only */
-  box-sizing: border-box;             /* include padding in width calculation */
-  margin-top: 0.25rem;                /* small gap above/below the textarea */
-  margin-bottom: 0.5rem;
-}
-
-/* Style the Save button inside the hidden form */
-.details-form-container .save-details-btn {
-  display: inline-block;
-  padding: 0.6rem 1.2rem;
-  font-size: 0.95rem;
-  background-color: #5559ff;          /* same Indigo */
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  transition: background 0.2s ease-in-out, transform 0.1s ease-in-out;
-}
-
-.details-form-container .save-details-btn:hover {
-  background-color: #4448d8;
-  transform: translateY(-1px);
-}
-
-.details-form-container .save-details-btn:active {
-  background-color: #3339aa;
-  transform: translateY(0);
-}
-
-/* ────────────────────────────────────────────────────────────── */
-/* 9) Optional: Style Checkbox Labels (for future stairs/driveway) */
-/* ────────────────────────────────────────────────────────────── */
-
-.details-form-container label {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-size: 0.9rem;
-  margin-top: 0.5rem;     /* stagger checkboxes below textarea */
-}
-
-.details-form-container input[type="checkbox"] {
-  width: 1rem;
-  height: 1rem;
-  cursor: pointer;
-}
-
-/* ────────────────────────────────────────────────────────────── */
-/* 10) Responsive Tweaks for Small Screens                       */
-/* ────────────────────────────────────────────────────────────── */
-
-/* On small phones (≤ 480px), make sure everything fits nicely */
-@media (max-width: 480px) {
-  .log-details-btn {
-    width: 100%;             /* full width beneath the Delivered button */
-    text-align: center;
-    margin-left: 0;          /* no extra left margin on tiny screens */
-    font-size: 0.9rem;       /* slightly smaller text for cramped widths */
-    padding: 10px 0;
-  }
-
-  .details-form-container {
-    padding: 0.5rem 0.6rem;   /* less padding on very small screens */
-  }
-
-  .details-form-container textarea {
-    font-size: 0.85rem;       /* slightly smaller text inside the textarea */
-    min-height: 60px;         /* a bit less height on tiny screens */
-  }
-
-  .details-form-container .save-details-btn {
-    width: 100%;             /* full width save button */
-    padding: 0.5rem 0;
-    font-size: 0.9rem;
-  }
-}
-
-
-/* --- Anchor offset for sticky navbar --- */
-.drop-card,
-[id^="drop-"],
-.anchor-target {
-  scroll-margin-top: calc(var(--header-height) + env(safe-area-inset-top, 0px) + 8px);
+@media (max-width:520px){
+  .break form{padding:10px}
+  .break button{width:100%}
+  .drop-card{padding:10px}
+  .drop-card button{font-size:.9rem}
 }
