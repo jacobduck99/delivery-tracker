@@ -1,255 +1,81 @@
-/* ==== Color Variables ==== */
+/* ==== Modern Compact Config ==== */
 :root {
-  --bg-page:      #f5f7fa;
-  --bg-card:      #ffffff;
-  --border-color: #d1d5da;
-  --text-high:    #212529;
-  --text-med:     #495057;
-  --text-light:   #6c757d;
-  --primary:      #0069ff;
-  --primary-hover:#0051cc;
-  --secondary:    #6c757d;
-  --secondary-bg: #f0f0f0;
-  --header-height: 60px; /* if your header/nav is fixed-height */
+  --bg-page:       #f0f2f5;
+  --bg-card:       #fff;
+  --border-color:  #e5e7eb;
+  --text-high:     #111827;
+  --text-med:      #374151;
+  --primary:       #1877f2;
+  --primary-hover: #166fe5;
 }
 
-/* Base reset */
-html, body {
-  margin: 0;
-  padding: 0;
+/* Page + container */
+body.config-page {
   background: var(--bg-page);
-  font-family: sans-serif;
-  color: var(--text-high);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
-
-/* Container styling (mobile default) */
 body.config-page .container {
   width: 90%;
-  max-width: 400px;
-  margin: 2rem auto;
-  margin-top: 1rem;
-  padding: 0.75rem;
+  max-width: 380px;
+  margin: 0rem auto;
+  padding: 0.8rem;
   background: var(--bg-card);
   border: 1px solid var(--border-color);
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
-/* Header */
-h1 {
+/* Heading */
+body.config-page h1 {
   text-align: center;
-  margin-bottom: 0.4rem;
-  font-size: 1.3rem;
-  color: var(--text-high);
+  margin: 0 0 0.75rem 0;
+  font-size: 1.2rem;
+  font-weight: 700;
 }
 
-/* Form and fields */
-.config-form {
-  display: grid;
-
-}
-@media (min-width: 600px) {
-  .config-form {
-    gap: 1.2rem;
-  }
-}
-
-.form-group {
+/* Form groups */
+body.config-page .form-group {
   display: flex;
   flex-direction: column;
+  margin-bottom: 0.6rem;
 }
-
-.form-group label {
-  margin-bottom: 0.1rem;
+body.config-page .form-group label {
+  margin-bottom: 0.25rem;
   color: var(--text-med);
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 0.9rem;
 }
-
-.form-group input {
-  padding: 0.5rem;
-  font-size: 0.8rem;
+body.config-page .form-group input {
+  padding: 0.45rem 0.6rem;
+  font-size: 16px;
   border: 1px solid var(--border-color);
-  border-radius: 6px;
-  width: 100%;
-  box-sizing: border-box;
-  font-family: monospace;
+  border-radius: 8px;
 }
-
-.form-group input:focus {
+body.config-page .form-group input:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 2px rgba(0, 105, 255, 0.2);
+  box-shadow: 0 0 0 2px rgba(24,119,242,0.25);
 }
 
 /* Buttons */
-.form-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-top: 1rem;
+body.config-page .form-actions {
+  margin-top: 0.8rem;
 }
-
-.form-actions button {
-  background-color: var(--primary);
+body.config-page .form-actions button {
+  background: var(--primary);
   color: #fff;
-  padding: 0.75rem;
-  font-size: 1rem;
+  padding: 0.65rem;
+  font-size: 0.95rem;
+  font-weight: 600;
   border: none;
-  border-radius: 6px;
+  border-radius: 9999px;
   cursor: pointer;
   width: 100%;
   transition: background 0.2s, transform 0.1s;
 }
-
-.form-actions button:hover {
-  background-color: var(--primary-hover);
+body.config-page .form-actions button:hover {
+  background: var(--primary-hover);
   transform: translateY(-1px);
 }
 
-.form-actions button:active {
-  background-color: #004bb5;
-  transform: translateY(0);
-}
 
-.form-actions .btn-secondary,
-nav.subnav a {
-  display: inline-block;
-  background: transparent;
-  color: var(--secondary);
-  border: 1px solid var(--border-color);
-  padding: 0.5rem;
-  font-size: 0.9rem;
-  text-decoration: none;
-  text-align: center;
-  border-radius: 4px;
-  width: 100%;
-  transition: background 0.2s, color 0.2s;
-}
-
-.form-actions .btn-secondary:hover,
-nav.subnav a:hover {
-  background-color: var(--secondary-bg);
-  color: var(--text-high);
-}
-
-/* ================================================================= */
-/* Centering on Desktop (width ≥ 600px) using .config-wrapper        */
-/* ================================================================= */
-@media (min-width: 600px) {
-  .config-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: calc(100vh - var(--header-height));
-    margin: 0; /* no top‐margin so it truly centers */
-  }
-
-  .config-wrapper .container {
-    margin: 0; /* remove mobile margin */
-    padding: 0.75rem;
-    width: 90%;
-    max-width: 350px;
-  }
-}
-
-/* ────────────────────────────────────────────────────────────── */
-/* Override: Don’t force time‐pickers to go 100% width on mobile   */
-/* ────────────────────────────────────────────────────────────── */
-@media (max-width: 480px) {
-  /* Instead of "always width:100%", let time inputs share the same max‐width logic */
-  .form-group input[type="time"] {
-    width: auto;              /* let it size itself naturally */
-    max-width: 100%;          /* but never exceed container */
-    box-sizing: border-box;   /* so padding/border stay inside that max‐width */
-  }
-
-  /* If you want the time‐pickers to exactly mimic your text/number inputs,
-     give them the same padding/font‐size, but let the parent .form-group control width:100%. */
-  .form-group input[type="time"] {
-    padding: 0.5rem 0.75rem;  /* same as your other inputs */
-    font-size: 1rem;
-  }
-}
-
-/* ────────────────────────────────────────────────────────────── */
-/* Override: Make “Back to Tracker” (btn‐secondary) match input widths */
-/* ────────────────────────────────────────────────────────────── */
-.form-actions .btn-secondary {
-  width: auto;  
-  border-radius: 6px;              /* don’t force 100% */
-  max-width: 100%;           /* but never exceed container width */
-  align-self: flex-start;    /* let it hug to the left, instead of stretching */
-  padding: 0.5rem 1rem;      /* match other buttons’ horizontal padding */
-  font-size: 1rem;           /* make it consistent with your inputs */
-}
-
-/* If you still want it to span full width on very, very small (<360px) screens,
-   you could add another media query, but typically auto+max‐width above is enough. */
-
-   /* ────────────────────────────────────────────────────────────── */
-/* Narrow the form on very small screens (≤ 480px)               */
-/* ────────────────────────────────────────────────────────────── */
-/* ────────────────────────────────────────────────────────────── */
-/* Very Small Screens (≤ 480px): Make .config-wrapper .container narrower */
-/* ────────────────────────────────────────────────────────────── */
-@media (max-width: 480px) {
-  /* Target the container inside your config wrapper */
-  .config-wrapper .container {
-    width: 90%;         /* shrink from 95% down to 90% */
-    max-width: 380px;   /* cap at 300px instead of 350px */
-    margin: 0.5rem auto;/* a bit more vertical breathing room */
-    padding: 0.75rem;   /* preserve your existing padding */
-  }
-}
-
-/* “push everything up” by removing top‐padding */
-.config-wrapper .container {
-  padding-top: 0;
-}
-
-/* or if the form element has a top‐margin by default: */
-.my-form {
-  margin-top: 0;
-}
-
-.config-wrapper h1 {
-  margin-bottom: 1rem;  /* or 0 if you want it flush */
-}
-
-/* Remove only the top margin on the first form‐group inside the form */
-
-/* Only on phones ≤480px wide AND ≥800px tall */
-@media (max-width: 480px) {
-  .config-wrapper .container h1 {
-    margin-top: 0.9rem;   /* adjust the “1rem” until it looks right */
-    margin-bottom: 0.25rem;
-  }
-}
-
-
-  .config-wrapper .form-group .form-group:first-child {
-    margin-top: 0;
-  }
-
-  /* If you had any top‐padding on the form/container, remove it here */
-  .config-wrapper .form-group,
-  .config-wrapper .container {
-    padding-top: 0;
-    margin-top: 0;
-  }
-
-
-.form-group label {
-  margin-bottom: 0.01rem;
-  color: var(--text-med);
-  font-weight: 500;
-  font-size: 0.9rem;
-}
-
-
-/* Stop iOS Safari input zoom */
-.form-group input,
-.form-group textarea,
-.form-group select {
-  font-size: 16px; /* or 1rem if your root is 16px */
-}

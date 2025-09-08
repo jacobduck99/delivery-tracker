@@ -12,24 +12,32 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/past_runs.css') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/stats.css') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/config.css') }}" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}"  />
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/signup.css') }}"  />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/signup.css') }}" />
 
   {% block head %}{% endblock %}
 </head>
-<body class="{% if current_user.is_authenticated and request.endpoint in ['index', 'stats'] and request.endpoint != 'configuration' %}index-page{% endif %}">
+<body
+  class="
+    {% if request.endpoint == 'configuration' %}
+      config-page
+    {% elif current_user.is_authenticated and request.endpoint in ['index', 'stats', 'past_runs'] %}
+      index-page
+    {% endif %}
+  "
+>
   {% if current_user.is_authenticated and request.endpoint != 'configuration' %}
   <nav>
-    <ul class="navbar"> 
-      <li><a href="{{ url_for('index') }}">Live</a></li>          
+    <ul class="navbar">
+      <li><a href="{{ url_for('index') }}">Live</a></li>
       <li><a href="{{ url_for('stats') }}">Stats</a></li>
       <li><a href="{{ url_for('past_runs') }}">History</a></li>
     </ul>
   </nav>
   {% endif %}
-  <main>
 
-{% with messages = get_flashed_messages(with_categories=true) %}
+  <main>
+    {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
         <ul class="flashes">
           {% for category, message in messages %}
@@ -38,8 +46,8 @@
         </ul>
       {% endif %}
     {% endwith %}
+
     {% block content %}{% endblock %}
   </main>
 </body>
 </html>
-
