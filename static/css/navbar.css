@@ -1,45 +1,71 @@
-
 :root {
-  --header-height: 30px; /* smaller overall bar */
+  --header-height: 48px;
+  --nav-bg: #ffffff;
+  --nav-fg: #111827;
+  --nav-border: #e5e7eb;
+  --brand: #1877f2;
+  --brand-hover: #166fe5;
+  --pill-bg: rgba(24,119,242,.12);
+  --pill-ring: rgba(24,119,242,.22);
+  --edge-pad: 1.5rem;
 }
 
 nav {
   position: sticky;
   top: 0;
   z-index: 1000;
-  background: linear-gradient(180deg, #3399ff 0%, #0066cc 100%);
-  border-bottom: 1px solid rgba(0,0,0,.06);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.06); /* lighter shadow */
-  padding: 0 .5rem;
+  background: var(--nav-bg);
+  border-bottom: 1px solid var(--nav-border);
+  box-shadow: 0 4px 14px rgba(0,0,0,.05);
+  padding: 0 .5rem; /* keep your outer pad */
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
+/* row */
 ul.navbar {
   list-style: none;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 1.25rem;        /* balanced spacing */
+  justify-content: space-between; /* left / center / right */
   min-height: var(--header-height);
   margin: 0;
-  padding: 0;
+  padding: 0 var(--edge-pad);     /* push left/right in */
 }
 
+/* links */
 ul.navbar li a {
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: #fff;
+  color: var(--nav-fg);
   text-decoration: none;
-  font-size: 0.85rem;   /* smaller text */
-  font-weight: 600;
+  font-size: .95rem;              /* slightly larger */
+  font-weight: 700;               /* stronger label */
+  letter-spacing: .2px;
   line-height: 1;
-  padding: 0.15rem 0.35rem; /* slimmer box */
-  border-radius: 4px;
-  transition: background .2s;
+  padding: .4rem .7rem;           /* comfy tap target */
+  border-radius: 9999px;          /* modern pill */
+  transition: background .18s ease, color .18s ease, transform .06s ease;
+  text-transform: none;           /* remove SHOUTY caps */
 }
+
+/* hover */
 ul.navbar li a:hover,
-ul.navbar li a:focus { background: rgba(255,255,255,.15); }
-ul.navbar li a.active   { background: rgba(255,255,255,.25); }
+ul.navbar li a:focus-visible {
+  background: rgba(0,0,0,.04);
+}
 
+/* active tab (server adds .active) */
+ul.navbar li a.active {
+  color: var(--brand-hover);
+  background: var(--pill-bg);
+  box-shadow: 0 0 0 3px var(--pill-ring);
+}
 
+/* focus ring for keyboard users */
+ul.navbar li a:focus-visible {
+  outline: 0;                     /* rely on pill ring */
+}
 
-
+/* compact phones */
+@media (max-width: 480px) {
+  :root { --header-height: 44px; --edge-pad: 1rem; }
+  ul.navbar li a { font-size: .92rem; padding: .35rem .6rem; }
+}
