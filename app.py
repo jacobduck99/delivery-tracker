@@ -306,13 +306,17 @@ def stats():
     return render_template("stats.html", run=run, drops=drops)
 
 @app.route("/sw.js")
-def service_worker():
+def sw():
+    # Serve service worker from / so its scope covers the whole app
     resp = make_response(send_from_directory("static", "sw.js"))
     resp.headers["Content-Type"] = "application/javascript"
-    # (Optional, while iterating) avoid aggressive caching during dev:
-    # resp.headers["Cache-Control"] = "no-cache"
+    # Optional: during development, prevent browser from caching an old SW
+    resp.headers["Cache-Control"] = "no-cache"
     return resp
 
+@app.route("/offline.html")
+def offline():
+    return send_from_directory("static", "offline.html")
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))  # <- use Fly's PORT
     app.run(host="0.0.0.0", port=port, debug=True)
