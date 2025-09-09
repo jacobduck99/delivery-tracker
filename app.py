@@ -17,7 +17,7 @@ app = Flask(__name__)
 ensure_db()
 app.secret_key = "a-very-secret-value"
 app.config['REMEMBER_COOKIE_DURATION'] = timedelta(days=7) 
-app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=5)
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=8)
 
 app.config.update(
     SESSION_COOKIE_HTTPONLY=True,
