@@ -17,6 +17,7 @@ app = Flask(__name__)
 ensure_db()
 app.secret_key = "a-very-secret-value"
 app.config['REMEMBER_COOKIE_DURATION'] = timedelta(days=7) 
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=15)
 
 login_manager = LoginManager()
 login_manager.login_view = "signup" #can change to login
@@ -73,6 +74,7 @@ def signup():
             user = User.from_row(row)
 
             login_user(user, remember=True)
+            session.permanent = True
 
             return redirect(url_for("configuration"))
 
@@ -104,6 +106,7 @@ def login():
             return render_template("login.html")
 
         login_user(user, remember=True)
+        session.permanent = True
         return redirect(url_for("configuration"))
             
     return render_template("login.html")
