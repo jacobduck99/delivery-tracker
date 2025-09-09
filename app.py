@@ -17,7 +17,15 @@ app = Flask(__name__)
 ensure_db()
 app.secret_key = "a-very-secret-value"
 app.config['REMEMBER_COOKIE_DURATION'] = timedelta(days=7) 
-app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=15)
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=5)
+
+app.config.update(
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE="Lax",
+    SESSION_COOKIE_SECURE=True,         # True if HTTPS
+    REMEMBER_COOKIE_HTTPONLY=True,
+    REMEMBER_COOKIE_SECURE=True,        # True if HTTPS
+)
 
 login_manager = LoginManager()
 login_manager.login_view = "signup" #can change to login
@@ -182,6 +190,7 @@ def configuration():
 
         session["run_id"] = cur.lastrowid
         session["num_drops"] = drops
+        session.permanent = True
         return redirect(url_for("index"))
 
     return render_template("configuration.html", user=current_user)
