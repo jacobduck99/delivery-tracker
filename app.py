@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash, send_from_directory, make_response
 import sqlite3
 from sqlite3 import IntegrityError
 from datetime import datetime, timezone, date, timedelta
@@ -304,6 +304,14 @@ def stats():
     drops = conn.execute("SELECT * FROM deliveries WHERE run_id = ? ORDER BY drop_idx", (run_id,)).fetchall()
 
     return render_template("stats.html", run=run, drops=drops)
+
+@app.route("/sw.js")
+def service_worker():
+    resp = make_response(send_from_directory("static", "sw.js"))
+    resp.headers["Content-Type"] = "application/javascript"
+    # (Optional, while iterating) avoid aggressive caching during dev:
+    # resp.headers["Cache-Control"] = "no-cache"
+    return resp
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))  # <- use Fly's PORT

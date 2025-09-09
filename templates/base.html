@@ -15,6 +15,19 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/signup.css') }}" />
 
+
+<link rel="manifest" href="{{ url_for('static', filename='manifest.webmanifest') }}">
+<meta name="theme-color" content="#0066cc">
+<link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/icon-192.png') }}">
+
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js').catch(console.error);
+    });
+  }
+</script>
+
   {% block head %}{% endblock %}
 </head>
 <body
