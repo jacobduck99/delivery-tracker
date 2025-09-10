@@ -1,20 +1,21 @@
 
 // Version your cache so you can invalidate old files on deploy
-const VERSION = 'v1';
+const VERSION = 'v2';
 const STATIC_CACHE = `static-${VERSION}`;
 
-// Files to make available offline (your "app shell")
-const APP_SHELL = [
-  '/',             // home (redirects to /index for authed users)
-  '/index',        // main UI
-  '/configuration',// run setup
-  '/offline.html'  // simple offline page
+// ✅ Precache only immutable/static assets (no auth pages, no redirects)
+const STATIC_ASSETS = [
+  '/offline.html',
+  '/static/css/base.css',
+  // add your other static files: icons, JS bundles, fonts, manifest, etc.
+  // e.g. '/static/icons/icon-192.png', '/static/icons/icon-512.png',
+  // '/static/manifest.webmanifest'
 ];
 
-// Install: pre-cache the app shell
+// Install: pre-cache static assets only
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(STATIC_CACHE).then(cache => cache.addAll(APP_SHELL))
+    caches.open(STATIC_CACHE).then(cache => cache.addAll(STATIC_ASSETS))
   );
   self.skipWaiting();
 });
@@ -29,28 +30,48 @@ self.addEventListener('activate', event => {
   self.clients.claim();
 });
 
-// Fetch: 
-// 1) For page navigations (HTML), try network first, fall back to offline page.
-// 2) For everything else, just let the network happen for now (simple).
+// Fetch strategy:
+// - Only handle GETs
+// - Navigations (HTML): network-first, offline fallback
+// - Everything else: pass-through or cache-first for STATIC_ASSETS
 self.addEventListener('fetch', event => {
   const req = event.request;
 
-  // Only handle GET requests
+  // 1) Only handle GET requests
   if (req.method !== 'GET') return;
 
-  // If this is a navigation (the browser asking for an HTML page)
-  if (req.mode === 'navigate') {
+  const url = new URL(req.url);
+  const isHTML = req.mode === 'navigate' ||
+    (req.headers.get('accept') || '').includes('text/html');
+
+  // 2) Don’t touch auth/API endpoints at all (extra safety)
+  const bypass = ['/login', '/signup', '/logout', '/api/']
+    .some(p => url.pathname.startsWith(p));
+  if (bypass) return;
+
+  // 3) Navigations: network-first -> offline fallback
+  if (isHTML) {
     event.respondWith((async () => {
       try {
-        // Try the live network
         return await fetch(req);
       } catch {
-        // If offline, show the offline page we cached
         const cache = await caches.open(STATIC_CACHE);
-        const offline = await cache.match('/offline.html');
-        return offline || new Response('Offline', { status: 503 });
+        return (await cache.match('/offline.html')) || new Response('Offline', { status: 503 });
       }
     })());
+    return;
   }
+
+  // 4) Static assets: cache-first for speed (optional)
+  event.respondWith((async () => {
+    const cached = await caches.match(req);
+    if (cached) return cached;
+    const res = await fetch(req);
+    // Optionally cache new static responses
+    const copy = res.clone();
+    caches.open(STATIC_CACHE).then(c => c.put(req, copy));
+    return res;
+  })());
 });
+
 
