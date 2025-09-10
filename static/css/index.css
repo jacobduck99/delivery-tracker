@@ -42,7 +42,7 @@ img{max-width:100%;height:auto}
    BREAK CONTROLS (your .break forms)
    ========================= */
 .break{
-  display:flex;
+  display:flex; 
   flex-direction:column;
   gap:1rem;
   margin-top:1rem;

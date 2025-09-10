@@ -290,7 +290,7 @@ def stats():
     run_id = session.get("run_id")
     if run_id is None:
         flash("No active run. Start a run first.", "info")
-        return redirect(url_for("configuration"))
+        return render_template("stats.html")
 
     run_row = conn.execute("SELECT * FROM run WHERE id = ? AND user_id = ?",(run_id, current_user.id)).fetchone()
 
