@@ -19,12 +19,14 @@ app.secret_key = "a-very-secret-value"
 app.config['REMEMBER_COOKIE_DURATION'] = timedelta(days=7) 
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=8)
 
+# before routes
 app.config.update(
-    SESSION_COOKIE_HTTPONLY=True,
+    SECRET_KEY=os.environ.get("FLASK_SECRET_KEY", "dev-please-change"),
     SESSION_COOKIE_SAMESITE="Lax",
-    SESSION_COOKIE_SECURE=True,         # True if HTTPS
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SECURE=False,      # False for http://192.168...
     REMEMBER_COOKIE_HTTPONLY=True,
-    REMEMBER_COOKIE_SECURE=True,        # True if HTTPS
+    REMEMBER_COOKIE_SECURE=False,     # False for http://192.168...
 )
 
 login_manager = LoginManager()
@@ -307,16 +309,16 @@ def stats():
 
 @app.route("/sw.js")
 def sw():
-    # Serve service worker from / so its scope covers the whole app
-    resp = make_response(send_from_directory("static", "sw.js"))
+    filename = "sw.dev.js" if app.debug else "sw.js"
+    resp = make_response(send_from_directory("static", filename))
     resp.headers["Content-Type"] = "application/javascript"
-    # Optional: during development, prevent browser from caching an old SW
     resp.headers["Cache-Control"] = "no-cache"
     return resp
 
 @app.route("/offline.html")
 def offline():
     return send_from_directory("static", "offline.html")
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))  # <- use Fly's PORT
     app.run(host="0.0.0.0", port=port, debug=True)

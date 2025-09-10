@@ -21,7 +21,7 @@ body.config-page {
 
 body.config-page .container {
   width: 90%;
-  max-width: 380px;
+  max-width: 480px;
   margin: 0rem auto;
   padding: 0.8rem;
   background: var(--bg-card);

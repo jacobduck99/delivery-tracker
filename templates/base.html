@@ -21,13 +21,13 @@
 <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/icon-192.png') }}">
 
 
+
 <script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/sw.js");
-  });
+if ("serviceWorker" in navigator && window.isSecureContext && !location.search.includes("nosw")) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js"));
 }
 </script>
+
 
 
   {% block head %}{% endblock %}
@@ -64,5 +64,15 @@ if ("serviceWorker" in navigator) {
 
     {% block content %}{% endblock %}
   </main>
+
+<script>
+if ("serviceWorker" in navigator && window.isSecureContext && !location.search.includes("nosw")) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/sw.js").then(r => console.log("SW reg ok", r)).catch(console.error);
+  });
+} else {
+  console.log("SW not registering (insecure context or ?nosw)");
+}
+</script>
 </body>
 </html>
