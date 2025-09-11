@@ -68,70 +68,8 @@
   .drop-complete { opacity: 0.6; outline: 2px dashed #999; }
 </style>
 
-<script>
-  const STORAGE_KEY = "deliveryTracker:{{ run.id if run is defined else 'current' }}";
 
-  function loadState() {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      return raw ? JSON.parse(raw) : {};
-    } catch {
-      return {};
-    }
-  }
+<script src="{{ url_for('static', filename='js/storage.js') }}"></script>
 
-  function saveState(state) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  }
-
-  function saveDeliveryState(dropIndex, action) {
-    const state = loadState();
-    state[`drop-${dropIndex}`] = {
-      action,
-      timestamp: new Date().toISOString()
-    };
-    saveState(state);
-  }
-
-  function pruneCompletedFromState() {
-    const state = loadState();
-    document.querySelectorAll('.drop-card').forEach(card => {
-      const idx = card.id.replace('drop-', '');
-      const isCompleted = !!card.querySelector('.drop-elapsed');
-      if (isCompleted && state[`drop-${idx}`]) {
-        delete state[`drop-${idx}`];
-      }
-    });
-    saveState(state);
-  }
-
-  document.querySelectorAll(".drop-card form").forEach(form => {
-    form.addEventListener("submit", (e) => {
-      const btn = e.submitter;
-      const action = btn?.value;
-      const dropIndex = form.querySelector("input[name='drop_index']")?.value;
-      if (dropIndex && action) {
-        saveDeliveryState(dropIndex, action);
-      }
-    });
-  });
-
-  window.addEventListener("pageshow", () => {
-    const state = loadState();
-    if (state) {
-      Object.keys(state).forEach(key => {
-        const m = key.match(/^drop-(\d+)$/);
-        if (!m) return;
-        const idx = m[1];
-        const card = document.getElementById(`drop-${idx}`);
-        if (!card) return;
-        if (state[key].action === "stop") {
-          card.classList.add("drop-complete");
-        }
-      });
-    }
-    pruneCompletedFromState();
-  });
-</script>
 {% endblock %}
 
