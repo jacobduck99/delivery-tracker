@@ -68,11 +68,17 @@ if ("serviceWorker" in navigator && window.isSecureContext && !location.search.i
 <script>
 if ("serviceWorker" in navigator && window.isSecureContext && !location.search.includes("nosw")) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/sw.js").then(r => console.log("SW reg ok", r)).catch(console.error);
+    const bust = Date.now();                 // force fresh sw.js each load (dev)
+    navigator.serviceWorker.register(`/sw.js?bust=${bust}`, {
+      updateViaCache: 'none'
+    })
+    .then(r => console.log("✅ SW registered", r))
+    .catch(console.error);
   });
 } else {
   console.log("SW not registering (insecure context or ?nosw)");
 }
 </script>
+
 </body>
 </html>

@@ -309,10 +309,11 @@ def stats():
 
 @app.route("/sw.js")
 def sw():
-    filename = "sw.dev.js" if app.debug else "sw.js"
-    resp = make_response(send_from_directory("static", filename))
+    resp = make_response(send_from_directory("static", "sw.js"))
     resp.headers["Content-Type"] = "application/javascript"
-    resp.headers["Cache-Control"] = "no-cache"
+    resp.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    resp.headers["Pragma"] = "no-cache"
+    resp.headers["Expires"] = "0"
     return resp
 
 @app.route("/offline.html")

@@ -1,77 +1,118 @@
 
-// Version your cache so you can invalidate old files on deploy
-const VERSION = 'v2';
-const STATIC_CACHE = `static-${VERSION}`;
+// /static/sw.js
 
-// ✅ Precache only immutable/static assets (no auth pages, no redirects)
+// ---- version & cache names ----
+const VERSION       = 'v8';                  // bump on every change
+const STATIC_CACHE  = `static-${VERSION}`;
+const RUNTIME_CACHE = `runtime-${VERSION}`;
+
+// ---- static files to precache (no auth pages here) ----
+// Don't precache /index (it may redirect to /login). We'll cache it at runtime.
 const STATIC_ASSETS = [
   '/offline.html',
+  '/static/manifest.webmanifest',
   '/static/css/base.css',
-  // add your other static files: icons, JS bundles, fonts, manifest, etc.
-  // e.g. '/static/icons/icon-192.png', '/static/icons/icon-512.png',
-  // '/static/manifest.webmanifest'
+  '/static/css/index.css',
+  '/static/icons/icon-192.png',
+  '/static/icons/icon-512.png',
 ];
 
-// Install: pre-cache static assets only
-self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(STATIC_CACHE).then(cache => cache.addAll(STATIC_ASSETS))
-  );
+// ---- install: precache static assets ----
+self.addEventListener('install', (event) => {
+  event.waitUntil(caches.open(STATIC_CACHE).then((c) => c.addAll(STATIC_ASSETS)));
   self.skipWaiting();
 });
 
-// Activate: delete old caches when VERSION changes
-self.addEventListener('activate', event => {
+// ---- activate: clean old caches ----
+self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== STATIC_CACHE).map(k => caches.delete(k)))
+    caches.keys().then((keys) =>
+      Promise.all(
+        keys
+          .filter((k) => k !== STATIC_CACHE && k !== RUNTIME_CACHE)
+          .map((k) => caches.delete(k))
+      )
     )
   );
   self.clients.claim();
 });
 
-// Fetch strategy:
-// - Only handle GETs
-// - Navigations (HTML): network-first, offline fallback
-// - Everything else: pass-through or cache-first for STATIC_ASSETS
-self.addEventListener('fetch', event => {
+// ---- fetch handler ----
+self.addEventListener('fetch', (event) => {
   const req = event.request;
-
-  // 1) Only handle GET requests
-  if (req.method !== 'GET') return;
-
   const url = new URL(req.url);
-  const isHTML = req.mode === 'navigate' ||
-    (req.headers.get('accept') || '').includes('text/html');
 
-  // 2) Don’t touch auth/API endpoints at all (extra safety)
-  const bypass = ['/login', '/signup', '/logout', '/api/']
-    .some(p => url.pathname.startsWith(p));
-  if (bypass) return;
+  // Only handle same-origin GETs
+  if (req.method !== 'GET' || url.origin !== self.location.origin) return;
 
-  // 3) Navigations: network-first -> offline fallback
-  if (isHTML) {
-    event.respondWith((async () => {
-      try {
-        return await fetch(req);
-      } catch {
-        const cache = await caches.open(STATIC_CACHE);
-        return (await cache.match('/offline.html')) || new Response('Offline', { status: 503 });
-      }
-    })());
+  // Never intercept auth/API routes
+  if (
+    url.pathname.startsWith('/api/') ||
+    url.pathname === '/login' ||
+    url.pathname === '/logout' ||
+    url.pathname === '/signup'
+  ) {
     return;
   }
 
-  // 4) Static assets: cache-first for speed (optional)
-  event.respondWith((async () => {
-    const cached = await caches.match(req);
-    if (cached) return cached;
-    const res = await fetch(req);
-    // Optionally cache new static responses
-    const copy = res.clone();
-    caches.open(STATIC_CACHE).then(c => c.put(req, copy));
-    return res;
-  })());
+  const isHTML =
+    req.mode === 'navigate' ||
+    req.destination === 'document' ||
+    (req.headers.get('accept') || '').includes('text/html');
+
+  // ---- Navigations: network-first, then runtime cache, then offline.html ----
+  if (isHTML) {
+    event.respondWith(
+      (async () => {
+        try {
+          const net = await fetch(req, { credentials: 'include' });
+
+          // Only cache successful (200 OK) pages; ignore redirects
+          if (net.ok && net.status === 200) {
+            const cache = await caches.open(RUNTIME_CACHE);
+
+            // Normalize keys so DevTools shows /index nicely
+            let key = url.pathname;
+            if (key === '/') key = '/index';
+            if (key === '/index/') key = '/index';
+
+            await cache.put(key, net.clone());
+          }
+
+          return net;
+        } catch {
+          // Offline path: try exact path in runtime, then /index, then offline.html
+          const runtime = await caches.open(RUNTIME_CACHE);
+          const staticC = await caches.open(STATIC_CACHE);
+
+          return (
+            (await runtime.match(url.pathname)) ||
+            (await runtime.match('/index')) ||
+            (await staticC.match('/offline.html')) ||
+            new Response('Offline', { status: 503 })
+          );
+        }
+      })()
+    );
+    return;
+  }
+
+  // ---- Static assets & other GETs: cache-first, then network (and stash) ----
+  event.respondWith(
+    (async () => {
+      const cached = await caches.match(req);
+      if (cached) return cached;
+
+      try {
+        const net = await fetch(req);
+        const copy = net.clone();
+        const cache = await caches.open(RUNTIME_CACHE);
+        cache.put(req, copy);
+        return net;
+      } catch {
+        // No cached asset & network failed
+        return new Response('', { status: 504 });
+      }
+    })()
+  );
 });
-
-
