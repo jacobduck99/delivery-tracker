@@ -5,17 +5,8 @@ document.querySelectorAll(".arrived-btn, .delivered-btn").forEach(btn => {
     const action = e.target.value; // "start" or "stop"
     const key = `drop-${dropIndex}`;
 
-    let record = JSON.parse(localStorage.getItem(key) || "{}");
-
-    if (action === "start") {
-      record.start_ts = Date.now();
-    } else if (action === "stop") {
-      record.stop_ts = Date.now();
-      record.duration_ms = record.stop_ts - record.start_ts;
-    }
-
-    localStorage.setItem(key, JSON.stringify(record));
-  });
+    addDuration(action, key);
+});
 });
 
 
@@ -27,6 +18,28 @@ for (const card of dropCards) {
     }
 };
 */
+
+function addDuration(action, key) {
+    let record = JSON.parse(localStorage.getItem(key) || "{}");
+
+    if (action === "start") {
+        record.start_ts = Date.now();
+    } else if (action === "stop") {
+        record.stop_ts = Date.now();
+        record.duration_ms = record.stop_ts - record.start_ts;
+    }
+    localStorage.setItem(key, JSON.stringify(record));
+
+    return record;
+
+} 
+
+
+
+
+window.addEventListener("online", (e) => {
+    
+});
 
 
 
