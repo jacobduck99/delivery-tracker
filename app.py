@@ -353,6 +353,18 @@ def save_drop():
 
     return jsonify({"ok": True})
 
+@app.template_filter("fmt_duration")
+def fmt_duration(value):
+    try:
+        ms = int(value)
+    except (TypeError, ValueError):
+        return "0:00"
+    secs = ms // 1000
+    h = secs // 3600
+    m = (secs % 3600) // 60
+    s = secs % 60
+    return f"{h}:{m:02d}:{s:02d}" if h else f"{m}:{s:02d}"
+
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))  # <- use Fly's PORT

@@ -38,21 +38,21 @@
 
           {% if not d %}
             <!-- not started -->
-            <form action="{{ url_for('start_delivery') }}" method="post">
+            <form class="delivery-form" action="{{ url_for('start_delivery') }}" method="post">
               <input type="hidden" name="drop_index" value="{{ i }}">
               <button class="arrived-btn" type="button" name="action" value="start">Arrived</button>
             </form>
 
           {% elif not d.end_ts %}
             <!-- started but not stopped -->
-            <form action="{{ url_for('start_delivery') }}" method="post">
+            <form class="delivery-form" action="{{ url_for('start_delivery') }}" method="post">
               <input type="hidden" name="drop_index" value="{{ i }}">
               <button class="delivered-btn" type="button" name="action" value="stop">Delivered</button>
             </form>
 
           {% else %}
             <!-- completed -->
-            <p class="drop-elapsed"><strong>Total-Time:</strong> {{ d.elapsed }}</p>
+            <p class="drop-elapsed"><strong>Total-Time:</strong> {{ d.elapsed | fmt_duration }}</p>
           {% endif %}
         </div>
       {% endfor %}
@@ -64,12 +64,6 @@
   {% endif %}
 </div>
 
-<style>
-  .drop-complete { opacity: 0.6; outline: 2px dashed #999; }
-</style>
-
-
-<script src="{{ url_for('static', filename='js/storage.js') }}"></script>
-
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}?v=21">
+<script src="{{ url_for('static', filename='js/storage.js') }}?v=21"></script>
 {% endblock %}
-
