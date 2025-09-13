@@ -10,6 +10,11 @@ document.querySelectorAll(".arrived-btn, .delivered-btn").forEach(btn => {
 });
 
 
+function keyFor(dropIndex) {
+     return `drop-${Number(dropIndex)}`; 
+}
+
+
 /* to delete local storage and free up memory when drop done
 const dropCards = document.querySelectorAll(".drop-card")
 for (const card of dropCards) {
