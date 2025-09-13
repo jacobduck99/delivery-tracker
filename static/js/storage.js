@@ -58,6 +58,12 @@ function listDropKeys() {
   return results;
 }
 
+function removeKey(key) {
+    if (typeof key === "string" && key.length > 0) {
+      localStorage.removeItem(key);   
+    }
+}
+
 
 
 /* to delete local storage and free up memory when drop done
