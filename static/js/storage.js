@@ -144,8 +144,44 @@ for (const card of dropCards) {
 };
 */
 
+
+function drainQueue() {
+  const queue = JSON.parse(localStorage.getItem("pending_queue_v1") || "[]");
+  if (queue.length === 0) {
+    return; 
+  } 
+
+  const first = queue[0];
+
+  fetch("/api/drop", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "same-origin",
+    body: JSON.stringify(first),
+  })
+    .then((r) => {
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      return r.json();
+    })
+    .then((res) => {
+      if (res?.ok) {
+        queue.shift();
+        localStorage.setItem("pending_queue_v1", JSON.stringify(queue));
+        setTimeout(drainQueue, 0);
+      } else {
+        console.warn("Server rejected item:", res);
+      }
+    })
+    .catch((err) => {
+      console.warn("Send failed:", err);
+    });
+}
+
+
+
 window.addEventListener("online", (e) => {
     console.log("online");
+    drainQueue();
 });
 
 window.addEventListener("offline", (e) => {
