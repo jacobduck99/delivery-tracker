@@ -29,10 +29,10 @@ It logs our shifts, our drops, and our real workload — so we can prove what it
 
 ## 💻 Tech
 
-- :contentReference[oaicite:0]{index=0} + :contentReference[oaicite:1]{index=1}  
-- :contentReference[oaicite:2]{index=2}  
-- HTML, CSS, vanilla :contentReference[oaicite:3]{index=3}  
-- LocalStorage (offline mode) + PWA  
+- Flask + Python  
+- SQLite  
+- HTML, CSS, vanilla JavaScript  
+- LocalStorage (offline mode) + PWA
 
 ---
 
