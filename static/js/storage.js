@@ -14,6 +14,9 @@ function keyFor(dropIndex) {
      return `drop-${Number(dropIndex)}`; 
 }
 
+function getRecord(key) {
+    return JSON.parse(localStorage.getItem(key) || "{}")
+};
 
 /* to delete local storage and free up memory when drop done
 const dropCards = document.querySelectorAll(".drop-card")
