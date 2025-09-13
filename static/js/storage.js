@@ -1,7 +1,9 @@
-// storage.js (v21)
-console.log("storage.js v21 loaded");
+// storage.js (v22)
+console.log("storage.js v23 loaded");
 
-/* ---------- helpers ---------- */
+/* ========================
+   Helpers
+======================== */
 function keyFor(dropIndex) {
   return `drop-${Number(dropIndex)}`;
 }
@@ -22,12 +24,14 @@ function fmtDuration(ms) {
                : `${m}:${String(sec).padStart(2,"0")}`;
 }
 
-/* ---------- queue drain ---------- */
+/* ========================
+   Queue drain (POST to backend)
+======================== */
 function drainQueue() {
   if (!navigator.onLine) {
-        console.log("skip drain: offline");
-        return;
-    }
+    console.log("skip drain: offline");
+    return;
+  }
   const queue = JSON.parse(localStorage.getItem("pending_queue_v1") || "[]");
   if (queue.length === 0) return;
 
@@ -37,6 +41,7 @@ function drainQueue() {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "same-origin",
+    cache: "no-store",
     body: JSON.stringify(first),
   })
     .then((r) => {
@@ -47,15 +52,19 @@ function drainQueue() {
       if (res && res.ok) {
         queue.shift();
         localStorage.setItem("pending_queue_v1", JSON.stringify(queue));
-        setTimeout(drainQueue, 0);
+        setTimeout(drainQueue, 0); // drain next
       } else {
         console.warn("Server rejected item:", res);
       }
     })
-    .catch((err) => console.warn("Send failed:", err.message || err));
+    .catch((err) => {
+      console.warn("Send failed:", err.message || err);
+    });
 }
 
-/* ---------- timing + queue ---------- */
+/* ========================
+   Timing + queue writes
+======================== */
 function addDuration(action, key) {
   const record = getRecord(key);
 
@@ -77,18 +86,21 @@ function addDuration(action, key) {
         duration_ms: record.duration_ms,
       });
       localStorage.setItem("pending_queue_v1", JSON.stringify(queue));
+
       if (navigator.onLine) setTimeout(drainQueue, 0);
     } else {
-      return record;
+      return record; // ignore invalid stop
     }
   }
+
   setRecord(key, record);
   return record;
 }
 
-/* ---------- DOM swapping (no page reload) ---------- */
+/* ========================
+   DOM swapping (no reload)
+======================== */
 function swapToDelivered(form, dropIndex) {
-  // Replace current form contents with a Delivered button
   form.innerHTML = `
     <input type="hidden" name="drop_index" value="${dropIndex}">
     <button class="delivered-btn" type="button" name="action" value="stop">Delivered</button>
@@ -96,25 +108,81 @@ function swapToDelivered(form, dropIndex) {
 }
 function swapToCompleted(form, durationMs) {
   const card = form.closest(".drop-card");
-  form.remove(); // remove the form row
-  const badge = document.createElement("div");
-  badge.className = "complete-badge";
-  badge.textContent = "Completed ✓";
-  card.appendChild(badge);
+  if (!card) return;
 
-  // Also show elapsed (client-side)
-  const p = document.createElement("p");
-  p.className = "drop-elapsed";
-  p.innerHTML = `<strong>Total-Time:</strong> ${fmtDuration(durationMs)}`;
-  card.appendChild(p);
+  form.remove();
+
+  if (!card.querySelector(".complete-badge")) {
+    const badge = document.createElement("div");
+    badge.className = "complete-badge";
+    badge.textContent = "Completed ✓";
+    card.appendChild(badge);
+  }
+  if (!card.querySelector(".drop-elapsed")) {
+    const p = document.createElement("p");
+    p.className = "drop-elapsed";
+    p.innerHTML = `<strong>Total-Time:</strong> ${fmtDuration(durationMs)}`;
+    card.appendChild(p);
+  }
 }
 
-/* ---------- Event delegation for buttons ---------- */
+/* ========================
+   Rehydrate UI from localStorage
+   (so refresh looks right offline)
+======================== */
+function rehydrateFromLocal() {
+  document.querySelectorAll('.drop-card[id^="drop-"]').forEach((card) => {
+    const parts = card.id.split("-");
+    const idx = Number(parts[1]);
+    if (!Number.isFinite(idx)) return;
+
+    const rec = getRecord(keyFor(idx));
+    const form = card.querySelector(".delivery-form");
+
+    // No local state → let server-rendered state stand
+    if (typeof rec.start_ts !== "number" && typeof rec.stop_ts !== "number") return;
+
+    // Started but not stopped → should show Delivered button
+    if (typeof rec.start_ts === "number" && typeof rec.stop_ts !== "number") {
+      if (form) {
+        const hasDelivered = !!form.querySelector(".delivered-btn");
+        if (!hasDelivered) swapToDelivered(form, idx);
+      }
+      return;
+    }
+
+    // Stopped → show completed badge/elapsed
+    if (typeof rec.stop_ts === "number") {
+      if (form) {
+        swapToCompleted(form, rec.duration_ms || 0);
+      } else {
+        if (!card.querySelector(".complete-badge")) {
+          const badge = document.createElement("div");
+          badge.className = "complete-badge";
+          badge.textContent = "Completed ✓";
+          card.appendChild(badge);
+        }
+        if (!card.querySelector(".drop-elapsed")) {
+          const p = document.createElement("p");
+          p.className = "drop-elapsed";
+          p.innerHTML = `<strong>Total-Time:</strong> ${fmtDuration(rec.duration_ms || 0)}`;
+          card.appendChild(p);
+        }
+      }
+    }
+  });
+}
+
+/* ========================
+   Events
+======================== */
+// Event delegation for Arrived/Delivered
 document.addEventListener("click", (e) => {
   const btn = e.target.closest(".arrived-btn, .delivered-btn");
   if (!btn) return;
 
-  e.preventDefault(); // block any form submission
+  e.preventDefault();
+
   const form = btn.closest("form");
   if (!form) return;
 
@@ -124,11 +192,10 @@ document.addEventListener("click", (e) => {
   const dropIndex = Number(raw.value);
   if (!Number.isFinite(dropIndex)) return;
 
-  const action = btn.value; // "start" or "stop"
+  const action = btn.value;  // "start" | "stop"
   const key = keyFor(dropIndex);
   const record = addDuration(action, key);
 
-  // Swap UI to the next state without reload
   if (action === "start") {
     swapToDelivered(form, dropIndex);
   } else if (action === "stop") {
@@ -136,23 +203,32 @@ document.addEventListener("click", (e) => {
   }
 });
 
-/* ---------- online/offline ---------- */
+// Online/offline
 window.addEventListener("online", () => {
   console.log("online");
   drainQueue();
 });
-window.addEventListener("offline", () => console.log("offline"));
+window.addEventListener("offline", () => {
+  console.log("offline");
+});
 
-/* ---------- boot ---------- */
+/* ========================
+   Boot
+======================== */
 document.addEventListener("DOMContentLoaded", () => {
-  // ensure queue key exists
+  // ensure queue exists
   if (!localStorage.getItem("pending_queue_v1")) {
     localStorage.setItem("pending_queue_v1", "[]");
   }
-  // prevent accidental submit on delivery forms (Enter key)
+
+  // prevent accidental submits (Enter key)
   document.querySelectorAll(".delivery-form").forEach((f) =>
     f.addEventListener("submit", (e) => e.preventDefault())
   );
-  // drain any leftovers
+
+  // rebuild UI from local cache
+  rehydrateFromLocal();
+
+  // drain any leftovers if online
   if (navigator.onLine) drainQueue();
 });
