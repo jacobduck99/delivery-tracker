@@ -1,12 +1,21 @@
 document.querySelectorAll(".arrived-btn, .delivered-btn").forEach(btn => {
   btn.addEventListener("click", (e) => {
+    e.preventDefault(); // optional: if buttons are inside a <form> and not type="button"
+
     const form = e.target.closest("form");
-    const dropIndex = form.querySelector("input[name='drop_index']").value;
-    const action = e.target.value; // "start" or "stop"
-    const key = `drop-${dropIndex}`;
+    if (!form) return;
+
+    const raw = form.querySelector("input[name='drop_index']");
+    if (!raw) return;
+
+    const dropIndex = Number(raw.value);
+    if (!Number.isFinite(dropIndex)) return;
+
+    const action = e.target.value; // ensure your buttons have value="start"/"stop"
+    const key = keyFor(dropIndex);
 
     addDuration(action, key);
-});
+  });
 });
 
 
@@ -26,22 +35,6 @@ function getRecord(key) {
 function setRecord(key, record) {
     localStorage.setItem(key, JSON.stringify(record));
 }
-
-
-function addDuration(action, key) {
-    let record = JSON.parse(localStorage.getItem(key) || "{}");
-
-    if (action === "start") {
-        record.start_ts = Date.now();
-    } else if (action === "stop") {
-        record.stop_ts = Date.now();
-        record.duration_ms = record.stop_ts - record.start_ts;
-    }
-    localStorage.setItem(key, JSON.stringify(record));
-
-    return record;
-
-} 
 
 function listDropKeys() {
   const results = [];
@@ -64,6 +57,76 @@ function removeKey(key) {
     }
 }
 
+function addDuration(action, key) {
+  const record = getRecord(key);
+
+  if (action === "start") {
+    record.start_ts = Date.now();
+    delete record.stop_ts;
+    delete record.duration_ms;
+  } else if (action === "stop") {
+    if (typeof record.start_ts === "number") {
+      record.stop_ts = Date.now();
+      record.duration_ms = record.stop_ts - record.start_ts;
+    } else {
+      // optional: mark as invalid or just return early
+      return record;
+    }
+  }
+
+  setRecord(key, record);
+  return record;
+}
+
+function buildPayloadFromLocal() {
+    let records = [];
+    const rows = listDropKeys();
+
+    for (const row of rows) {
+        const parts = row.key.split("-");
+        const numberString = parts[1];
+        const drop_index = Number(numberString);
+
+        if (!Number.isFinite(drop_index)) {
+            continue;
+        }
+
+        let start;
+        if (row.record.start_ts != null) {
+            start = Number(row.record.start_ts);
+        } else {
+            start = null;
+        }
+
+        let stop;
+        if (row.record.stop_ts != null) {
+            stop = Number(row.record.stop_ts);
+        } else {
+            stop = null;
+        }
+
+        let duration;
+        if (row.record.duration_ms != null && Number(row.record.duration_ms) >= 0) {
+            duration = Number(row.record.duration_ms);
+        } else {
+            duration = null;
+        }
+
+        if (start === null && stop === null) {
+            continue;
+        }
+
+        records.push({
+            key: row.key,
+            drop_index: drop_index,
+            start_ts: start,
+            stop_ts: stop,
+            duration_ms: duration
+        });
+    }
+
+    return { records };
+}
 
 
 /* to delete local storage and free up memory when drop done
