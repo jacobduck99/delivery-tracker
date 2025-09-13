@@ -1,6 +1,5 @@
 document.querySelectorAll(".arrived-btn, .delivered-btn").forEach(btn => {
   btn.addEventListener("click", (e) => {
-     // optional: if buttons are inside a <form> and not type="button"
 
     const form = e.target.closest("form");
     if (!form) return;
@@ -146,8 +145,12 @@ for (const card of dropCards) {
 */
 
 window.addEventListener("online", (e) => {
-    
+    console.log("online");
 });
+
+window.addEventListener("offline", (e) => {
+    console.log("offline");
+})
 
 
 
