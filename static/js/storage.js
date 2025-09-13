@@ -1,5 +1,6 @@
 document.querySelectorAll(".arrived-btn, .delivered-btn").forEach(btn => {
   btn.addEventListener("click", (e) => {
+    e.preventDefault()
 
     const form = e.target.closest("form");
     if (!form) return;
@@ -72,6 +73,7 @@ function addDuration(action, key) {
       const drop_index = Number(key.split("-")[1]);  // from "drop-3" -> 3
       queue.push({ drop_index, start_ts: record.start_ts, stop_ts: record.stop_ts, duration_ms: record.duration_ms });
       localStorage.setItem("pending_queue_v1", JSON.stringify(queue));
+      if (navigator.onLine) setTimeout(drainQueue, 0);
 
     } else {
       // optional: mark as invalid or just return early
@@ -187,7 +189,6 @@ window.addEventListener("online", (e) => {
 window.addEventListener("offline", (e) => {
     console.log("offline");
 })
-
 
 
 

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash, send_from_directory, make_response
+from flask import Flask, render_template, request, redirect, url_for, session, flash, send_from_directory, make_response, jsonify, request
 import sqlite3
 from sqlite3 import IntegrityError
 from datetime import datetime, timezone, date, timedelta
@@ -319,6 +319,40 @@ def sw():
 @app.route("/offline.html")
 def offline():
     return send_from_directory("static", "offline.html")
+
+
+@app.route('/api/drop', methods=['POST'])
+def save_drop():
+    if not request.is_json:
+        return jsonify({"ok": False, "error": "Expected JSON"}), 400
+
+    data = request.get_json()
+
+    drop_index = data.get("drop_index")
+    start_ts = data.get("start_ts")
+    stop_ts = data.get("stop_ts")
+    duration_ms = data.get("duration_ms")
+    run_id = session.get("run_id")
+
+    if not run_id:
+        return jsonify({"ok": False, "error": "No run active"}), 400
+
+    if not isinstance(drop_index, int) or start_ts is None or stop_ts is None:
+        return jsonify({"ok": False, "error": "Missing or invalid fields"}), 400
+
+    conn = get_db()
+    conn.execute("""
+        INSERT INTO deliveries (run_id, drop_idx, start_ts, end_ts, elapsed)
+        VALUES (?, ?, ?, ?, ?)
+        ON CONFLICT(run_id, drop_idx) DO UPDATE SET
+            start_ts = excluded.start_ts,
+            end_ts   = excluded.end_ts,
+            elapsed  = excluded.elapsed
+    """, (run_id, drop_index, start_ts, stop_ts, duration_ms))
+    conn.commit()
+
+    return jsonify({"ok": True})
+
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))  # <- use Fly's PORT

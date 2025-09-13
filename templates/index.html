@@ -40,14 +40,14 @@
             <!-- not started -->
             <form action="{{ url_for('start_delivery') }}" method="post">
               <input type="hidden" name="drop_index" value="{{ i }}">
-              <button class="arrived-btn" type="submit" name="action" value="start">Arrived</button>
+              <button class="arrived-btn" type="button" name="action" value="start">Arrived</button>
             </form>
 
           {% elif not d.end_ts %}
             <!-- started but not stopped -->
             <form action="{{ url_for('start_delivery') }}" method="post">
               <input type="hidden" name="drop_index" value="{{ i }}">
-              <button class="delivered-btn" type="submit" name="action" value="stop">Delivered</button>
+              <button class="delivered-btn" type="button" name="action" value="stop">Delivered</button>
             </form>
 
           {% else %}
