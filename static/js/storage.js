@@ -28,16 +28,6 @@ function setRecord(key, record) {
 }
 
 
-
-/* to delete local storage and free up memory when drop done
-const dropCards = document.querySelectorAll(".drop-card")
-for (const card of dropCards) {
-    if (card.querySelector(".drop-elapsed")) {
-        localStorage.removeItem(card.id)   
-    }
-};
-*/
-
 function addDuration(action, key) {
     let record = JSON.parse(localStorage.getItem(key) || "{}");
 
@@ -53,8 +43,31 @@ function addDuration(action, key) {
 
 } 
 
+function listDropKeys() {
+  const results = [];
+
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+
+    if (key.startsWith("drop-")) {
+      const record = getRecord(key);
+      results.push({ key, record });
+    }
+  }
+
+  return results;
+}
 
 
+
+/* to delete local storage and free up memory when drop done
+const dropCards = document.querySelectorAll(".drop-card")
+for (const card of dropCards) {
+    if (card.querySelector(".drop-elapsed")) {
+        localStorage.removeItem(card.id)   
+    }
+};
+*/
 
 window.addEventListener("online", (e) => {
     
