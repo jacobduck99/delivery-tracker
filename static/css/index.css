@@ -170,9 +170,26 @@ img{ max-width:100%; height:auto }
   .container{ max-width:none; margin:1rem auto; padding:12px }
 }
 @media (max-width:520px){
+  .container{
+        max-width: 98%;
+        margin: 8px auto;
+    }
   .break form{ padding:10px }
   .break button{ width:100% }
   .drop-card{ padding:10px }
   .delivery-form{ gap:8px }
   .drop-card button{ flex-basis:100%; min-width:0; font-size:.9rem }
 }
+
+
+.dashboard.container { margin-top: 24px; }
+.drops.container { margin-top: 24px; }
+
+/* On small phones give a bit more breathing room */
+@media (max-width:520px){
+  .dashboard.container { margin-top: 16px; }
+  .drops.container { margin-top: 16px; }
+  .drop-grid{ grid-template-columns:1fr; }
+}
+
+
