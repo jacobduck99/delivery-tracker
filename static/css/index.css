@@ -1,46 +1,86 @@
 /* =============================
-   Delivery Tracker – index.css
+   Delivery Tracker – index.css (Pro UI)
    ============================= */
 
-/* ---- design tokens ---- */
+/* ---- Design tokens ---- */
 :root {
-  --brand: #5559ff;   /* Arrived */
-  --danger: #e53e3e;  /* Delivered */
-  --info: #5bc0de;    /* 30m break */
-  --neutral: #6c757d; /* Skip */
-  --ink: #1f2937;
-  --muted: #6b7280;
+  --brand: #5865f2; --brand-dark: #4752c4;
+  --danger: #ef4444; --danger-dark: #dc2626;
+  --info: #38bdf8;
+  --neutral: #94a3b8; --neutral-dark: #64748b;
+
+  --ink: #0f172a;
+  --muted: #64748b;
   --line: #e5e7eb;
-  --panel: #f9fafb;
-  --radius: 12px;
-  --shadow: 0 6px 18px rgba(31,41,55,.06);
+  --bg: #f5f7fb;
+  --panel: #ffffff;
+
+  --radius-lg: 16px;
+  --radius-md: 12px;
+
+  --shadow-sm: 0 1px 2px rgba(15,23,42,.06);
+  --shadow-md: 0 8px 24px rgba(15,23,42,.08);
+
+  --container-max: 980px;
+  --gutter-desktop: 16px;
+  --gutter-mobile: 12px;
+
+  --focus: 0 0 0 3px rgba(88,101,242,.25);
 }
 
-/* ---- base ---- */
+/* ---- Base ---- */
 * { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; background: #f3f4f6; color: var(--ink); }
-body { font: 16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; }
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.55 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
 img { max-width: 100%; height: auto; }
+:focus-visible { outline: none; box-shadow: var(--focus); border-radius: 10px; }
 
-/* ---- page shell ---- */
+/* =============================
+   Layout — Rails & Panels
+   ============================= */
+.rails, .container {
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter-desktop);
+}
+@media (max-width: 520px) {
+  .rails, .container { padding-inline: var(--gutter-mobile); }
+}
+
 .container {
-  max-width: 980px;
-  margin: 1.25rem auto;          /* top/bottom + centered */
-  padding: 1rem 12px;
-  background: #fff;
+  background: var(--panel);
   border: 1px solid var(--line);
-  border-radius: 16px;
-  box-shadow: var(--shadow);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  margin-block: 18px;
+  padding-block: 20px;
 }
 .container > h1 {
   text-align: center;
-  font-size: clamp(1.25rem, 2.5vw + 1rem, 2rem);
-  margin: .25rem 0 1rem;
+  font-weight: 800;
+  letter-spacing: .2px;
+  font-size: clamp(1.4rem, 2.2vw + 1rem, 2.2rem);
+  margin-bottom: 1rem;
 }
 
-/* =========================
-   BREAK CONTROLS
-   ========================= */
+.drops {
+  margin: 20px 0 32px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+/* =============================
+   Break controls
+   ============================= */
 .break {
   display: flex;
   flex-direction: column;
@@ -50,183 +90,227 @@ img { max-width: 100%; height: auto; }
 .break form {
   display: flex;
   justify-content: center;
-  gap: 10px;
-  padding: 10px;
+  gap: 12px;
+  padding: 12px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+.break button {
+  border: none;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-weight: 700;
+  font-size: .95rem;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: background .2s ease, transform .08s ease, box-shadow .2s ease;
+  width: 140px;
+}
+.break button:hover { filter: brightness(1.04); box-shadow: var(--shadow-md); }
+.break button:active { transform: translateY(1px); }
+
+.btn-break { background: linear-gradient(180deg, var(--danger), var(--danger-dark)); }
+.break-btn { background: linear-gradient(180deg, var(--info), #0ea5e9); color: #062c36; }
+.btn-skip { background: linear-gradient(180deg, var(--neutral), var(--neutral-dark)); }
+
+/* =============================
+   Completed drops (collapsible)
+   ============================= */
+.completed-panel { margin-block: 18px; }
+
+.completed-item {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  width: 100%;
+}
+
+.completed-item > summary {
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  cursor: pointer;
+  user-select: none;
+  font-weight: 700;
+  font-size: .95rem;
+  color: var(--ink);
+}
+.completed-item > summary::-webkit-details-marker { display: none; }
+
+.completed-item > summary::after {
+  content: '▸';
+  transition: transform .2s ease;
+  opacity: .5;
+  margin-left: 4px;
+  font-size: .9rem;
+}
+.completed-item[open] > summary::after {
+  transform: rotate(90deg);
+  opacity: .8;
+}
+
+.completed-item .count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 22px;
+  padding: 0 8px;
+  font: 700 .8rem/1 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  color: #065f46;
+  background: #d1fae5;
+  border: 1px solid #a7f3d0;
+  border-radius: 999px;
+}
+
+.run-list {
+  margin-top: 10px;
+  padding: 10px 0 0;
+  border-top: 1px solid var(--line);
+  display: grid;
+  gap: 8px;
+}
+.run-list li {
   background: #fff;
   border: 1px solid var(--line);
   border-radius: 10px;
-  box-shadow: var(--shadow);
+  padding: 8px 10px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 8px;
+  align-items: center;
 }
-.break button {
-  width: 140px;
-  padding: 10px 12px;
-  border: 0;
-  border-radius: 12px;
-  font-weight: 700;
-  font-size: .9rem;
-  cursor: pointer;
-  color: #fff;
-  box-shadow: 0 2px 6px rgba(0,0,0,.08);
-  transition: transform .04s ease, filter .15s ease;
-}
-.break button:active { transform: translateY(1px); }
-.btn-break { background: #d9534f; }
-.btn-break:hover { filter: brightness(1.05); }
-.break-btn { background: var(--info); color: #0c2a33; }
-.break-btn:hover { filter: brightness(1.05); }
-.btn-skip { background: var(--neutral); }
-.btn-skip:hover { filter: brightness(1.05); }
+.run-label { font-weight: 600; }
+.run-time { font: 700 .9rem ui-monospace,SFMono-Regular,Menlo,monospace; color:#1f2937; }
+.run-meta { grid-column: 1 / -1; font-size:.8rem; color: var(--muted); }
 
-/* =========================
-   DROPS — stacked cards
-   ========================= */
-
-/* Transparent section that just centers content and adds side padding */
-.drops {
-  max-width: 980px;
-  margin: 24px auto;       /* space above/below */
-  padding: 0 12px;          /* side breathing room */
-  background: transparent;  /* ensure page grey shows */
-  border: 0;
-  box-shadow: none;
+.empty-msg {
+  text-align: center;
+  color: var(--muted);
+  margin: 4px 0;
 }
 
-/* Vertical list with consistent spacing between cards */
+/* =============================
+   Drops – cards
+   ============================= */
 .drop-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;                /* ⬅️ spacing from card to card */
-  margin: 16px 0 8px;       /* small top/bottom separation */
-  gap: 24px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin: 0;
 }
 
-/* Each drop is a full-width white card */
 .drop-card {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 14px;
   width: 100%;
-  min-height: 160px;
-  padding: 16px;             /* comfy interior padding */
-  background: #fff;          /* white card on grey page */
+  min-height: 132px;
+  padding: 14px;
+  background: var(--panel);
   border: 1px solid var(--line);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow .18s ease, transform .06s ease;
 }
+.drop-card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+
 .drop-card h4 {
   font-size: .95rem;
-  font-weight: 700;
-  margin: 0 0 2px;
+  font-weight: 800;
+  margin: 0;
   line-height: 1.2;
 }
-.drop-card p {
-  font-size: .85rem;
-  color: #374151;
-  margin: 2px 0;
-  line-height: 1.3;
-}
 
-/* ---- delivery form row ---- */
 .delivery-form {
   margin-top: auto;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(140px, 1fr));
   gap: 10px;
-  flex-wrap: wrap;              /* wrap on narrow cards */
-  justify-content: center;
-  align-items: stretch;
-  min-height: 48px;             /* prevents layout jump when swapping */
 }
 
-/* ---- buttons inside card ---- */
 .drop-card button {
-  flex: 1 1 120px;              /* share space; fine with 1 or 2 buttons */
-  min-width: 140px;
-  padding: 12px 10px;
-  border: 0;
+  width: 100%;
+  padding: 12px 14px;
+  border: none;
   border-radius: 12px;
-  font-weight: 700;
-  font-size: .95rem;
+  font-weight: 800;
+  letter-spacing: .2px;
   color: #fff;
-  cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0,0,0,.08);
-  transition: transform .04s ease, filter .15s ease;
+  box-shadow: var(--shadow-sm);
+  transition: background .2s ease, transform .08s ease, box-shadow .2s ease;
 }
+.drop-card button:hover { filter: brightness(1.04); box-shadow: var(--shadow-md); }
 .drop-card button:active { transform: translateY(1px); }
 
-/* color by intent */
-.drop-card button[name="action"][value="start"] { background: var(--brand); }
-.drop-card button[name="action"][value="start"]:hover { filter: brightness(1.05); }
-.drop-card button[name="action"][value="stop"] { background: var(--danger); }
-.drop-card button[name="action"][value="stop"]:hover { filter: brightness(1.05); }
-
-/* Completed badge looks like a pill and spans nicely on mobile */
-.complete-badge {
-  display: block;               /* full-width block inside the card */
-  width: fit-content;
-  margin: 8px auto 0;            /* centered with space above */
-  padding: 8px 14px;
-  border-radius: 999px;
-  font-weight: 700;
-  font-size: .9rem;
-  color: #065f46;
-  background: #d1fae5;           /* green-100 */
-  border: 1px solid #a7f3d0;      /* green-200 */
-  text-align: center;
+.drop-card button[name="action"][value="start"] {
+  background: linear-gradient(180deg, var(--brand), var(--brand-dark));
+}
+.drop-card button[name="action"][value="stop"] {
+  background: linear-gradient(180deg, var(--danger), var(--danger-dark));
 }
 
 .drop-elapsed {
-  margin-top: 6px;
-  font: 600 .9rem ui-monospace,SFMono-Regular,Menlo,monospace;
-  color: #1f2937;
   text-align: center;
+  font: 600 .9rem ui-monospace,SFMono-Regular,Menlo,monospace;
+  color:#1f2937;
+}
+
+/* =============================
+   Responsive
+   ============================= */
+@media (max-width: 700px){
+  .drop-card{ padding: 12px; }
+}
+
+@media (max-width: 520px){
+  .delivery-form{ grid-template-columns: 1fr; }
+  .drop-card{ padding: 12px; border-radius: 14px; }
+  .break button{ width: 100%; }
 }
 
 
-/* =========================
-   SECTION SPACING
-   ========================= */
-.dashboard.container { margin-top: 24px; }
-
-/* =========================
-   RESPONSIVE
-   ========================= */
-@media (max-width: 1024px) {
-  .container {
-    max-width: none;
-    margin: 1rem auto;
-    padding: 12px;
-  }
-}
-
-@media (max-width: 520px) {
-  .container {
-    max-width: 98%;
-    margin: 8px auto;
-  }
-
-    .complete-badge {
-        font-size: .95rem;
-        padding: 10px 16px;
-    }
-
-  .dashboard.container { margin-top: 16px; }
-
-  /* Drops: tighter margins & padding on phones */
-  .drops { margin: 16px auto; padding: 0 10px; }
-  .drop-grid { gap: 12px; }
-  .drop-card { padding: 12px; }
-
-  .break form { padding: 10px; }
-  .break button { width: 80%; }
-
-  .delivery-form { gap: 8px; }
-
-  /* ✅ Better: medium-width buttons */
-  .drop-card button {
-    flex: 1 1 160px;   /* grow if space, prefer 180px */
-    min-width: 140px;  /* never get smaller than this */
-    max-width: 220px;  /* optional: prevent getting too wide */
-  }
+/* Completed badge — subtle and compact */
+.complete-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  margin: 4px auto 0;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #065f46;
+  background: #d1fae5;         /* green-100 */
+  border: 1px solid #a7f3d0;    /* green-200 */
+  text-align: center;
+  line-height: 1.2;
 }
 
 
+/* --- Timer row: calm label + mono time --- */
+.drop-elapsed {
+  margin: 8px 0 0;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.drop-elapsed .elapsed-label {
+  display: block;
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .02em;
+  color: var(--muted);
+  opacity: .9;
+  margin-bottom: 2px;
+}
+
+.drop-elapsed .elapsed-time {
+  display: block;
+  font: 700 .95rem ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: #0f172a;
+}
