@@ -3,193 +3,230 @@
    ============================= */
 
 /* ---- design tokens ---- */
-:root{
-  --brand:#5559ff;      /* Arrived */
-  --danger:#e53e3e;     /* Delivered */
-  --info:#5bc0de;       /* 30m break */
-  --neutral:#6c757d;    /* skip */
-  --ink:#1f2937;
-  --muted:#6b7280;
-  --line:#e5e7eb;
-  --panel:#f9fafb;
-  --radius:12px;
-  --shadow:0 6px 18px rgba(31,41,55,.06);
+:root {
+  --brand: #5559ff;   /* Arrived */
+  --danger: #e53e3e;  /* Delivered */
+  --info: #5bc0de;    /* 30m break */
+  --neutral: #6c757d; /* Skip */
+  --ink: #1f2937;
+  --muted: #6b7280;
+  --line: #e5e7eb;
+  --panel: #f9fafb;
+  --radius: 12px;
+  --shadow: 0 6px 18px rgba(31,41,55,.06);
 }
 
 /* ---- base ---- */
-*{ box-sizing:border-box }
-html,body{ margin:0; padding:0; background:#f3f4f6; color:var(--ink) }
-body{ font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif }
-img{ max-width:100%; height:auto }
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: #f3f4f6; color: var(--ink); }
+body { font: 16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; }
+img { max-width: 100%; height: auto; }
 
 /* ---- page shell ---- */
-.container{
-  max-width:980px;
-  margin:1.25rem auto;
-  padding:1rem 12px;
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:16px;
-  box-shadow:var(--shadow);
+.container {
+  max-width: 980px;
+  margin: 1.25rem auto;          /* top/bottom + centered */
+  padding: 1rem 12px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
 }
-.container > h1{
-  text-align:center;
-  font-size:clamp(1.25rem,2.5vw + 1rem,2rem);
-  margin:.25rem 0 1rem;
+.container > h1 {
+  text-align: center;
+  font-size: clamp(1.25rem, 2.5vw + 1rem, 2rem);
+  margin: .25rem 0 1rem;
 }
 
 /* =========================
    BREAK CONTROLS
    ========================= */
-.break{
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-  margin-top:8px;
+.break {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
 }
-.break form{
-  display:flex;
-  justify-content:center;
-  gap:10px;
-  padding:10px;
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:10px;
-  box-shadow:var(--shadow);
+.break form {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
 }
-.break button{
-  width:140px;
-  padding:10px 12px;
-  border:0;
-  border-radius:12px;
-  font-weight:700;
-  font-size:.9rem;
-  cursor:pointer;
-  color:#fff;
-  box-shadow:0 2px 6px rgba(0,0,0,.08);
-  transition:transform .04s ease, filter .15s ease;
+.break button {
+  width: 140px;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: .9rem;
+  cursor: pointer;
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,.08);
+  transition: transform .04s ease, filter .15s ease;
 }
-.break button:active{ transform:translateY(1px) }
-.btn-break{ background:#d9534f }
-.btn-break:hover{ filter:brightness(1.05) }
-.break-btn{ background:var(--info); color:#0c2a33 }
-.break-btn:hover{ filter:brightness(1.05) }
-.btn-skip{ background:var(--neutral) }
-.btn-skip:hover{ filter:brightness(1.05) }
+.break button:active { transform: translateY(1px); }
+.btn-break { background: #d9534f; }
+.btn-break:hover { filter: brightness(1.05); }
+.break-btn { background: var(--info); color: #0c2a33; }
+.break-btn:hover { filter: brightness(1.05); }
+.btn-skip { background: var(--neutral); }
+.btn-skip:hover { filter: brightness(1.05); }
 
 /* =========================
-   DROPS GRID + CARDS
+   DROPS — stacked cards
    ========================= */
-.drop-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
-  gap:12px;
-  margin:14px 0 6px;
-}
-.drop-card{
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-  min-height:160px;
-  padding:12px;
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-radius:var(--radius);
-  box-shadow:var(--shadow);
-}
-.drop-card h4{
-  font-size:.95rem;
-  font-weight:700;
-  margin:0 0 2px;
-  line-height:1.2;
-}
-.drop-card p{
-  font-size:.85rem;
-  color:#374151;
-  margin:2px 0;
-  line-height:1.3;
+
+/* Transparent section that just centers content and adds side padding */
+.drops {
+  max-width: 980px;
+  margin: 24px auto;       /* space above/below */
+  padding: 0 12px;          /* side breathing room */
+  background: transparent;  /* ensure page grey shows */
+  border: 0;
+  box-shadow: none;
 }
 
-/* ---- delivery form row (works with 1 or 2 buttons) ---- */
-.delivery-form{
-  margin-top:auto;
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;           /* wrap on narrow cards */
-  justify-content:center;
-  align-items:stretch;
-  min-height:48px;          /* prevents layout jump when swapping */
+/* Vertical list with consistent spacing between cards */
+.drop-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;                /* ⬅️ spacing from card to card */
+  margin: 16px 0 8px;       /* small top/bottom separation */
+  gap: 24px;
 }
 
-/* ---- button visuals ---- */
-.drop-card button{
-  flex:1 1 150px;           /* share space; fine with 1 or 2 buttons */
-  min-width:140px;
-  padding:12px 10px;
-  border:0;
-  border-radius:12px;
-  font-weight:700;
-  font-size:.95rem;
-  color:#fff;
-  cursor:pointer;
-  box-shadow:0 2px 6px rgba(0,0,0,.08);
-  transition:transform .04s ease, filter .15s ease;
+/* Each drop is a full-width white card */
+.drop-card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  min-height: 160px;
+  padding: 16px;             /* comfy interior padding */
+  background: #fff;          /* white card on grey page */
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
 }
-.drop-card button:active{ transform:translateY(1px) }
+.drop-card h4 {
+  font-size: .95rem;
+  font-weight: 700;
+  margin: 0 0 2px;
+  line-height: 1.2;
+}
+.drop-card p {
+  font-size: .85rem;
+  color: #374151;
+  margin: 2px 0;
+  line-height: 1.3;
+}
 
-/* color by intent (matches your HTML attributes) */
-.drop-card button[name="action"][value="start"]{ background:var(--brand) }
-.drop-card button[name="action"][value="start"]:hover{ filter:brightness(1.05) }
-.drop-card button[name="action"][value="stop"]{ background:var(--danger) }
-.drop-card button[name="action"][value="stop"]:hover{ filter:brightness(1.05) }
+/* ---- delivery form row ---- */
+.delivery-form {
+  margin-top: auto;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;              /* wrap on narrow cards */
+  justify-content: center;
+  align-items: stretch;
+  min-height: 48px;             /* prevents layout jump when swapping */
+}
 
-/* ---- completed badge + elapsed after Delivered ---- */
-.complete-badge{
-  display:inline-block;
-  margin-top:6px;
-  padding:8px 10px;
-  border-radius:999px;
-  font-weight:700;
-  font-size:.85rem;
-  color:#065f46;
-  background:#d1fae5;             /* green-100 */
-  border:1px solid #a7f3d0;        /* green-200 */
-  text-align:center;
+/* ---- buttons inside card ---- */
+.drop-card button {
+  flex: 1 1 120px;              /* share space; fine with 1 or 2 buttons */
+  min-width: 140px;
+  padding: 12px 10px;
+  border: 0;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: .95rem;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,.08);
+  transition: transform .04s ease, filter .15s ease;
 }
-.drop-elapsed{
-  margin-top:4px;
-  font:600 .85rem ui-monospace,SFMono-Regular,Menlo,monospace;
-  color:#1f2937;
-  text-align:center;
+.drop-card button:active { transform: translateY(1px); }
+
+/* color by intent */
+.drop-card button[name="action"][value="start"] { background: var(--brand); }
+.drop-card button[name="action"][value="start"]:hover { filter: brightness(1.05); }
+.drop-card button[name="action"][value="stop"] { background: var(--danger); }
+.drop-card button[name="action"][value="stop"]:hover { filter: brightness(1.05); }
+
+/* Completed badge looks like a pill and spans nicely on mobile */
+.complete-badge {
+  display: block;               /* full-width block inside the card */
+  width: fit-content;
+  margin: 8px auto 0;            /* centered with space above */
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: .9rem;
+  color: #065f46;
+  background: #d1fae5;           /* green-100 */
+  border: 1px solid #a7f3d0;      /* green-200 */
+  text-align: center;
 }
+
+.drop-elapsed {
+  margin-top: 6px;
+  font: 600 .9rem ui-monospace,SFMono-Regular,Menlo,monospace;
+  color: #1f2937;
+  text-align: center;
+}
+
+
+/* =========================
+   SECTION SPACING
+   ========================= */
+.dashboard.container { margin-top: 24px; }
 
 /* =========================
    RESPONSIVE
    ========================= */
-@media (max-width:1024px){
-  .container{ max-width:none; margin:1rem auto; padding:12px }
+@media (max-width: 1024px) {
+  .container {
+    max-width: none;
+    margin: 1rem auto;
+    padding: 12px;
+  }
 }
-@media (max-width:520px){
-  .container{
-        max-width: 98%;
-        margin: 8px auto;
+
+@media (max-width: 520px) {
+  .container {
+    max-width: 98%;
+    margin: 8px auto;
+  }
+
+    .complete-badge {
+        font-size: .95rem;
+        padding: 10px 16px;
     }
-  .break form{ padding:10px }
-  .break button{ width:100% }
-  .drop-card{ padding:10px }
-  .delivery-form{ gap:8px }
-  .drop-card button{ flex-basis:100%; min-width:0; font-size:.9rem }
-}
 
-
-.dashboard.container { margin-top: 24px; }
-.drops.container { margin-top: 24px; }
-
-/* On small phones give a bit more breathing room */
-@media (max-width:520px){
   .dashboard.container { margin-top: 16px; }
-  .drops.container { margin-top: 16px; }
-  .drop-grid{ grid-template-columns:1fr; }
+
+  /* Drops: tighter margins & padding on phones */
+  .drops { margin: 16px auto; padding: 0 10px; }
+  .drop-grid { gap: 12px; }
+  .drop-card { padding: 12px; }
+
+  .break form { padding: 10px; }
+  .break button { width: 80%; }
+
+  .delivery-form { gap: 8px; }
+
+  /* ✅ Better: medium-width buttons */
+  .drop-card button {
+    flex: 1 1 160px;   /* grow if space, prefer 180px */
+    min-width: 140px;  /* never get smaller than this */
+    max-width: 220px;  /* optional: prevent getting too wide */
+  }
 }
 
 
