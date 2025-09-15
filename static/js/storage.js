@@ -103,7 +103,7 @@ function addDuration(action, key) {
 function swapToDelivered(form, dropIndex) {
   form.innerHTML = `
     <input type="hidden" name="drop_index" value="${dropIndex}">
-    <button class="delivered-btn" type="button" name="action" value="stop">Delivered</button>
+<button class="delivered-btn" type="button" name="action" value="stop">Delivered</button>
   `;
 }
 function swapToCompleted(form, durationMs) {
@@ -194,14 +194,54 @@ document.addEventListener("click", (e) => {
 
   const action = btn.value;  // "start" | "stop"
   const key = keyFor(dropIndex);
+
+  // grab the card BEFORE swapToCompleted removes the form
+  const card = form.closest(".drop-card");
+
   const record = addDuration(action, key);
 
   if (action === "start") {
     swapToDelivered(form, dropIndex);
-  } else if (action === "stop") {
+    return;
+  }
+
+  if (action === "stop") {
+    // avoid double-scheduling
+    if (!card || card.dataset.moveScheduled === "1") {
+      swapToCompleted(form, record?.duration_ms ?? 0);
+      return;
+    }
+    card.dataset.moveScheduled = "1";
+
+    // show completed state immediately
     swapToCompleted(form, record?.duration_ms ?? 0);
+
+    // schedule move into Completed list after 5s
+    const completedList = document.getElementById("completed-list");
+    setTimeout(() => {
+      if (!completedList || !card.isConnected) return;
+
+      // wrap in <li> because completedList is a <ul>
+      const li = document.createElement("li");
+      li.appendChild(card);
+      completedList.appendChild(li);
+
+      // remove empty message, bump count, open details for visibility
+      const emptyMsg = completedList.querySelector(".empty-msg");
+      if (emptyMsg) emptyMsg.remove();
+
+      const countEl = document.getElementById("completed-count");
+      if (countEl) {
+        const n = Number(countEl.textContent || "0");
+        countEl.textContent = String(n + 1);
+      }
+
+      const details = completedList.closest("details");
+      if (details) details.open = true;
+    }, 5000);
   }
 });
+
 
 // Online/offline
 window.addEventListener("online", () => {
@@ -232,3 +272,4 @@ document.addEventListener("DOMContentLoaded", () => {
   // drain any leftovers if online
   if (navigator.onLine) drainQueue();
 });
+
