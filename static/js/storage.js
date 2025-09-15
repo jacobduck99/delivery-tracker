@@ -130,29 +130,31 @@ function swapToCompleted(form, durationMs) {
    Rehydrate UI from localStorage
    (so refresh looks right offline)
 ======================== */
+
 function rehydrateFromLocal() {
+  const completedList = document.getElementById("completed-list");
+
   document.querySelectorAll('.drop-card[id^="drop-"]').forEach((card) => {
-    const parts = card.id.split("-");
-    const idx = Number(parts[1]);
+    const idx = Number(card.id.split("-")[1]);
     if (!Number.isFinite(idx)) return;
 
     const rec = getRecord(keyFor(idx));
     const form = card.querySelector(".delivery-form");
 
-    // No local state → let server-rendered state stand
+    // No local state → leave server-rendered state
     if (typeof rec.start_ts !== "number" && typeof rec.stop_ts !== "number") return;
 
-    // Started but not stopped → should show Delivered button
+    // Started but not stopped → ensure Delivered button
     if (typeof rec.start_ts === "number" && typeof rec.stop_ts !== "number") {
-      if (form) {
-        const hasDelivered = !!form.querySelector(".delivered-btn");
-        if (!hasDelivered) swapToDelivered(form, idx);
+      if (form && !form.querySelector(".delivered-btn")) {
+        swapToDelivered(form, idx);
       }
       return;
     }
 
-    // Stopped → show completed badge/elapsed
+    // Stopped → ensure completed UI and move to Completed list
     if (typeof rec.stop_ts === "number") {
+      // Ensure completed UI on the card
       if (form) {
         swapToCompleted(form, rec.duration_ms || 0);
       } else {
@@ -169,9 +171,26 @@ function rehydrateFromLocal() {
           card.appendChild(p);
         }
       }
+
+      // Move into Completed list (idempotent)
+      if (completedList && !card.closest("#completed-list")) {
+        const li = document.createElement("li");
+        li.appendChild(card);
+        completedList.appendChild(li);
+
+        // Remove empty message
+        const emptyMsg = completedList.querySelector(".empty-msg");
+        if (emptyMsg) emptyMsg.remove();
+
+        // Bump count
+        const countEl = document.getElementById("completed-count");
+        if (countEl) countEl.textContent = String(Number(countEl.textContent || "0") + 1);
+
+      }
     }
   });
 }
+
 
 /* ========================
    Events
@@ -226,7 +245,7 @@ document.addEventListener("click", (e) => {
       li.appendChild(card);
       completedList.appendChild(li);
 
-      // remove empty message, bump count, open details for visibility
+      // remove empty message, bump count
       const emptyMsg = completedList.querySelector(".empty-msg");
       if (emptyMsg) emptyMsg.remove();
 
@@ -236,8 +255,6 @@ document.addEventListener("click", (e) => {
         countEl.textContent = String(n + 1);
       }
 
-      const details = completedList.closest("details");
-      if (details) details.open = true;
     }, 5000);
   }
 });
