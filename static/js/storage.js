@@ -259,6 +259,19 @@ document.addEventListener("click", (e) => {
   }
 });
 
+document.addEventListener("click", (e) => {
+  const endShiftBtn = e.target.closest(".end-shift");
+  if (!endShiftBtn) return;
+
+  e.preventDefault();
+    console.log("btn clicked!")
+
+  localStorage.clear();
+  
+});
+
+
+
 
 // Online/offline
 window.addEventListener("online", () => {
