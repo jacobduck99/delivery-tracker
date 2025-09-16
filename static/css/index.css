@@ -314,3 +314,95 @@ img { max-width: 100%; height: auto; }
   font: 700 .95rem ui-monospace, SFMono-Regular, Menlo, monospace;
   color: #0f172a;
 }
+
+/* =============================
+   End Shift Modal
+   ============================= */
+
+/* Overlay (hidden by default) */
+.end-shift-modal {
+  position: fixed;
+  inset: 0;
+  display: none;                 /* hidden by default */
+  align-items: center;
+  justify-content: center;
+  background: rgba(15,23,42,.45);/* soft dark scrim */
+  backdrop-filter: blur(2px);
+  z-index: 9999;
+}
+
+/* When opened */
+.end-shift-modal.show { 
+  display: flex;
+}
+
+/* Dialog box */
+.end-shift-modal .modal-box {
+  width: min(520px, 92vw);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 18px;
+  display: grid;
+  gap: 14px;
+}
+
+/* Title / message */
+.end-shift-modal .modal-box p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.45;
+}
+
+/* Buttons row */
+.end-shift-modal .actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+/* Buttons */
+.end-shift-modal .confirm,
+.end-shift-modal .cancel {
+  border: none;
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-weight: 800;
+  letter-spacing: .2px;
+  color: #fff;
+  box-shadow: var(--shadow-sm);
+  transition: filter .2s ease, transform .08s ease, box-shadow .2s ease;
+  cursor: pointer;
+}
+.end-shift-modal .confirm { 
+  background: linear-gradient(180deg, var(--brand), var(--brand-dark));
+}
+.end-shift-modal .cancel { 
+  background: linear-gradient(180deg, var(--danger), var(--danger-dark));
+}
+.end-shift-modal .confirm:hover,
+.end-shift-modal .cancel:hover { filter: brightness(1.04); box-shadow: var(--shadow-md); }
+.end-shift-modal .confirm:active,
+.end-shift-modal .cancel:active { transform: translateY(1px); }
+
+/* End Shift trigger button (optional polish) */
+.end-shift {
+  display: block;
+  width: 100%;
+  max-width: 520px;
+  margin: 12px auto 0;
+  padding: 12px 14px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 800;
+  letter-spacing: .2px;
+  color: #fff;
+  background: linear-gradient(180deg, var(--danger), var(--danger-dark));
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: filter .2s ease, transform .08s ease, box-shadow .2s ease;
+}
+
+.end-shift:hover { filter: brightness(1.04); box-shadow: var(--shadow-md); }
+.end-shift:active { transform: translateY(1px); }

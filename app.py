@@ -130,7 +130,6 @@ def logout():
     resp.delete_cookie("session")
     return resp
 
-
 @app.route("/configuration", methods=["GET", "POST"])
 @login_required
 def configuration():

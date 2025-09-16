@@ -58,7 +58,7 @@
         <span class="run-meta">Delivered at 2:15 PM</span>
       </li>
       -->
-      <p class="empty-msg">No completed drops yet.</p>
+    <li class="empty-msg">No completed drops yet.</li>
     </ul>
   </details>
 </div>
@@ -104,12 +104,12 @@
 <button class="end-shift" type="button" name="action" value="end-shift">End Shift</button>
   <div class="end-shift-modal">
     <div class="modal-box">
-<p>⚠️ WARNING</p>
-<p>This will end your shift. Are you sure?</p>
-      <button class="cancel">No</button>
-      <button class="confirm">Yes</button>
-    </div>
-  </div></div> 
+  <p>⚠️ WARNING<br>This will end your shift. Are you sure?</p>
+  <div class="actions">
+    <button type="button" class="cancel">No</button>
+    <button type="button" class="confirm">Yes</button>
+  </div>
+</div></div> 
     {% else %}
       <p class="empty-msg">
         No drops configured yet.
