@@ -102,7 +102,14 @@
       </div>
 <div>
 <button class="end-shift" type="button" name="action" value="end-shift">End Shift</button>
-</div> 
+  <div class="end-shift-modal">
+    <div class="modal-box">
+<p>⚠️ WARNING</p>
+<p>This will end your shift. Are you sure?</p>
+      <button class="cancel">No</button>
+      <button class="confirm">Yes</button>
+    </div>
+  </div></div> 
     {% else %}
       <p class="empty-msg">
         No drops configured yet.

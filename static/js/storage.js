@@ -260,15 +260,26 @@ document.addEventListener("click", (e) => {
 });
 
 document.addEventListener("click", (e) => {
-  const endShiftBtn = e.target.closest(".end-shift");
-  if (!endShiftBtn) return;
+    const endShiftBtn = e.target.closest(".end-shift");
+    const modal = document.querySelector(".end-shift-modal");
 
-  e.preventDefault();
-    console.log("btn clicked!")
+    if (endShiftBtn) {
+        e.preventDefault();
+        modal.classList.add("show");
+        return;
+    }  
 
-  localStorage.clear();
-  
-});
+
+    if (e.target.closest(".confirm")) {
+        localStorage.clear();
+        modal.classList.remove("show");
+        return;
+    } else if (e.target.closest(".cancel")) {
+        modal.classList.remove("show");
+        return;
+    }
+   
+    });
 
 
 
