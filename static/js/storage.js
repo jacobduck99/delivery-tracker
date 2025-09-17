@@ -1,5 +1,36 @@
-// storage.js (v22)
-console.log("storage.js v23 loaded");
+console.log("storage.js v24 loaded");
+
+function updateLastActive() {
+  localStorage.setItem('lastActive', Date.now().toString());
+}
+
+window.addEventListener('click', updateLastActive);
+window.addEventListener('keydown', updateLastActive);
+window.addEventListener('touchstart', updateLastActive);
+
+const FIVE_HOURS = 5 * 60 * 60 * 1000;
+
+function clearIfInactive() {
+  const lastActive = localStorage.getItem('lastActive');
+  if (!lastActive) return;
+
+  const inactiveTime = Date.now() - parseInt(lastActive, 10);
+  if (inactiveTime > FIVE_HOURS) {
+    console.log("Inactive >5h — clearing localStorage");
+    localStorage.clear();
+    // Optional: location.reload();
+  }
+}
+
+document.addEventListener('DOMContentLoaded', clearIfInactive);
+
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) clearIfInactive();
+});
+
+setInterval(clearIfInactive, 5 * 60 * 1000);
+
+
 
 /* ========================
    Helpers
