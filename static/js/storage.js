@@ -1,36 +1,48 @@
+// storage.js (v24)
 console.log("storage.js v24 loaded");
+
+/* ========================
+   Idle / Run Failsafe
+======================== */
+const FIVE_HOURS = 5 * 60 * 60 * 1000; // 5h in ms
 
 function updateLastActive() {
   localStorage.setItem('lastActive', Date.now().toString());
 }
 
-window.addEventListener('click', updateLastActive);
-window.addEventListener('keydown', updateLastActive);
-window.addEventListener('touchstart', updateLastActive);
+// Safety net: only clear if a run is active AND they were inactive >5h
+function clearIfForgotEndShift() {
+  const hasActiveRun = localStorage.getItem('runActive') === '1';
+  if (!hasActiveRun) return;
 
-const FIVE_HOURS = 5 * 60 * 60 * 1000;
-
-function clearIfInactive() {
   const lastActive = localStorage.getItem('lastActive');
   if (!lastActive) return;
 
   const inactiveTime = Date.now() - parseInt(lastActive, 10);
   if (inactiveTime > FIVE_HOURS) {
-    console.log("Inactive >5h — clearing localStorage");
+    console.log("No activity for 5+ hours with run active — auto-clearing");
+    // full reset of UI cache
     localStorage.clear();
-    // Optional: location.reload();
+    // be explicit (in case clear() changes later)
+    localStorage.removeItem('runActive');
+    // Optional: hard reset the DOM so nothing stale lingers
+    // location.reload();
   }
 }
 
-document.addEventListener('DOMContentLoaded', clearIfInactive);
+// Count user activity
+window.addEventListener('click', updateLastActive);
+window.addEventListener('keydown', updateLastActive);
+window.addEventListener('touchstart', updateLastActive);
+// If they close the tab quickly, still capture a fresh timestamp
+window.addEventListener('beforeunload', updateLastActive);
 
+// Run the safety check on boot, on return, and periodically
+document.addEventListener('DOMContentLoaded', clearIfForgotEndShift);
 document.addEventListener('visibilitychange', () => {
-  if (!document.hidden) clearIfInactive();
+  if (!document.hidden) clearIfForgotEndShift();
 });
-
-setInterval(clearIfInactive, 5 * 60 * 1000);
-
-
+setInterval(clearIfForgotEndShift, 5 * 60 * 1000); // every 5 min
 
 /* ========================
    Helpers
@@ -97,6 +109,9 @@ function drainQueue() {
    Timing + queue writes
 ======================== */
 function addDuration(action, key) {
+  // Count real actions as activity (keeps the 5h clock honest)
+  updateLastActive();
+
   const record = getRecord(key);
 
   if (action === "start") {
@@ -134,7 +149,7 @@ function addDuration(action, key) {
 function swapToDelivered(form, dropIndex) {
   form.innerHTML = `
     <input type="hidden" name="drop_index" value="${dropIndex}">
-<button class="delivered-btn" type="button" name="action" value="stop">Delivered</button>
+    <button class="delivered-btn" type="button" name="action" value="stop">Delivered</button>
   `;
 }
 function swapToCompleted(form, durationMs) {
@@ -161,7 +176,6 @@ function swapToCompleted(form, durationMs) {
    Rehydrate UI from localStorage
    (so refresh looks right offline)
 ======================== */
-
 function rehydrateFromLocal() {
   const completedList = document.getElementById("completed-list");
 
@@ -216,12 +230,10 @@ function rehydrateFromLocal() {
         // Bump count
         const countEl = document.getElementById("completed-count");
         if (countEl) countEl.textContent = String(Number(countEl.textContent || "0") + 1);
-
       }
     }
   });
 }
-
 
 /* ========================
    Events
@@ -251,6 +263,8 @@ document.addEventListener("click", (e) => {
   const record = addDuration(action, key);
 
   if (action === "start") {
+    // Mark the run as active the first time they actually start a drop
+    localStorage.setItem('runActive', '1');
     swapToDelivered(form, dropIndex);
     return;
   }
@@ -285,35 +299,34 @@ document.addEventListener("click", (e) => {
         const n = Number(countEl.textContent || "0");
         countEl.textContent = String(n + 1);
       }
-
     }, 5000);
   }
 });
 
+// End Shift modal
 document.addEventListener("click", (e) => {
-    const endShiftBtn = e.target.closest(".end-shift");
-    const modal = document.querySelector(".end-shift-modal");
+  const endShiftBtn = e.target.closest(".end-shift");
+  const modal = document.querySelector(".end-shift-modal");
 
-    if (endShiftBtn) {
-        e.preventDefault();
-        modal.classList.add("show");
-        return;
-    }  
+  if (endShiftBtn) {
+    e.preventDefault();
+    if (modal) modal.classList.add("show");
+    return;
+  }
 
-
-    if (e.target.closest(".confirm")) {
-        localStorage.clear();
-        modal.classList.remove("show");
-        return;
-    } else if (e.target.closest(".cancel")) {
-        modal.classList.remove("show");
-        return;
-    }
-   
-    });
-
-
-
+  if (e.target.closest(".confirm")) {
+    updateLastActive();                  // count this action
+    localStorage.removeItem('runActive'); // mark run as ended
+    localStorage.clear();                 // clear UI cache
+    if (modal) modal.classList.remove("show");
+    // Optional: redirect to your clean page
+    // window.location.href = "/index"; // or "/"
+    return;
+  } else if (e.target.closest(".cancel")) {
+    if (modal) modal.classList.remove("show");
+    return;
+  }
+});
 
 // Online/offline
 window.addEventListener("online", () => {
@@ -333,6 +346,12 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("pending_queue_v1", "[]");
   }
 
+  // If your template renders drop cards when a run is configured,
+  // you can also infer 'runActive' on boot:
+  if (document.querySelector('.drop-card')) {
+    localStorage.setItem('runActive', '1');
+  }
+
   // prevent accidental submits (Enter key)
   document.querySelectorAll(".delivery-form").forEach((f) =>
     f.addEventListener("submit", (e) => e.preventDefault())
@@ -344,4 +363,3 @@ document.addEventListener("DOMContentLoaded", () => {
   // drain any leftovers if online
   if (navigator.onLine) drainQueue();
 });
-
