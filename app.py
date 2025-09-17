@@ -352,6 +352,60 @@ def save_drop():
 
     return jsonify({"ok": True})
 
+@app.route('/api/run/end', methods=['POST'])
+def end_run():
+    user_id = current_user.id
+    run_id = session.get("run_id")
+    if not run_id:
+        return jsonify({"ok": False, "error": "No run active"}), 400
+
+    # optional telemetry from client, not used for truth
+    payload = request.get_json(silent=True) or {}
+
+    conn = get_db()
+
+    # 1. Verify run belongs to this user and check if already ended
+    row = conn.execute(
+        "SELECT started_at, actual_ended_at FROM run WHERE id = ? AND user_id = ?",
+        (run_id, user_id)
+    ).fetchone()
+
+    if row is None:
+        return jsonify({"ok": False, "error": "RUN_NOT_FOUND_OR_NOT_OWNED"}), 404
+
+    # 2. If already ended, return success (idempotent)
+    if row["actual_ended_at"] is not None:
+        started_at = datetime.fromisoformat(row["started_at"])
+        actual_ended_at = datetime.fromisoformat(row["actual_ended_at"])
+        duration_ms = int((actual_ended_at - started_at).total_seconds() * 1000)
+
+        return jsonify({
+            "ok": True,
+            "run_id": run_id,
+            "actual_ended_at": actual_ended_at.isoformat(),
+            "duration_ms": duration_ms
+        })
+
+    # 3. Otherwise, stamp end now
+    actual_ended_at = datetime.now(timezone.utc)
+    started_at = datetime.fromisoformat(row["started_at"])
+    duration_ms = int((actual_ended_at - started_at).total_seconds() * 1000)
+
+    conn.execute(
+        "UPDATE run SET actual_ended_at = ?, duration_ms = ? WHERE id = ? AND user_id = ?",
+        (actual_ended_at.isoformat(), duration_ms, run_id, user_id)
+    )
+    conn.commit()
+
+    return jsonify({
+        "ok": True,
+        "run_id": run_id,
+        "actual_ended_at": actual_ended_at.isoformat(),
+        "duration_ms": duration_ms
+    })    
+
+
+
 @app.template_filter("fmt_duration")
 def fmt_duration(value):
     try:

@@ -314,19 +314,63 @@ document.addEventListener("click", (e) => {
     return;
   }
 
+  // Confirm end shift
   if (e.target.closest(".confirm")) {
-    updateLastActive();                  // count this action
-    localStorage.removeItem('runActive'); // mark run as ended
-    localStorage.clear();                 // clear UI cache
-    if (modal) modal.classList.remove("show");
-    // Optional: redirect to your clean page
-    // window.location.href = "/index"; // or "/"
+    e.preventDefault();
+    updateLastActive();
+
+    const body = { client_ended_at: new Date().toISOString() };
+
+    const finishLocally = () => {
+      // Clear UI cache and mark run ended
+      localStorage.removeItem("runActive");
+      localStorage.clear();
+      if (modal) modal.classList.remove("show");
+      // Optional: redirect
+      // window.location.href = "/index";
+    };
+
+    if (navigator.onLine) {
+      fetch("/api/run/end", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+        credentials: "same-origin",
+        cache: "no-store",
+      })
+        .then((r) => {
+          if (!r.ok) throw new Error(`HTTP ${r.status}`);
+          return r.json();
+        })
+        .then((data) => {
+          console.log("End run response:", data);
+          finishLocally();
+        })
+        .catch((err) => {
+          console.warn("End run failed, queueing:", err.message || err);
+          const queue = JSON.parse(localStorage.getItem("pending_queue_v1") || "[]");
+          queue.push({ type: "end_run", payload: body });
+          localStorage.setItem("pending_queue_v1", JSON.stringify(queue));
+          if (modal) modal.classList.remove("show");
+        });
+    } else {
+      // Offline: queue and close modal
+      const queue = JSON.parse(localStorage.getItem("pending_queue_v1") || "[]");
+      queue.push({ type: "end_run", payload: body });
+      localStorage.setItem("pending_queue_v1", JSON.stringify(queue));
+      if (modal) modal.classList.remove("show");
+    }
+
     return;
-  } else if (e.target.closest(".cancel")) {
+  }
+
+  // Cancel end shift
+  if (e.target.closest(".cancel")) {
     if (modal) modal.classList.remove("show");
     return;
   }
 });
+
 
 // Online/offline
 window.addEventListener("online", () => {
