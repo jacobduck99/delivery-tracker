@@ -359,52 +359,51 @@ def end_run():
     if not run_id:
         return jsonify({"ok": False, "error": "No run active"}), 400
 
-    # optional telemetry from client, not used for truth
-    payload = request.get_json(silent=True) or {}
+    # optional telemetry; not used for truth
+    _ = request.get_json(silent=True) or {}
 
     conn = get_db()
-
-    # 1. Verify run belongs to this user and check if already ended
+    # If your connection doesn't use Row factory, access by index [0]/[1]
     row = conn.execute(
-        "SELECT started_at, actual_ended_at FROM run WHERE id = ? AND user_id = ?",
+        "SELECT start_time, actual_end_time_at FROM run WHERE id = ? AND user_id = ?",
         (run_id, user_id)
     ).fetchone()
 
     if row is None:
         return jsonify({"ok": False, "error": "RUN_NOT_FOUND_OR_NOT_OWNED"}), 404
 
-    # 2. If already ended, return success (idempotent)
-    if row["actual_ended_at"] is not None:
-        started_at = datetime.fromisoformat(row["started_at"])
-        actual_ended_at = datetime.fromisoformat(row["actual_ended_at"])
-        duration_ms = int((actual_ended_at - started_at).total_seconds() * 1000)
-
+    # already ended? return idempotently
+    if row["actual_end_time_at"] is not None:
+        start_dt  = datetime.fromisoformat(row["start_time"])
+        end_dt    = datetime.fromisoformat(row["actual_end_time_at"])
+        duration_ms = int((end_dt - start_dt).total_seconds() * 1000)
         return jsonify({
             "ok": True,
             "run_id": run_id,
-            "actual_ended_at": actual_ended_at.isoformat(),
+            "actual_end_time_at": end_dt.isoformat(),
             "duration_ms": duration_ms
         })
 
-    # 3. Otherwise, stamp end now
-    actual_ended_at = datetime.now(timezone.utc)
-    started_at = datetime.fromisoformat(row["started_at"])
-    duration_ms = int((actual_ended_at - started_at).total_seconds() * 1000)
+    # stamp end now (server UTC) and compute duration
+    end_dt   = datetime.now(timezone.utc)
+    start_dt = datetime.fromisoformat(row["start_time"])
+    duration_ms = int((end_dt - start_dt).total_seconds() * 1000)
 
     conn.execute(
-        "UPDATE run SET actual_ended_at = ?, duration_ms = ? WHERE id = ? AND user_id = ?",
-        (actual_ended_at.isoformat(), duration_ms, run_id, user_id)
+        "UPDATE run SET actual_end_time_at = ?, duration_ms = ? WHERE id = ? AND user_id = ?",
+        (end_dt.isoformat(), duration_ms, run_id, user_id)
     )
     conn.commit()
+
+    # (optional) session pop so a new run must be created next time
+    # session.pop("run_id", None)
 
     return jsonify({
         "ok": True,
         "run_id": run_id,
-        "actual_ended_at": actual_ended_at.isoformat(),
+        "actual_end_time_at": end_dt.isoformat(),
         "duration_ms": duration_ms
-    })    
-
-
+    })
 
 @app.template_filter("fmt_duration")
 def fmt_duration(value):
