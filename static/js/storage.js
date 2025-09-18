@@ -288,7 +288,7 @@ document.addEventListener("click", (e) => {
       // wrap in <li> because completedList is a <ul>
       const li = document.createElement("li");
       li.appendChild(card);
-      completedList.appendChild(li);
+      completedList.prepend(li);
 
       // remove empty message, bump count
       const emptyMsg = completedList.querySelector(".empty-msg");
