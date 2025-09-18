@@ -299,7 +299,7 @@ document.addEventListener("click", (e) => {
         const n = Number(countEl.textContent || "0");
         countEl.textContent = String(n + 1);
       }
-    }, 5000);
+    }, 3000);
   }
 });
 
