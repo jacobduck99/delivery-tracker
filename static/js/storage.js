@@ -176,30 +176,32 @@ function swapToCompleted(form, durationMs) {
    Rehydrate UI from localStorage
    (so refresh looks right offline)
 ======================== */
+
 function rehydrateFromLocal() {
   const completedList = document.getElementById("completed-list");
+  if (!completedList) return;
 
-  document.querySelectorAll('.drop-card[id^="drop-"]').forEach((card) => {
+  const allCards = [...document.querySelectorAll('.drop-card[id^="drop-"]')];
+  const completed = [];
+
+  // First pass: ensure card UI and collect completed
+  for (const card of allCards) {
     const idx = Number(card.id.split("-")[1]);
-    if (!Number.isFinite(idx)) return;
+    if (!Number.isFinite(idx)) continue;
 
     const rec = getRecord(keyFor(idx));
     const form = card.querySelector(".delivery-form");
 
-    // No local state → leave server-rendered state
-    if (typeof rec.start_ts !== "number" && typeof rec.stop_ts !== "number") return;
+    // no local state → leave as is
+    if (typeof rec.start_ts !== "number" && typeof rec.stop_ts !== "number") continue;
 
-    // Started but not stopped → ensure Delivered button
     if (typeof rec.start_ts === "number" && typeof rec.stop_ts !== "number") {
-      if (form && !form.querySelector(".delivered-btn")) {
-        swapToDelivered(form, idx);
-      }
-      return;
+      if (form && !form.querySelector(".delivered-btn")) swapToDelivered(form, idx);
+      continue;
     }
 
-    // Stopped → ensure completed UI and move to Completed list
     if (typeof rec.stop_ts === "number") {
-      // Ensure completed UI on the card
+      // Ensure completed UI
       if (form) {
         swapToCompleted(form, rec.duration_ms || 0);
       } else {
@@ -217,23 +219,31 @@ function rehydrateFromLocal() {
         }
       }
 
-      // Move into Completed list (idempotent)
-      if (completedList && !card.closest("#completed-list")) {
-        const li = document.createElement("li");
-        li.appendChild(card);
-        completedList.appendChild(li);
-
-        // Remove empty message
-        const emptyMsg = completedList.querySelector(".empty-msg");
-        if (emptyMsg) emptyMsg.remove();
-
-        // Bump count
-        const countEl = document.getElementById("completed-count");
-        if (countEl) countEl.textContent = String(Number(countEl.textContent || "0") + 1);
-      }
+      completed.push({ card, stop: Number(rec.stop_ts) || 0 });
     }
-  });
+  }
+
+  // 🔁 FULL REBUILD to enforce order
+  // Remove any existing children so server order doesn't persist
+  completedList.innerHTML = "";
+
+  // Sort newest→oldest, then append in that order
+  completed
+    .sort((a, b) => b.stop - a.stop)
+    .forEach(({ card }) => {
+      const li = document.createElement("li");
+      li.appendChild(card);
+      completedList.appendChild(li);
+    });
+
+  // Empty msg + count
+  const emptyMsg = completedList.querySelector(".empty-msg");
+  if (emptyMsg && completed.length) emptyMsg.remove();
+
+  const countEl = document.getElementById("completed-count");
+  if (countEl) countEl.textContent = String(completedList.querySelectorAll(":scope > li").length);
 }
+
 
 /* ========================
    Events
