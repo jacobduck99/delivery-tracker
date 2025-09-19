@@ -303,6 +303,15 @@ document.addEventListener("click", (e) => {
   }
 });
 
+function fetchWithTimeout(url, options = {}, timeout = 3000) {
+  return Promise.race([
+    fetch(url, options),
+    new Promise((_, reject) =>
+      setTimeout(() => reject(new Error("Timeout")), timeout)
+    ),
+  ]);
+}
+
 // End Shift modal
 document.addEventListener("click", (e) => {
   const endShiftBtn = e.target.closest(".end-shift");
@@ -322,22 +331,20 @@ document.addEventListener("click", (e) => {
     const body = { client_ended_at: new Date().toISOString() };
 
     const finishLocally = () => {
-      // Clear UI cache and mark run ended
       localStorage.removeItem("runActive");
-      localStorage.clear();
+      localStorage.clear(); 
       if (modal) modal.classList.remove("show");
-      // Optional: redirect
       // window.location.href = "/index";
     };
 
     if (navigator.onLine) {
-      fetch("/api/run/end", {
+      fetchWithTimeout("/api/run/end", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
         credentials: "same-origin",
         cache: "no-store",
-      })
+      }, 3000)
         .then((r) => {
           if (!r.ok) throw new Error(`HTTP ${r.status}`);
           return r.json();
@@ -347,7 +354,7 @@ document.addEventListener("click", (e) => {
           finishLocally();
         })
         .catch((err) => {
-          console.warn("End run failed, queueing:", err.message || err);
+          console.warn("End run failed (timeout or error), queueing:", err.message || err);
           const queue = JSON.parse(localStorage.getItem("pending_queue_v1") || "[]");
           queue.push({ type: "end_run", payload: body });
           localStorage.setItem("pending_queue_v1", JSON.stringify(queue));
@@ -361,7 +368,7 @@ document.addEventListener("click", (e) => {
       if (modal) modal.classList.remove("show");
     }
 
-    return;
+    return; // <-- stop after handling confirm
   }
 
   // Cancel end shift
