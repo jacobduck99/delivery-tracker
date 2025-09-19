@@ -20,16 +20,6 @@
 <meta name="theme-color" content="#0066cc">
 <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/icon-192.png') }}">
 
-
-
-<script>
-if ("serviceWorker" in navigator && window.isSecureContext && !location.search.includes("nosw")) {
-  window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js"));
-}
-</script>
-
-
-
   {% block head %}{% endblock %}
 </head>
 <body
@@ -42,7 +32,7 @@ if ("serviceWorker" in navigator && window.isSecureContext && !location.search.i
   "
 >
   {% if current_user.is_authenticated and request.endpoint != 'configuration' %}
-  <nav>
+  <nav class="bottom-nav">
     <ul class="navbar">
       <li><a href="{{ url_for('index') }}">Live</a></li>
       <li><a href="{{ url_for('stats') }}">Stats</a></li>
