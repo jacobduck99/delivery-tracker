@@ -38,7 +38,6 @@
     </div>
   </div>
 
-
 <!-- =========================
      COMPLETED DROPS PANEL
 ========================== -->
@@ -75,6 +74,11 @@
           {% set d = deliveries | selectattr('drop_idx', 'equalto', i) | first %}
           <article id="drop-{{ i }}" class="drop-card">
             <h4>Drop {{ i }}</h4>
+
+<div class="gps-section">
+  <input type="text" name="address" placeholder="Enter address">
+  <button type="button" class="gps-btn">📍 Open in Maps</button>
+</div>
 
             {% if not d %}
               <!-- not started -->

@@ -424,3 +424,31 @@ document.addEventListener("DOMContentLoaded", () => {
   // drain any leftovers if online
   if (navigator.onLine) drainQueue();
 });
+
+// opening maps 
+document.addEventListener("click", (e) => {
+    const btn = e.target.closest(".gps-btn");
+    if (! btn) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    const input = btn.closest(".gps-section")?.querySelector("input");
+    const address = input?.value.trim();
+    if (!address) {
+    alert("Please enter an address first!");
+    return;
+    }
+
+    const encoded = encodeURIComponent(address);
+
+  // Detect iOS vs others
+    const isApple = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    const mapsUrl = isApple
+    ? `http://maps.apple.com/?q=${encoded}`
+    : `https://www.google.com/maps/search/?api=1&query=${encoded}`;
+
+    window.open(mapsUrl, "_blank");
+
+    
+});
