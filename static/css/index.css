@@ -19,7 +19,7 @@
   --panel: #ffffff;
 
   --radius-lg: 16px;
-  --radius-md: 12px;
+  --radius-md: 10px;
   --radius-pill: 9999px;
 
   --shadow-sm: 0 1px 2px rgba(15,23,42,.06);
@@ -170,7 +170,7 @@ img { max-width: 100%; height: auto; }
   height: 22px;
   padding: 0 8px;
   font: 700 .8rem/1 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-  color: #065f46;
+  color: #047857;
   background: #d1fae5;
   border: 1px solid #a7f3d0;
   border-radius: 999px;

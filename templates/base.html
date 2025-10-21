@@ -31,15 +31,31 @@
     {% endif %}
   "
 >
-  {% if current_user.is_authenticated and request.endpoint != 'configuration' %}
+{% if current_user.is_authenticated and request.endpoint != 'configuration' %}
   <nav class="bottom-nav">
     <ul class="navbar">
-      <li><a href="{{ url_for('index') }}">Live</a></li>
-      <li><a href="{{ url_for('stats') }}">Stats</a></li>
-      <li><a href="{{ url_for('past_runs') }}">History</a></li>
+      <li>
+        <a href="{{ url_for('index') }}" class="{% if request.endpoint == 'index' %}active{% endif %}">
+          <span class="icon" aria-hidden="true">📍</span>
+          <span class="label">Live</span>
+        </a>
+      </li>
+      <li>
+        <a href="{{ url_for('stats') }}" class="{% if request.endpoint == 'stats' %}active{% endif %}">
+          <span class="icon" aria-hidden="true">📊</span>
+          <span class="label">Stats</span>
+        </a>
+      </li>
+      <li>
+        <a href="{{ url_for('past_runs') }}" class="{% if request.endpoint == 'past_runs' %}active{% endif %}">
+          <span class="icon" aria-hidden="true">🕓</span>
+          <span class="label">History</span>
+        </a>
+      </li>
     </ul>
   </nav>
-  {% endif %}
+{% endif %}
+
 
   <main>
     {% with messages = get_flashed_messages(with_categories=true) %}
