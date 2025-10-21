@@ -9,6 +9,9 @@
   --info: #38bdf8;
   --neutral: #94a3b8; --neutral-dark: #64748b;
 
+  --success: #0dbd47;        /* your current green */
+  --success-dark: #0a9c3b;   /* darker for hover */
+
   --ink: #0f172a;
   --muted: #64748b;
   --line: #e5e7eb;
@@ -244,7 +247,7 @@ img { max-width: 100%; height: auto; }
   border: none;
   border-radius: var(--radius-pill);/* <-- pill */
   font-weight: 700;                 /* Meta leans 600–700, not 800 */
-  font-size: .95rem;
+  font-size: 1.1rem;
   letter-spacing: 0;                /* tighter, cleaner */
   color: #fff;
   background: var(--brand);         /* solid, not heavy gradient */
@@ -254,6 +257,13 @@ img { max-width: 100%; height: auto; }
 .drop-card button:hover { filter: brightness(1.03); box-shadow: 0 4px 12px rgba(15,23,42,.12); }
 .drop-card button:active { transform: translateY(1px); box-shadow: 0 2px 6px rgba(15,23,42,.16); }
 .drop-card button:focus-visible { box-shadow: 0 0 0 3px rgba(88,101,242,.25); outline: none; }
+
+.drop-card button[name="action"][value="start"] {
+  background: linear-gradient(180deg, var(--brand), var(--brand-dark));
+}
+.drop-card button[name="action"][value="stop"] {
+  background: linear-gradient(180deg, var(--danger), var(--danger-dark));
+}
 
 .drop-elapsed {
   text-align: center;
@@ -447,7 +457,7 @@ img { max-width: 100%; height: auto; }
   border: none;
   border-radius: 9999px;              /* full pill */
   font-weight: 700;
-  font-size: .95rem;
+  font-size: 1rem;
   letter-spacing: 0;                  /* cleaner */
   color: #fff;
   background-color: #0dbd47;          /* solid Meta green */
