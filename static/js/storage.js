@@ -427,28 +427,51 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // opening maps 
 document.addEventListener("click", (e) => {
-    const btn = e.target.closest(".gps-btn");
-    if (! btn) return;
+  const btn = e.target.closest(".gps-btn");
+  if (!btn) return;
 
-    e.preventDefault();
-    e.stopPropagation();
+  // Don't over-cancel; keep this if it's inside a <form>
+  e.preventDefault();
 
-    const input = btn.closest(".gps-section")?.querySelector("input");
-    const address = input?.value.trim();
-    if (!address) {
+  const input = btn.closest(".gps-section")?.querySelector("input");
+  const address = input?.value?.trim();
+  if (!address) {
     alert("Please enter an address first!");
     return;
+  }
+
+  const encoded = encodeURIComponent(address);
+
+  // Robust Apple detection (covers iPadOS that reports as 'Macintosh')
+  const ua = navigator.userAgent || "";
+  const isApple =
+    /iPhone|iPad|iPod/i.test(ua) ||
+    (/\bMacintosh\b/i.test(ua) && navigator.maxTouchPoints > 1);
+
+  // PWA standalone detection
+  const isStandalone =
+    window.matchMedia?.("(display-mode: standalone)")?.matches ||
+    // old iOS
+    window.navigator.standalone === true;
+
+  // Map URLs (https for Apple Maps)
+  const appleUrl = `https://maps.apple.com/?q=${encoded}`;
+  const gmapsUrl = `https://www.google.com/maps/search/?api=1&query=${encoded}`;
+  const geoUrl = `geo:0,0?q=${encoded}`; // nice mobile fallback
+
+  const targetUrl = isApple ? appleUrl : gmapsUrl;
+
+  // In standalone PWAs on iOS, prefer same-tab navigation.
+  // Elsewhere, a new tab is fine.
+  if (isStandalone && isApple) {
+    // iOS PWA: _blank can be blocked—use same-tab
+    location.href = targetUrl;
+  } else {
+    // Try geo: first on mobile; if blocked, fall back to web URL
+    const tried = window.open(geoUrl, "_blank", "noopener,noreferrer");
+    if (!tried) {
+      // Popup blocked or desktop—use web URL
+      window.open(targetUrl, "_blank", "noopener,noreferrer");
     }
-
-    const encoded = encodeURIComponent(address);
-
-  // Detect iOS vs others
-    const isApple = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    const mapsUrl = isApple
-    ? `http://maps.apple.com/?q=${encoded}`
-    : `https://www.google.com/maps/search/?api=1&query=${encoded}`;
-
-    window.open(mapsUrl, "_blank");
-
-    
+  }
 });
