@@ -60,7 +60,17 @@
   </details>
 </div>
 
+<!-- Current drop renders here -->
+<section id="current-drop-slot" class="drops"></section>
 
+<!-- Upcoming Drops collapsible -->
+<details id="upcoming-drops" class="completed-item upcoming-panel">
+  <summary>
+    <span>Upcoming Drops</span>
+    <span class="count" id="upcoming-count">0</span>
+  </summary>
+  <ul class="run-list upcoming-list" id="upcoming-list"></ul>
+</details>
 
   <!-- =========================
        ACTIVE DROPS SECTION
@@ -70,7 +80,9 @@
       <div class="drop-grid">
         {% for i in range(1, num_drops + 1) %}
           {% set d = deliveries | selectattr('drop_idx', 'equalto', i) | first %}
-          <article id="drop-{{ i }}" class="drop-card">
+          <article id="drop-{{ i }}" class="drop-card"
+          data-drop-index="{{ i }}"
+         data-state="{% if not d %}idle{% elif not d.end_ts %}running{% else %}complete{% endif %}">
             <h4>Drop {{ i }}</h4>
 
 <div class="gps-section">
@@ -125,5 +137,6 @@
 <!-- Styles & scripts -->
 <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}?v=33">
 <script src="{{ url_for('static', filename='js/storage.js') }}?v=33"></script>
+<script src="{{ url_for('static', filename='js/upcoming.js') }}?v=1"></script>
 
 {% endblock %}

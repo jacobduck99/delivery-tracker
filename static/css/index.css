@@ -482,4 +482,15 @@ img { max-width: 100%; height: auto; }
   box-shadow: 0 0 0 3px rgba(88,101,242,.25);
 }
 
-
+.upcoming-panel { margin-block: 12px; }
+.upcoming-list { gap: 8px; }
+.upcoming-list li {
+  display: grid; grid-template-columns: auto 1fr auto;
+  align-items: center; gap: 8px;
+  padding: 10px 12px;
+  background: #fff; border: 1px solid var(--line);
+  border-radius: 10px;
+}
+.upcoming-list .up-index { font-weight: 700; color: var(--ink); }
+.upcoming-list .up-address { color: var(--muted); font-size: .85rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.upcoming-list .up-chip { border: 1px solid var(--line); background:#fff; border-radius:9999px; padding:6px 10px; font:700 .8rem system-ui; }
