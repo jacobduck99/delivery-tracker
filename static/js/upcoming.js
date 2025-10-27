@@ -3,14 +3,19 @@ export function initialiseQueueFromDom() {
     const currentDrop = document.getElementById("current-drop-slot");
     const upcomingDrops = document.getElementById("upcoming-list");
     const allDrops = [ ...document.querySelectorAll('.drop-card[id^="drop-"]')];
+    let counter = 0;
 
     for (let i = 0; i < allDrops.length; i++) {
         if (i === 0) {
             currentDrop.append(allDrops[i]);
         } else {
             upcomingDrops.append(allDrops[i]);
+            counter++;
         }
     }
+    const countEl = document.getElementById("upcoming-count"); 
+    countEl.textContent = `${counter}`;
+
 };
 
 export function promoteNextDrop() {
