@@ -242,10 +242,7 @@ function rehydrateFromLocal() {
 
   const countEl = document.getElementById("completed-count");
   if (countEl) countEl.textContent = String(completedList.querySelectorAll(":scope > li").length);
-    const currentDrop = document.getElementById("current-drop-slot");
-    if (currentDrop.children.length === 0) {
         promoteNextDrop();
-    };
 }
 
 
