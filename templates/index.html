@@ -136,7 +136,5 @@
 
 <!-- Styles & scripts -->
 <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}?v=33">
-<script src="{{ url_for('static', filename='js/storage.js') }}?v=33"></script>
-<script src="{{ url_for('static', filename='js/upcoming.js') }}?v=1"></script>
-
+<script type="module" src="{{ url_for('static', filename='js/storage.js') }}?v=33"></script>
 {% endblock %}

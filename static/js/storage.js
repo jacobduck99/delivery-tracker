@@ -1,3 +1,4 @@
+import { promoteNextDrop, initialiseQueueFromDom } from "./upcoming.js";
 // storage.js (v24)
 console.log("storage.js v24 loaded");
 
@@ -236,6 +237,9 @@ function rehydrateFromLocal() {
       completedList.appendChild(li);
     });
 
+    initialiseQueueFromDom();
+    promoteNextDrop();
+}
   // Empty msg + count
   const emptyMsg = completedList.querySelector(".empty-msg");
   if (emptyMsg && completed.length) emptyMsg.remove();
