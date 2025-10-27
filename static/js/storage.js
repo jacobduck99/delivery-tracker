@@ -133,7 +133,6 @@ function addDuration(action, key) {
         duration_ms: record.duration_ms,
       });
       localStorage.setItem("pending_queue_v1", JSON.stringify(queue));
-
       if (navigator.onLine) setTimeout(drainQueue, 0);
     } else {
       return record; // ignore invalid stop
@@ -237,10 +236,7 @@ function rehydrateFromLocal() {
       completedList.appendChild(li);
     });
 
-    initialiseQueueFromDom();
-    promoteNextDrop();
-}
-  // Empty msg + count
+    // Empty msg + count
   const emptyMsg = completedList.querySelector(".empty-msg");
   if (emptyMsg && completed.length) emptyMsg.remove();
 
@@ -313,6 +309,11 @@ document.addEventListener("click", (e) => {
         const n = Number(countEl.textContent || "0");
         countEl.textContent = String(n + 1);
       }
+
+    const currentSlot = document.getElementById("current-drop-slot");
+      if (currentSlot && currentSlot.children.length === 0) {
+     promoteNextDrop();
+}
     }, 3000);
   }
 });
@@ -421,6 +422,9 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".delivery-form").forEach((f) =>
     f.addEventListener("submit", (e) => e.preventDefault())
   );
+
+    initialiseQueueFromDom();     
+    promoteNextDrop(); 
 
   // rebuild UI from local cache
   rehydrateFromLocal();
