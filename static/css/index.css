@@ -35,7 +35,7 @@
 /* ---- Base ---- */
 * { box-sizing: border-box; }
 html, body {
-  margin-top: 24px; 
+  margin-top: 15px; 
   padding: 0;
   background: var(--bg);
   background-color: var(--bg);
