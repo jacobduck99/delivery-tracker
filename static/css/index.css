@@ -35,7 +35,7 @@
 /* ---- Base ---- */
 * { box-sizing: border-box; }
 html, body {
-  margin: 0;
+  margin-top: 24px; 
   padding: 0;
   background: var(--bg);
   background-color: var(--bg);
@@ -51,6 +51,8 @@ img { max-width: 100%; height: auto; }
 /* =============================
    Layout — Rails & Panels
    ============================= */
+.rails { padding-top: -10px; }
+
 .rails, .container {
   max-width: var(--container-max);
   margin-inline: auto;
@@ -503,3 +505,4 @@ img { max-width: 100%; height: auto; }
 .upcoming-list .up-index { font-weight: 700; color: var(--ink); }
 .upcoming-list .up-address { color: var(--muted); font-size: .85rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .upcoming-list .up-chip { border: 1px solid var(--line); background:#fff; border-radius:9999px; padding:6px 10px; font:700 .8rem system-ui; }
+
