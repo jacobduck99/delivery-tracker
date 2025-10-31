@@ -79,4 +79,27 @@ export function placeCards() {
       if (card) completedDropsContainer.append(card);
     }
   }
+} 
+
+function getRecord(key) {
+  try { return JSON.parse(localStorage.getItem(key) || "{}"); }
+  catch { return {}; }
+}
+
+export function addDropsLocal() {
+    const allDrops = [...document.querySelectorAll('.drop-card[id^="drop-"]')];
+    const queue = JSON.parse(localStorage.getItem("all_drops") || "[]");
+
+    for (const idx of allDrops) {
+        const dropIndex = Number(idx.id.split("-")[1]);
+
+        const record = {
+            dropIndex: dropIndex,
+            status: "not_started"
+        };
+
+        queue.push(record);
+    }
+
+    localStorage.setItem("all_drops", JSON.stringify(queue));
 }

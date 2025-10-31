@@ -1,4 +1,5 @@
 import { promoteNextDrop, initialiseQueueFromDom } from "./upcoming.js";
+import { addDropsLocal } from "./state.js";
 // storage.js (v24)
 console.log("storage.js v24 loaded");
 
@@ -409,6 +410,9 @@ window.addEventListener("offline", () => {
 ======================== */
 document.addEventListener("DOMContentLoaded", () => {
   // ensure queue exists
+
+  addDropsLocal();
+
   if (!localStorage.getItem("pending_queue_v1")) {
     localStorage.setItem("pending_queue_v1", "[]");
   }
