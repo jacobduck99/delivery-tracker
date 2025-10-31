@@ -87,19 +87,34 @@ function getRecord(key) {
 }
 
 export function addDropsLocal() {
-    const allDrops = [...document.querySelectorAll('.drop-card[id^="drop-"]')];
-    const queue = JSON.parse(localStorage.getItem("all_drops") || "[]");
+  const allDrops = [...document.querySelectorAll('.drop-card[id^="drop-"]')];
 
-    for (const idx of allDrops) {
-        const dropIndex = Number(idx.id.split("-")[1]);
+  // Build fresh list every time Configure runs (replace, don't append)
+  const fresh = [];
+  for (const el of allDrops) {
+    const dropIndex = Number(el.id.split("-")[1]);
+    if (!Number.isFinite(dropIndex)) continue;
 
-        const record = {
-            dropIndex: dropIndex,
-            status: "not_started"
-        };
+    fresh.push({
+      dropIndex,
+      status: "not_started"
+    });
+  }
 
-        queue.push(record);
-    }
-
-    localStorage.setItem("all_drops", JSON.stringify(queue));
+  localStorage.setItem("all_drops", JSON.stringify(fresh));
 }
+
+
+export function updateDropStatus(dropIndex, newStatus) {
+  const list = JSON.parse(localStorage.getItem("all_drops") || "[]");
+  if (!Array.isArray(list)) return false;
+
+  const rec = list.find(r => r.dropIndex === Number(dropIndex));
+  if (!rec) return false;
+
+  rec.status = newStatus;
+
+  localStorage.setItem("all_drops", JSON.stringify(list));
+  return true;
+}
+

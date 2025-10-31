@@ -1,5 +1,5 @@
 import { promoteNextDrop, initialiseQueueFromDom } from "./upcoming.js";
-import { addDropsLocal } from "./state.js";
+import { addDropsLocal, updateDropStatus } from "./state.js";
 // storage.js (v24)
 console.log("storage.js v24 loaded");
 
@@ -186,7 +186,7 @@ function rehydrateFromLocal() {
   const completed = [];
 
   // First pass: ensure card UI and collect completed
-  for (const card of allCards) {
+let state = JSON.parse(localStorage.getItem("all_drops"));  for (const card of allCards) {
     const idx = Number(card.id.split("-")[1]);
     if (!Number.isFinite(idx)) continue;
 
@@ -276,6 +276,7 @@ document.addEventListener("click", (e) => {
 
   if (action === "start") {
     // Mark the run as active the first time they actually start a drop
+    updateDropStatus(dropIndex, "in_progress"); 
     localStorage.setItem('runActive', '1');
     swapToDelivered(form, dropIndex);
     return;
@@ -283,6 +284,7 @@ document.addEventListener("click", (e) => {
 
   if (action === "stop") {
     // avoid double-scheduling
+    updateDropStatus(dropIndex, "completed");
     if (!card || card.dataset.moveScheduled === "1") {
       swapToCompleted(form, record?.duration_ms ?? 0);
       return;
@@ -411,7 +413,9 @@ window.addEventListener("offline", () => {
 document.addEventListener("DOMContentLoaded", () => {
   // ensure queue exists
 
-  addDropsLocal();
+    if (!localStorage.getItem("all_drops")) {
+        addDropsLocal();
+    }
 
   if (!localStorage.getItem("pending_queue_v1")) {
     localStorage.setItem("pending_queue_v1", "[]");
