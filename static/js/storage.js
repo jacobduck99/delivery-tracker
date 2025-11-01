@@ -185,71 +185,7 @@ function swapToDelivered(form, dropIndex) {
 ======================== */
 
 function rehydrateFromLocal() {
-  const completedList = document.getElementById("completed-list");
-  if (!completedList) return;
-
-  const allCards = [...document.querySelectorAll('.drop-card[id^="drop-"]')];
-  const completed = [];
-
-  // First pass: ensure card UI and collect completed
-  for (const card of allCards) {
-    const idx = Number(card.id.split("-")[1]);
-    if (!Number.isFinite(idx)) continue;
-
-    const rec = getRecord(keyFor(idx));
-    const form = card.querySelector(".delivery-form");
-
-    // no local state → leave as is
-    if (typeof rec.start_ts !== "number" && typeof rec.stop_ts !== "number") continue;
-
-    if (typeof rec.start_ts === "number" && typeof rec.stop_ts !== "number") {
-      if (form && !form.querySelector(".delivered-btn")) swapToDelivered(form, idx);
-      continue;
-    }
-
-    if (typeof rec.stop_ts === "number") {
-      // Ensure completed UI
-      if (form) {
-        swapToCompleted(form, rec.duration_ms || 0);
-      } else {
-        if (!card.querySelector(".complete-badge")) {
-          const badge = document.createElement("div");
-          badge.className = "complete-badge";
-          badge.textContent = "Completed ✓";
-          card.appendChild(badge);
-        }
-        if (!card.querySelector(".drop-elapsed")) {
-          const p = document.createElement("p");
-          p.className = "drop-elapsed";
-          p.innerHTML = `<strong>Total-Time:</strong> ${fmtDuration(rec.duration_ms || 0)}`;
-          card.appendChild(p);
-        }
-      }
-
-      completed.push({ card, stop: Number(rec.stop_ts) || 0 });
-    }
-  }
-
-  // 🔁 FULL REBUILD to enforce order
-  // Remove any existing children so server order doesn't persist
-  completedList.innerHTML = "";
-
-  // Sort newest→oldest, then append in that order
-  completed
-    .sort((a, b) => b.stop - a.stop)
-    .forEach(({ card }) => {
-      const li = document.createElement("li");
-      li.appendChild(card);
-      completedList.appendChild(li);
-    });
-
-    // Empty msg + count
-  const emptyMsg = completedList.querySelector(".empty-msg");
-  if (emptyMsg && completed.length) emptyMsg.remove();
-
-  const countEl = document.getElementById("completed-count");
-  if (countEl) countEl.textContent = String(completedList.querySelectorAll(":scope > li").length);
-        promoteNextDrop();
+    render();
 }
 
 
