@@ -4,13 +4,12 @@
 
 {% block content %}
 
-<!-- Wrap everything in .rails so all sections align -->
 <div class="rails">
 
   <!-- =========================
-       DASHBOARD PANEL
+       DASHBOARD PANEL (Breaks)
   ========================== -->
-  <div class="dashboard container"> 
+  <div class="dashboard container">
     <div class="break">
       <!-- Break 1 -->
       <form method="POST" action="/breaks">
@@ -36,100 +35,64 @@
     </div>
   </div>
 
-<!-- =========================
-     COMPLETED DROPS PANEL
-========================== -->
-<div class="completed-panel rails">
-  <details class="completed-item">
-    <summary>
-      <span class="label">Completed Drops</span>
-      <span class="count" id="completed-count">0</span>
-    </summary>
-
-    <ul class="run-list" id="completed-list">
-      <!-- Example item (replace with your Jinja loop) -->
-      <!--
-      <li>
-        <span class="run-label">Drop 1</span>
-        <span class="run-time">03:42</span>
-        <span class="run-meta">Delivered at 2:15 PM</span>
-      </li>
-      -->
-    <li class="empty-msg">No completed drops yet.</li>
-    </ul>
-  </details>
-</div>
-
-<!-- Current drop renders here -->
-<section id="current-drop-slot" class="drops"></section>
-
-<!-- Upcoming Drops collapsible -->
-<details id="upcoming-drops" class="completed-item upcoming-panel">
-  <summary>
-    <span>Upcoming Drops</span>
-    <span class="count" id="upcoming-count">0</span>
-  </summary>
-  <ul class="run-list upcoming-list" id="upcoming-list"></ul>
-</details>
+  <!-- =========================
+       HIDDEN SEED (for JS init only)
+       - Lets allDropsLocal() read how many drops exist
+       - No visible UI here
+  ========================== -->
+  <div id="server-seed" hidden>
+    {% if num_drops %}
+      {% for i in range(1, num_drops + 1) %}
+        <article class="drop-card" id="drop-{{ i }}" data-drop-index="{{ i }}"></article>
+      {% endfor %}
+    {% endif %}
+  </div>
 
   <!-- =========================
-       ACTIVE DROPS SECTION
+       COMPLETED DROPS PANEL (JS-driven)
   ========================== -->
-  <div class="drops">
-    {% if num_drops %}
-      <div class="drop-grid">
-        {% for i in range(1, num_drops + 1) %}
-          {% set d = deliveries | selectattr('drop_idx', 'equalto', i) | first %}
-          <article id="drop-{{ i }}" class="drop-card"
-          data-drop-index="{{ i }}"
-         data-state="{% if not d %}idle{% elif not d.end_ts %}running{% else %}complete{% endif %}">
-            <h4>Drop {{ i }}</h4>
-
-<div class="gps-section">
-  <input type="text" name="address" placeholder="Enter address">
-  <button type="button" class="gps-btn">📍 Open in Maps</button>
-</div>
-
-            {% if not d %}
-              <!-- not started -->
-              <form class="delivery-form" action="{{ url_for('start_delivery') }}" method="post">
-                <input type="hidden" name="drop_index" value="{{ i }}">
-                <button class="arrived-btn" type="button" name="action" value="start">Arrived</button>
-              </form>
-
-            {% elif not d.end_ts %}
-              <!-- started but not stopped -->
-              <form class="delivery-form" action="{{ url_for('start_delivery') }}" method="post">
-                <input type="hidden" name="drop_index" value="{{ i }}">
-                <button class="delivered-btn" type="button" name="action" value="stop">Delivered</button>
-              </form>
-
-            {% else %}
-  <!-- completed -->
-  <span class="complete-badge">Completed ✓</span>
-  <p class="drop-elapsed">
-    <span class="elapsed-label">Total–Time</span>
-    <span class="elapsed-time">{{ d.elapsed | fmt_duration }}</span>
-  </p>
-{% endif %}          </article>
-        {% endfor %}
-      </div>
-<div>
-<button class="end-shift" type="button" name="action" value="end-shift">End Shift</button>
-  <div class="end-shift-modal">
-    <div class="modal-box">
-  <p>⚠️ WARNING<br>This will end your shift. Are you sure?</p>
-  <div class="actions">
-    <button type="button" class="cancel">No</button>
-    <button type="button" class="confirm">Yes</button>
+  <div class="completed-panel rails">
+    <details class="completed-item">
+      <summary>
+        <span class="label">Completed Drops</span>
+        <span class="count" id="completed-count">0</span>
+      </summary>
+      <ul class="run-list" id="completed-list">
+        <li class="empty-msg">No completed drops yet.</li>
+      </ul>
+    </details>
   </div>
-</div></div> 
-    {% else %}
-      <p class="empty-msg">
-        No drops configured yet.
-        <a href="{{ url_for('configuration') }}">Configure your shift.</a>
-      </p>
-    {% endif %}
+
+  <!-- =========================
+       CURRENT DROP (JS-driven)
+  ========================== -->
+  <section id="current-drop-slot" class="drops"></section>
+
+  <!-- =========================
+       UPCOMING DROPS (JS-driven)
+  ========================== -->
+  <details id="upcoming-drops" class="completed-item upcoming-panel">
+    <summary>
+      <span>Upcoming Drops</span>
+      <span class="count" id="upcoming-count">0</span>
+    </summary>
+    <ul class="run-list upcoming-list" id="upcoming-list"></ul>
+  </details>
+
+  <!-- =========================
+       END SHIFT
+  ========================== -->
+  <div class="end-shift-wrapper">
+    <button class="end-shift" type="button" name="action" value="end-shift">End Shift</button>
+    <div class="end-shift-modal">
+      <div class="modal-box">
+        <p>⚠️ WARNING<br>This will end your shift. Are you sure?</p>
+        <div class="actions">
+          <button type="button" class="cancel">No</button>
+          <button type="button" class="confirm">Yes</button>
+        </div>
+      </div>
+    </div>
   </div>
 
 </div> <!-- /rails -->

@@ -39,30 +39,49 @@ export function changeStatus(dropIndex, status) {
 }
 
 function pickCurrent(list) {
-  return (
-    list.find(d => d.status === "in_progress") ||
-    list.find(d => d.status === "not_started") ||
-    null
-  );
+  // If something is running, that's current
+  const running = list.find(d => d.status === "in_progress");
+  if (running) return running;
+
+  // During the hold window, keep showing the just-completed card
+  const held = getActiveHold(list);
+  if (held) return held;
+
+  // Otherwise, show the first not_started (or nothing)
+  return list.find(d => d.status === "not_started") || null;
 }
 
 export function renderCard(record) {
   const { dropIndex, status, duration_ms } = record;
 
+  // Completed
   if (status === "completed") {
     return `
       <article id="drop-${dropIndex}" class="drop-card" data-drop-index="${dropIndex}">
         <h4>Drop ${dropIndex}</h4>
+
+        <div class="gps-section">
+          <input type="text" name="address" placeholder="Enter address">
+          <button type="button" class="gps-btn">📍 Open in Maps</button>
+        </div>
+
         <div class="complete-badge">Completed ✓</div>
         <p class="drop-elapsed"><strong>Total-Time:</strong> ${fmtDuration(duration_ms || 0)}</p>
       </article>
     `;
   }
 
+  // In Progress
   if (status === "in_progress") {
     return `
       <article id="drop-${dropIndex}" class="drop-card" data-drop-index="${dropIndex}">
         <h4>Drop ${dropIndex}</h4>
+
+        <div class="gps-section">
+          <input type="text" name="address" placeholder="Enter address">
+          <button type="button" class="gps-btn">📍 Open in Maps</button>
+        </div>
+
         <form class="delivery-form">
           <input type="hidden" name="drop_index" value="${dropIndex}">
           <button class="delivered-btn" type="button" name="action" value="stop">Delivered</button>
@@ -71,17 +90,24 @@ export function renderCard(record) {
     `;
   }
 
-  // not_started
+  // Not Started
   return `
     <article id="drop-${dropIndex}" class="drop-card" data-drop-index="${dropIndex}">
       <h4>Drop ${dropIndex}</h4>
+
+      <div class="gps-section">
+        <input type="text" name="address" placeholder="Enter address">
+        <button type="button" class="gps-btn">📍 Open in Maps</button>
+      </div>
+
       <form class="arrival-form">
         <input type="hidden" name="drop_index" value="${dropIndex}">
-        <button class="arrived-btn" type="button" name="action" value="start">Arrived / Start</button>
+        <button class="arrived-btn" type="button" name="action" value="start">Arrived</button>
       </form>
     </article>
   `;
 }
+
 
 export function render() {
   const list = JSON.parse(localStorage.getItem("all_drops") || "[]");
@@ -114,5 +140,48 @@ export function render() {
       (completed.length
         ? completed.map(r => `<li>${renderCard(r)}</li>`).join("")
         : `<li class="empty-msg">No completed drops yet</li>`);
+  }
+}
+
+export function promoteNextDrop() {
+  const list = JSON.parse(localStorage.getItem("all_drops") || "[]");
+
+  // If something is already running → Current stays that.
+  if (list.some(d => d.status === "in_progress")) {
+    localStorage.removeItem("current_hint");
+    return;
+  }
+
+  // Otherwise pick the next not_started
+  const next = list.find(d => d.status === "not_started");
+  if (next) {
+    localStorage.setItem("current_hint", String(next.dropIndex));
+  } else {
+    localStorage.removeItem("current_hint");
+  }
+}
+
+export function setHold(ms, dropIndex) {
+  const until = Date.now() + ms;
+  localStorage.setItem("hold_current_until", String(until));
+  localStorage.setItem("hold_current_index", String(dropIndex));
+}
+
+export function clearHold() {
+  localStorage.removeItem("hold_current_until");
+  localStorage.removeItem("hold_current_index");
+}
+
+export function getActiveHold(list) {
+  const until = Number(localStorage.getItem("hold_current_until") || "0");
+  if (!Number.isFinite(until)) return null;
+
+  if (Date.now() < until) {
+    const idx = Number(localStorage.getItem("hold_current_index") || "0");
+    if (!idx) return null;
+    return list.find(d => d.dropIndex === idx) || null; // completed record
+  } else {
+    clearHold();
+    return null;
   }
 }

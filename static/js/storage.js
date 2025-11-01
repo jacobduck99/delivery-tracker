@@ -1,5 +1,5 @@
-import { promoteNextDrop, initialiseQueueFromDom } from "./upcoming.js";
-import { allDropsLocal, changeStatus, render } from "./state.js";
+
+import { allDropsLocal, changeStatus, render, clearHold, setHold } from "./state.js";
 // storage.js (v24)
 console.log("storage.js v24 loaded");
 
@@ -49,16 +49,6 @@ setInterval(clearIfForgotEndShift, 5 * 60 * 1000); // every 5 min
 /* ========================
    Helpers
 ======================== */
-function keyFor(dropIndex) {
-  return `drop-${Number(dropIndex)}`;
-}
-function getRecord(key) {
-  try { return JSON.parse(localStorage.getItem(key) || "{}"); }
-  catch { return {}; }
-}
-function setRecord(key, record) {
-  localStorage.setItem(key, JSON.stringify(record));
-}
 function fmtDuration(ms) {
   if (!Number.isFinite(ms) || ms < 0) return "0:00";
   const s = Math.floor(ms / 1000);
@@ -200,41 +190,36 @@ document.addEventListener("click", (e) => {
   e.preventDefault();
 
   const form = btn.closest("form");
-  if (!form) return;
-
-  const raw = form.querySelector('input[name="drop_index"]');
-  if (!raw) return;
-
-  const dropIndex = Number(raw.value);
+  const raw = form?.querySelector('input[name="drop_index"]');
+  const dropIndex = Number(raw?.value);
   if (!Number.isFinite(dropIndex)) return;
 
   const action = btn.value; // "start" | "stop"
   const DELAY_MS = 3000;
 
   if (action === "start") {
-    // mark run active and flip this drop to in_progress
     localStorage.setItem("runActive", "1");
     changeStatus(dropIndex, "in_progress");
-    render();   // redraw UI from state (no DOM mutation helpers)
+    render();
     return;
   }
 
   if (action === "stop") {
-    // 1) mark completed (sets end_ts & duration)
     changeStatus(dropIndex, "completed");
+    setHold(3000, dropIndex);
+    localStorage.setItem("suppress_current_until", String(Date.now() + DELAY_MS));
+    render(); // show completed immediately
 
-    // 2) show completed state immediately
-    render();
-
-    // 3) after a delay, hint the next not_started and redraw
     setTimeout(() => {
-      promoteNextDrop(); // status unchanged; just sets current_hint
-      render();
+      clearHold()
+      render(); // after 3s, pickCurrent will allow next to appear
     }, DELAY_MS);
-
     return;
   }
 });
+
+
+
 
 function fetchWithTimeout(url, options = {}, timeout = 3000) {
   return Promise.race([
@@ -342,9 +327,6 @@ document.addEventListener("DOMContentLoaded", () => {
   );
 
     allDropsLocal();
-    initialiseQueueFromDom();     
-    promoteNextDrop(); 
-
   // rebuild UI from local cache
   rehydrateFromLocal();
 
