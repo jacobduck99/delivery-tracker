@@ -1,4 +1,5 @@
 import { promoteNextDrop, initialiseQueueFromDom } from "./upcoming.js";
+import { allDropsLocal } from "./state.js";
 // storage.js (v24)
 console.log("storage.js v24 loaded");
 
@@ -424,6 +425,7 @@ document.addEventListener("DOMContentLoaded", () => {
     f.addEventListener("submit", (e) => e.preventDefault())
   );
 
+    allDropsLocal();
     initialiseQueueFromDom();     
     promoteNextDrop(); 
 
