@@ -291,13 +291,14 @@ document.addEventListener("click", (e) => {
   if (action === "stop") {
     // avoid double-scheduling
     if (!card || card.dataset.moveScheduled === "1") {
-      swapToCompleted(form, record?.duration_ms ?? 0);
+      changeStatus(dropIndex, "completed");
       return;
     }
     card.dataset.moveScheduled = "1";
 
     // show completed state immediately
-    swapToCompleted(form, record?.duration_ms ?? 0);
+
+    changeStatus(dropIndex, "completed");
 
     // schedule move into Completed list after 5s
     const completedList = document.getElementById("completed-list");
