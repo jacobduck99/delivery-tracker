@@ -144,31 +144,6 @@ function swapToDelivered(form, dropIndex) {
   `;
 }
 
-// function swapToCompleted(form, durationMs) {
-//   const card = form.closest(".drop-card");
-//   if (!card) return;
-
-//   // We used to mutate the DOM directly. Now UI should be driven by state + render().
-//   // So this whole function is no longer used.
-
-//   // form.remove();
-
-//   // if (!card.querySelector(".complete-badge")) {
-//   //   const badge = document.createElement("div");
-//   //   badge.className = "complete-badge";
-//   //   badge.textContent = "Completed ✓";
-//   //   card.appendChild(badge);
-//   // }
-
-//   // if (!card.querySelector(".drop-elapsed")) {
-//   //   const p = document.createElement("p");
-//   //   p.className = "drop-elapsed";
-//   //   p.innerHTML = `<strong>Total-Time:</strong> ${fmtDuration(durationMs)}`;
-//   //   card.appendChild(p);
-//   // }
-// }
-
-
 /* ========================
    Rehydrate UI from localStorage
    (so refresh looks right offline)
