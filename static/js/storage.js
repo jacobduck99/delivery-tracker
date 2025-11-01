@@ -1,5 +1,5 @@
 import { promoteNextDrop, initialiseQueueFromDom } from "./upcoming.js";
-import { allDropsLocal, changeStatus } from "./state.js";
+import { allDropsLocal, changeStatus, render } from "./state.js";
 // storage.js (v24)
 console.log("storage.js v24 loaded");
 
@@ -272,59 +272,31 @@ document.addEventListener("click", (e) => {
   const dropIndex = Number(raw.value);
   if (!Number.isFinite(dropIndex)) return;
 
-  const action = btn.value;  // "start" | "stop"
-  const key = keyFor(dropIndex);
-
-  // grab the card BEFORE swapToCompleted removes the form
-  const card = form.closest(".drop-card");
-
-  const record = addDuration(action, key);
+  const action = btn.value; // "start" | "stop"
+  const DELAY_MS = 3000;
 
   if (action === "start") {
-    // Mark the run as active the first time they actually start a drop
-    localStorage.setItem('runActive', '1');
-    swapToDelivered(form, dropIndex);
+    // mark run active and flip this drop to in_progress
+    localStorage.setItem("runActive", "1");
     changeStatus(dropIndex, "in_progress");
+    render();   // redraw UI from state (no DOM mutation helpers)
     return;
   }
 
   if (action === "stop") {
-    // avoid double-scheduling
-    if (!card || card.dataset.moveScheduled === "1") {
-      changeStatus(dropIndex, "completed");
-      return;
-    }
-    card.dataset.moveScheduled = "1";
-
-    // show completed state immediately
-
+    // 1) mark completed (sets end_ts & duration)
     changeStatus(dropIndex, "completed");
 
-    // schedule move into Completed list after 5s
-    const completedList = document.getElementById("completed-list");
+    // 2) show completed state immediately
+    render();
+
+    // 3) after a delay, hint the next not_started and redraw
     setTimeout(() => {
-      if (!completedList || !card.isConnected) return;
+      promoteNextDrop(); // status unchanged; just sets current_hint
+      render();
+    }, DELAY_MS);
 
-      // wrap in <li> because completedList is a <ul>
-      const li = document.createElement("li");
-      li.appendChild(card);
-      completedList.prepend(li);
-
-      // remove empty message, bump count
-      const emptyMsg = completedList.querySelector(".empty-msg");
-      if (emptyMsg) emptyMsg.remove();
-
-      const countEl = document.getElementById("completed-count");
-      if (countEl) {
-        const n = Number(countEl.textContent || "0");
-        countEl.textContent = String(n + 1);
-      }
-
-    const currentSlot = document.getElementById("current-drop-slot");
-      if (currentSlot && currentSlot.children.length === 0) {
-     promoteNextDrop();
-}
-    }, 3000);
+    return;
   }
 });
 
