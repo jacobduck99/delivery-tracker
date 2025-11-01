@@ -1,5 +1,5 @@
 import { promoteNextDrop, initialiseQueueFromDom } from "./upcoming.js";
-import { allDropsLocal } from "./state.js";
+import { allDropsLocal, changeStatus } from "./state.js";
 // storage.js (v24)
 console.log("storage.js v24 loaded");
 
@@ -153,25 +153,31 @@ function swapToDelivered(form, dropIndex) {
     <button class="delivered-btn" type="button" name="action" value="stop">Delivered</button>
   `;
 }
-function swapToCompleted(form, durationMs) {
-  const card = form.closest(".drop-card");
-  if (!card) return;
 
-  form.remove();
+// function swapToCompleted(form, durationMs) {
+//   const card = form.closest(".drop-card");
+//   if (!card) return;
 
-  if (!card.querySelector(".complete-badge")) {
-    const badge = document.createElement("div");
-    badge.className = "complete-badge";
-    badge.textContent = "Completed ✓";
-    card.appendChild(badge);
-  }
-  if (!card.querySelector(".drop-elapsed")) {
-    const p = document.createElement("p");
-    p.className = "drop-elapsed";
-    p.innerHTML = `<strong>Total-Time:</strong> ${fmtDuration(durationMs)}`;
-    card.appendChild(p);
-  }
-}
+//   // We used to mutate the DOM directly. Now UI should be driven by state + render().
+//   // So this whole function is no longer used.
+
+//   // form.remove();
+
+//   // if (!card.querySelector(".complete-badge")) {
+//   //   const badge = document.createElement("div");
+//   //   badge.className = "complete-badge";
+//   //   badge.textContent = "Completed ✓";
+//   //   card.appendChild(badge);
+//   // }
+
+//   // if (!card.querySelector(".drop-elapsed")) {
+//   //   const p = document.createElement("p");
+//   //   p.className = "drop-elapsed";
+//   //   p.innerHTML = `<strong>Total-Time:</strong> ${fmtDuration(durationMs)}`;
+//   //   card.appendChild(p);
+//   // }
+// }
+
 
 /* ========================
    Rehydrate UI from localStorage
@@ -278,6 +284,7 @@ document.addEventListener("click", (e) => {
     // Mark the run as active the first time they actually start a drop
     localStorage.setItem('runActive', '1');
     swapToDelivered(form, dropIndex);
+    changeStatus(dropIndex, "in_progress");
     return;
   }
 
