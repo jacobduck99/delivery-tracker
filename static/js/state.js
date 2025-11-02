@@ -38,6 +38,31 @@ export function changeStatus(dropIndex, status) {
   localStorage.setItem("all_drops", JSON.stringify(all_drops));
 }
 
+export function syncDrops() {
+    const localArray = JSON.parse(localStorage.getItem("all_drops") || "[]");
+    const copyLocal = [ ...localArray ];
+    
+    
+    const completed = copyLocal.filter(d => d.status === "completed");
+    if (completed.length === 0) return; 
+    
+    const queue = JSON.parse(localStorage.getItem("pending_queue_v1") || "[]");
+    const dropIndex = Number(card.dataset.dropIndex);
+    
+    for (const d of completed) {
+        queue.push({
+        dropIndex,
+        start_ts: d.start_ts,
+        end_ts: d.end_ts,
+        duration_ms: d.duration_ms
+        });
+    }
+    
+    localStorage.setItem("pending_queue_v1", JSON.stringify(queue));
+    if (navigator.onLine) setTimeout(drainQueue, 0);
+
+}
+
 function pickCurrent(list) {
   // If something is running, that's current
   const running = list.find(d => d.status === "in_progress");
