@@ -38,6 +38,41 @@ export function changeStatus(dropIndex, status) {
   localStorage.setItem("all_drops", JSON.stringify(all_drops));
 }
 
+function drainQueue() {
+  if (!navigator.onLine) {
+    console.log("skip drain: offline");
+    return;
+  }
+  const queue = JSON.parse(localStorage.getItem("pending_queue_v1") || "[]");
+  if (queue.length === 0) return;
+
+  const first = queue[0];
+
+  fetch("/api/drop", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "same-origin",
+    cache: "no-store",
+    body: JSON.stringify(first),
+  })
+    .then((r) => {
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      return r.json();
+    })
+    .then((res) => {
+      if (res && res.ok) {
+        queue.shift();
+        localStorage.setItem("pending_queue_v1", JSON.stringify(queue));
+        setTimeout(drainQueue, 0); // drain next
+      } else {
+        console.warn("Server rejected item:", res);
+      }
+    })
+    .catch((err) => {
+      console.warn("Send failed:", err.message || err);
+    });
+}
+
 export function syncDrops() {
     const localArray = JSON.parse(localStorage.getItem("all_drops") || "[]");
     const copyLocal = [ ...localArray ];
@@ -47,13 +82,14 @@ export function syncDrops() {
     if (completed.length === 0) return; 
     
     const queue = JSON.parse(localStorage.getItem("pending_queue_v1") || "[]");
-    const dropIndex = Number(card.dataset.dropIndex);
+    
     
     for (const d of completed) {
+        const drop_index = Number(d.dropIndex); 
         queue.push({
-        dropIndex,
+        drop_index,
         start_ts: d.start_ts,
-        end_ts: d.end_ts,
+        stop_ts: d.end_ts,
         duration_ms: d.duration_ms
         });
     }
@@ -61,7 +97,7 @@ export function syncDrops() {
     localStorage.setItem("pending_queue_v1", JSON.stringify(queue));
     if (navigator.onLine) setTimeout(drainQueue, 0);
 
-}
+};
 
 function pickCurrent(list) {
   // If something is running, that's current

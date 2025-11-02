@@ -1,5 +1,4 @@
-
-import { allDropsLocal, changeStatus, render, clearHold, setHold } from "./state.js";
+import { allDropsLocal, changeStatus, render, clearHold, setHold, syncDrops } from "./state.js";
 // storage.js (v24)
 console.log("storage.js v24 loaded");
 
@@ -62,40 +61,66 @@ function fmtDuration(ms) {
 /* ========================
    Queue drain (POST to backend)
 ======================== */
-function drainQueue() {
-  if (!navigator.onLine) {
-    console.log("skip drain: offline");
-    return;
-  }
-  const queue = JSON.parse(localStorage.getItem("pending_queue_v1") || "[]");
+async function drainQueue() {
+  const KEY = "pending_queue_v1";
+  let queue = JSON.parse(localStorage.getItem(KEY) || "[]");
   if (queue.length === 0) return;
 
-  const first = queue[0];
+  const item = queue[0];
 
-  fetch("/api/drop", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    credentials: "same-origin",
-    cache: "no-store",
-    body: JSON.stringify(first),
-  })
-    .then((r) => {
-      if (!r.ok) throw new Error(`HTTP ${r.status}`);
-      return r.json();
-    })
-    .then((res) => {
-      if (res && res.ok) {
-        queue.shift();
-        localStorage.setItem("pending_queue_v1", JSON.stringify(queue));
-        setTimeout(drainQueue, 0); // drain next
-      } else {
-        console.warn("Server rejected item:", res);
-      }
-    })
-    .catch((err) => {
-      console.warn("Send failed:", err.message || err);
-    });
+  const okShape =
+    Number.isInteger(item?.drop_index) &&
+    Number.isFinite(item?.start_ts) &&
+    Number.isFinite(item?.stop_ts) &&
+    Number.isFinite(item?.duration_ms);
+
+  if (!okShape) {
+    console.warn("Bad queue item; dropping:", item);
+    queue.shift();
+    localStorage.setItem(KEY, JSON.stringify(queue));
+    queueMicrotask(drainQueue);
+    return;
+  }
+
+  try {
+    const res = await fetchWithTimeout("/api/drop", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "same-origin",
+      body: JSON.stringify(item),
+    }, 5000);
+
+    const data = await res.json().catch(() => ({}));
+
+    const ok = res.ok && data?.ok === true;  // <-- fixed
+    if (!ok) {
+      console.warn("Sync failed", { status: res.status, data, item });
+      // gentle retry later
+      setTimeout(drainQueue, 5000);
+      return;
+    }
+
+    // success → remove first and continue
+    queue.shift();
+    localStorage.setItem(KEY, JSON.stringify(queue));
+    if (queue.length > 0) queueMicrotask(drainQueue);
+
+  } catch (err) {
+    if (err.name === "AbortError") {
+      console.warn("Sync timed out; will retry later");
+    } else {
+      console.error("Network error; will retry later", err);
+    }
+    // retry after a bit once back online or after delay
+    setTimeout(() => {
+      if (navigator.onLine) drainQueue();
+    }, 5000);
+  }
 }
+
+// Kick on connectivity restore
+window.addEventListener("online", () => queueMicrotask(drainQueue));
+
 
 /* ========================
    Timing + queue writes
@@ -181,6 +206,7 @@ document.addEventListener("click", (e) => {
 
   if (action === "stop") {
     changeStatus(dropIndex, "completed");
+    syncDrops();
     setHold(3000, dropIndex);
     localStorage.setItem("suppress_current_until", String(Date.now() + DELAY_MS));
     render(); // show completed immediately
@@ -192,18 +218,14 @@ document.addEventListener("click", (e) => {
     return;
   }
 });
-
-
-
-
+    
 function fetchWithTimeout(url, options = {}, timeout = 3000) {
-  return Promise.race([
-    fetch(url, options),
-    new Promise((_, reject) =>
-      setTimeout(() => reject(new Error("Timeout")), timeout)
-    ),
-  ]);
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeout);
+  return fetch(url, { ...options, signal: controller.signal })
+    .finally(() => clearTimeout(id));
 }
+
 
 // End Shift modal
 document.addEventListener("click", (e) => {
