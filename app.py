@@ -16,7 +16,7 @@ import os
 app = Flask(__name__)
 ensure_db()
 app.secret_key = "a-very-secret-value"
-app.config['REMEMBER_COOKIE_DURATION'] = timedelta(days=7) 
+app.config['REMEMBER_COOKIE_DURATION'] = timedelta(days=365) 
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=8)
 
 # before routes
