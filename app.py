@@ -12,16 +12,17 @@ from flask_login import LoginManager, login_user, current_user, login_required, 
 from werkzeug.security import generate_password_hash, check_password_hash
 from auth import User 
 import os
+from dotenv import load_dotenv
+load_dotenv()
 
 app = Flask(__name__)
 ensure_db()
-app.secret_key = "a-very-secret-value"
 app.config['REMEMBER_COOKIE_DURATION'] = timedelta(days=365) 
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=8)
 
 # before routes
 app.config.update(
-    SECRET_KEY=os.environ.get("FLASK_SECRET_KEY", "dev-please-change"),
+    SECRET_KEY=os.environ.get("FLASK_SECRET_KEY"),
     SESSION_COOKIE_SAMESITE="Lax",
     SESSION_COOKIE_HTTPONLY=True,
     SESSION_COOKIE_SECURE=False,      # False for http://192.168...
