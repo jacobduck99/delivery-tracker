@@ -1,8 +1,3 @@
-/* =============================
-   Delivery Tracker – index.css (Pro UI)
-   ============================= */
-
-/* ---- Design tokens ---- */
 :root {
   --brand: #5865f2; --brand-dark: #4752c4;
   --danger: #ef4444; --danger-dark: #dc2626;
@@ -43,7 +38,7 @@ html, body {
   font: 15px/1.55 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans";
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  overscroll-behaviour: none;
+  overscroll-behavior: none;
 }
 img { max-width: 100%; height: auto; }
 :focus-visible { outline: none; box-shadow: var(--focus); border-radius: 10px; }
@@ -51,7 +46,7 @@ img { max-width: 100%; height: auto; }
 /* =============================
    Layout — Rails & Panels
    ============================= */
-.rails { padding-top: -10px; }
+.rails { margin-top: -10px; } /* was padding-top:-10px (invalid) */
 
 .rails, .container {
   max-width: var(--container-max);
@@ -123,7 +118,6 @@ img { max-width: 100%; height: auto; }
 .btn-skip  { background: var(--neutral-dark); }
 .break button:hover { filter: brightness(1.03); box-shadow: 0 4px 12px rgba(15,23,42,.12); }
 .break button:active { transform: translateY(1px); box-shadow: 0 2px 6px rgba(15,23,42,.16); }
-
 
 /* =============================
    Completed drops (collapsible)
@@ -244,24 +238,20 @@ img { max-width: 100%; height: auto; }
   gap: 6px;
 }
 
-@media (max-width: 430px) {
-  .drop-card {
-    padding: 12px 14px;           /* if your card has padding */
-  }
-
+/* ---- Base button styles (desktop + mobile) ---- */
 .drop-card button {
-  width: 100%;
-  min-height: 38px;                 /* thumb-friendly */
-  padding: 12px 12px;               /* a bit more horizontal = pill look */
+  width: auto;                     /* desktop default */
+  min-height: 38px;                 
+  padding: 12px 12px;               
   border: none;
-  border-radius: var(--radius-pill);/* <-- pill */
-  font-weight: 700;                 /* Meta leans 600–700, not 800 */
+  border-radius: var(--radius-pill);
+  font-weight: 700;
   font-size: 1rem;
   line-height: 1.15;
-  letter-spacing: 0;                /* tighter, cleaner */
+  letter-spacing: 0;
   color: #fff;
-  background: var(--brand);         /* solid, not heavy gradient */
-  box-shadow: 0 1px 2px rgba(15,23,42,.08); /* lighter elevation */
+  background: var(--brand);
+  box-shadow: 0 1px 2px rgba(15,23,42,.08);
   transition: transform .08s ease, box-shadow .2s ease, filter .2s ease, background .2s ease;
 }
 .drop-card button:hover { filter: brightness(1.03); box-shadow: 0 4px 12px rgba(15,23,42,.12); }
@@ -294,6 +284,10 @@ img { max-width: 100%; height: auto; }
   .break button{ width: 100%; }
 }
 
+@media (max-width: 430px) {
+  .drop-card { padding: 12px 14px; }
+  .drop-card button { width: 100%; } /* mobile: full-width buttons */
+}
 
 /* Completed badge — subtle and compact */
 .complete-badge {
@@ -309,7 +303,6 @@ img { max-width: 100%; height: auto; }
   text-align: center;
   line-height: 1.2;
 }
-
 
 /* --- Timer row: calm label + mono time --- */
 .drop-elapsed {
@@ -426,7 +419,6 @@ img { max-width: 100%; height: auto; }
 .end-shift:hover { filter: brightness(1.04); box-shadow: var(--shadow-md); }
 .end-shift:active { transform: translateY(1px); }
 
-
 /* GPS section — vertical layout */
 .gps-section {
   display: flex;
@@ -505,4 +497,3 @@ img { max-width: 100%; height: auto; }
 .upcoming-list .up-index { font-weight: 700; color: var(--ink); }
 .upcoming-list .up-address { color: var(--muted); font-size: .85rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .upcoming-list .up-chip { border: 1px solid var(--line); background:#fff; border-radius:9999px; padding:6px 10px; font:700 .8rem system-ui; }
-
