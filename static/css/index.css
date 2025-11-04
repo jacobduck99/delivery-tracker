@@ -268,7 +268,7 @@ img { max-width: 100%; height: auto; }
 
 .drop-elapsed {
   text-align: center;
-  font: 600 .9rem ui-monospace,SFMono-Regular,Menlo,monospace;
+  font: 600 1rem ui-monospace,SFMono-Regular,Menlo,monospace;
   color:#1f2937;
 }
 
