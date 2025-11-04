@@ -120,45 +120,6 @@ async function drainQueue() {
 
 // Kick on connectivity restore
 window.addEventListener("online", () => queueMicrotask(drainQueue));
-
-
-/* ========================
-   Timing + queue writes
-======================== */
-function addDuration(action, key) {
-  // Count real actions as activity (keeps the 5h clock honest)
-  updateLastActive();
-
-  const record = getRecord(key);
-
-  if (action === "start") {
-    record.start_ts = Date.now();
-    delete record.stop_ts;
-    delete record.duration_ms;
-  } else if (action === "stop") {
-    if (typeof record.start_ts === "number") {
-      record.stop_ts = Date.now();
-      record.duration_ms = record.stop_ts - record.start_ts;
-
-      const queue = JSON.parse(localStorage.getItem("pending_queue_v1") || "[]");
-      const drop_index = Number(key.split("-")[1]);
-      queue.push({
-        drop_index,
-        start_ts: record.start_ts,
-        stop_ts: record.stop_ts,
-        duration_ms: record.duration_ms,
-      });
-      localStorage.setItem("pending_queue_v1", JSON.stringify(queue));
-      if (navigator.onLine) setTimeout(drainQueue, 0);
-    } else {
-      return record; // ignore invalid stop
-    }
-  }
-
-  setRecord(key, record);
-  return record;
-}
-
 /* ========================
    DOM swapping (no reload)
 ======================== */
