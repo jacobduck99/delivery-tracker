@@ -1,0 +1,1462 @@
+[33mcommit 99eeaa2ece63514e0713baf15da9c2761617be58[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mindex/css[m[33m)[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Tue Nov 4 12:33:53 2025 +1100
+
+    Changed button widths look nicer now
+
+[33mcommit 87f41ab9ac97eb02c7cd0fe4bd5ecbaf32dc79c4[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Tue Nov 4 12:06:55 2025 +1100
+
+    Changed text size for elapsed again
+
+[33mcommit 17da40bdd2e16e70d9741c8174d98efa1e0a579a[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Tue Nov 4 12:02:54 2025 +1100
+
+    Changed how big text is for the elapsed time
+
+[33mcommit b1ce07eb0f01544d6c27b92c551d68df2da12dce[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Tue Nov 4 11:42:08 2025 +1100
+
+    Changed the drop card so after delivered only shows elapsed time
+
+[33mcommit 2151c3e0223ec01ec9260bc3268cdb7194419f54[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Tue Nov 4 11:14:10 2025 +1100
+
+    Deleted unused functions in my storage.js file
+
+[33mcommit f76c2d23ac902d51e8ec593145f96de8b7d15475[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Tue Nov 4 11:01:49 2025 +1100
+
+    fixed few things were css wasn't loading on desktop
+
+[33mcommit 1dadab2e7e7d2f17abca9611563ff376f11d8f3f[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Tue Nov 4 10:53:55 2025 +1100
+
+    change button margin more down the page now
+
+[33mcommit be777b01610003ad645695632843c7590d97027a[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Mon Nov 3 13:29:39 2025 +1100
+
+    fixing cookies and stuff
+
+[33mcommit 689f015561c460f8b4e06faa23810c0f2b318f3b[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Mon Nov 3 13:13:57 2025 +1100
+
+    make env file and hide key
+
+[33mcommit cabb34977b7980ba9a6990ce3bb66a3b3f45517e[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Mon Nov 3 12:57:10 2025 +1100
+
+    Change cookie aka logging out to 365 from 7 days
+
+[33mcommit 7bd64a7671287654548ce799781ab043ba06547c[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sun Nov 2 13:51:22 2025 +1100
+
+    Fixed offline and online mode presure
+
+[33mcommit 574b49dcd9c722824c57a57312e98e0ff892bf1e[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sun Nov 2 13:03:01 2025 +1100
+
+    Wrote helper function to refactor old way of sending to queue and draining
+
+[33mcommit b4a5f59079cc8c4d5b507ee3e1e43b611258f97d[m[33m ([m[1;31morigin/newIndexState[m[33m)[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Nov 1 23:42:11 2025 +1100
+
+    Everything works but need to fix up offline and online syncing to database
+
+[33mcommit 816631742d21e66829c228ab0ed9c1e8488e4f1c[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Nov 1 23:30:57 2025 +1100
+
+    Drop card back to normal and everything using state need to fix sending to queue for offline tho
+
+[33mcommit a6a23d9c37b774874916766ddafe74f72fe6607f[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Nov 1 22:47:59 2025 +1100
+
+    render now works and app is working when refreshing
+
+[33mcommit 0ac61817530498ab55d6a0d2ee2f9a8e122ead41[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Nov 1 22:42:45 2025 +1100
+
+    Buttons work and transition from card to card but still clunky
+
+[33mcommit 02af0defc018192bc7d9b2609fb7bad7f88ca1e8[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Nov 1 21:55:40 2025 +1100
+
+    Changing the way buttons behave right now the animation for completed drops need to be re written
+
+[33mcommit 5819ebc00abb701a7d26d6bb7887c4f394615522[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Nov 1 21:49:29 2025 +1100
+
+    Created change status for buttons
+
+[33mcommit c024383089f1dadf33d681e7426f0aac78af6b22[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Nov 1 21:32:54 2025 +1100
+
+    Added all drops to local storage
+
+[33mcommit b2ba42551dcdc77fe5ef4faedcff45e9356929de[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Tue Oct 28 13:24:29 2025 +1100
+
+    changed header colour and positioning on container and index page
+
+[33mcommit 05c7397d056b4d1734e94e5459920318560997e7[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Tue Oct 28 13:17:12 2025 +1100
+
+    Changed padding and margin for the index page
+
+[33mcommit ec772a969ed3b47ee6432d78e9bd374625809dcc[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Mon Oct 27 14:01:06 2025 +1100
+
+    Fixed css
+
+[33mcommit 6216f98fbd72a20d2cec7f847045b7011c3e16c7[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Mon Oct 27 13:14:10 2025 +1100
+
+    Make the upcoming drops number change each time a drop gets added to current drop
+
+[33mcommit dca5254240698b150eb4eaaba9b6858d58a51c8f[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Mon Oct 27 12:48:34 2025 +1100
+
+    Fixed state so loads up next drop
+
+[33mcommit 55caeb995af03d308018d9e97bf6d892d7172209[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Mon Oct 27 12:15:24 2025 +1100
+
+    Made it so on config it only shows you one drop at a time super clean and minimal
+
+[33mcommit 64139c15c0a595b38a63fde5196a7bf4ccc24de1[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Mon Oct 27 11:51:15 2025 +1100
+
+    adding functions to storage so I can load up new drop when a drop is added to completed
+
+[33mcommit 8174c001f3be26dec8ca5ead96809af0da69066f[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Wed Oct 22 13:18:04 2025 +1100
+
+    Writing logic to make cards nicer with upcoming drops and current drops
+
+[33mcommit 6617efefc017b13192ef1aef9ad88671e7a4a394[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Wed Oct 22 12:53:57 2025 +1100
+
+    Wrote function so that all drops go into upcoming except the current drop
+
+[33mcommit 1e5d933958b212daaad522f89c9d04e5835e37fa[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Wed Oct 22 10:59:35 2025 +1100
+
+    Mostly just changed colours added nicer nav bar with emojis and just tweaked css for better ui ux experience
+
+[33mcommit b4fef663cb5479a8a9250ea70c349293c26a48ab[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Wed Oct 22 10:36:33 2025 +1100
+
+    Changed colours and fonts for index page also got rid of h1 for breaks
+
+[33mcommit dec51b5c904800970e75762cb4bc981aaec5d959[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Wed Oct 22 10:16:03 2025 +1100
+
+    Changed button colours and px inside buttons
+
+[33mcommit f077ca4ca6e63a9a3a01835b5198fda3d791a1b7[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Wed Oct 22 10:06:49 2025 +1100
+
+    Made buttons round and change size
+
+[33mcommit 4f03565ae740e913cef291f0984371732fd41477[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Wed Oct 22 09:46:22 2025 +1100
+
+    Changed index global size
+
+[33mcommit 85b70f5eee5023796228da1896ec31b8efcafd25[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Tue Oct 21 11:47:38 2025 +1100
+
+    Changed px so screen doesn't zoom in
+
+[33mcommit 6719b4dd44adb57db728d1b4aec9bdf7b9dfb28a[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Tue Oct 21 11:45:07 2025 +1100
+
+    Changed how maps open up on pwa and different devices
+
+[33mcommit aa8204eb4bb52dfd16c53d301ec22a78f4851d1c[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Mon Oct 20 13:14:36 2025 +1100
+
+    Added html css and js for maps button still need to clean it up and make it save things to the data base but this is V1
+
+[33mcommit fba25b71a0501a84eadfe5909b8425b16ffdb60c[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Fri Sep 19 13:29:45 2025 +1000
+
+    Changed nav bar to bottom
+
+[33mcommit 17881551aae4cb47e79969fe6696af5b4dcb0e6a[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Fri Sep 19 11:36:17 2025 +1000
+
+    Prepend now works and works even when offline wowww
+
+[33mcommit f61942f9d216176b75e6d2ad7f6704c391e4c100[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Fri Sep 19 11:08:30 2025 +1000
+
+    Changed service workers to listen to nav bar clicks and serve offline cached when timeout exceeds
+
+[33mcommit 7f4727e99854d21f28f708e6802d4f0eebb8d5ec[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Fri Sep 19 11:01:12 2025 +1000
+
+    Added fetch helper to 3 seconds to check if taking longer to send api call then switch to offline mode when low reception
+
+[33mcommit f53666a4e247c5f75365276e179b43b71afc1772[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Thu Sep 18 12:42:29 2025 +1000
+
+    Made completed drops card prepend so newest is top
+
+[33mcommit 34fa94f50fcbda7fa3e3e34afc97be29a5d3156d[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Thu Sep 18 12:37:35 2025 +1000
+
+    Change timeout on the elapsed to 3 seconds
+
+[33mcommit 9b11f65d79cfa5f0fd7091a86a4d7320a8b19dd6[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Wed Sep 17 13:01:48 2025 +1000
+
+    Wired up front end and backend to save endshift button data rock solid now also keeps track how late from your end shift time
+
+[33mcommit 1881b6fc78ff04e24a83e27e25890261f0505755[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Wed Sep 17 12:35:42 2025 +1000
+
+    Updated schema.sql to have these columns now
+
+[33mcommit 043b539a6933efb6ba264627a6e116a72920df32[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Wed Sep 17 12:28:24 2025 +1000
+
+    Created api to talk to back end when end shift button clicked saves actual ended time
+
+[33mcommit 3a232c4e7f576c4398e45deaa7293e0dbad17228[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Wed Sep 17 11:35:54 2025 +1000
+
+    Fixing bugs
+
+[33mcommit e33aff0ac7a65b45c700b941f69651f56a0ca633[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Wed Sep 17 11:35:11 2025 +1000
+
+    Added listeners and if app been inactive for 5 hours delete local storage
+
+[33mcommit b182da843c21a9df3df6a7bb4069ddbb42e0741c[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Tue Sep 16 13:19:17 2025 +1000
+
+    misc
+
+[33mcommit 56fe2fdbe3ce876cc85d807263d4892723d4b151[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Tue Sep 16 12:57:39 2025 +1000
+
+    Wrote listener for clicks
+
+[33mcommit e881bab428c66ff7f2a939e784bd776f0de365f5[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Tue Sep 16 11:50:06 2025 +1000
+
+    Remove localstorage when end shift button clicked
+
+[33mcommit 421a03772196fe1e1ef5965b1ffc5c6a5ac70d95[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Tue Sep 16 11:22:30 2025 +1000
+
+    Added end shift button to index if drops active
+
+[33mcommit 174d0bae8ab78ec6dcae3d1eb29eeddb900769e2[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Mon Sep 15 13:18:21 2025 +1000
+
+    Fixed bug where queue was staying even with new run and grabbing old data
+
+[33mcommit a5da3d47d8773fd0415674b76a268833b05e7da7[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Mon Sep 15 13:11:08 2025 +1000
+
+    Made the dom and real time browser actually realise it was saved into completed drops
+
+[33mcommit fedc1dd72b3d46e647b0aba2c138691404fcb664[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Mon Sep 15 12:51:46 2025 +1000
+
+    Added function set time out so the drop card moves to completed container
+
+[33mcommit ac7e374687082b1617d90e1eadeaf96b279ba9b6[m
+Merge: dbcf936 3b66efb
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sun Sep 14 13:52:28 2025 +1000
+
+    Merge branch 'main' of github.com:jacobduck99/delivery-tracker
+
+[33mcommit dbcf936ce499378f0bb6afb6c2c8eb7694c0b4c0[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sun Sep 14 13:48:58 2025 +1000
+
+    Fucked around with html and css for so long trying to make app look more sleek also added completed box
+
+[33mcommit e497bf41231230d3babe9d7ed786338f546be6ad[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sun Sep 14 12:21:44 2025 +1000
+
+    Change html and css in index for drop cards
+
+[33mcommit 83afc8e4b8ccb584fd9b8db20d0a4b5f938da392[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sun Sep 14 12:00:35 2025 +1000
+
+    Change index html to have top and bottom divs for dashboard and drops
+
+[33mcommit 3b66efb0e349741ceac2c690fc42157e9745a706[m
+Author: Jacob <jacob.formaz@gmail.com>
+Date:   Sun Sep 14 00:25:23 2025 +1000
+
+    Update README.md
+
+[33mcommit efb653baf30deca9852b601ff71366f6bda7677c[m
+Author: Jacob <jacob.formaz@gmail.com>
+Date:   Sun Sep 14 00:23:38 2025 +1000
+
+    Update README.md
+
+[33mcommit 7101306d43a1e494afe9ee24395b0094f98f5b60[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sun Sep 14 00:11:39 2025 +1000
+
+    Deleted all file
+
+[33mcommit 4974057603c6937b50cac873e8c087a2b7f97cfa[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Sep 13 20:45:45 2025 +1000
+
+    Added so offline works well
+
+[33mcommit 3ef9d1804ddf8c701d2e69f1326ed3428885ceaa[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Sep 13 20:38:34 2025 +1000
+
+    connected online and offline mode to talk to each other and then talk to backend and sync data to db
+
+[33mcommit 9cc3cd04475b706e6193574bcb8ed042f762725d[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Sep 13 19:46:23 2025 +1000
+
+    Changing buttons so dom manipulated and not html form posting
+
+[33mcommit e9e99eab545b6e529fd8e52d620b8ff3d742a4e1[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Sep 13 19:06:52 2025 +1000
+
+    added drain queue to send json to back end
+
+[33mcommit 047a48c37cfe0aa22620028633aa60bf3b724648[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Sep 13 18:55:27 2025 +1000
+
+    Added offline and online navigator
+
+[33mcommit e4b89d7f17959a1e1deedc9a463b1d8861a49ea8[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Sep 13 18:50:31 2025 +1000
+
+    Added a queue to local storage so I can use in offline mode
+
+[33mcommit 40ab385e0b8c0316a147ead3aba943723ac03bb5[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Sep 13 18:27:02 2025 +1000
+
+    Build payload for json from local storage
+
+[33mcommit a7ba6129929d8df964e1b5868d33c84425e8422c[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Sep 13 14:44:54 2025 +1000
+
+    Remove key function added
+
+[33mcommit dae81ee277f255b6a7eaea936674f9cb9ea6e201[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Sep 13 14:42:46 2025 +1000
+
+    list drop keys added used ai I struggle with js loops atm
+
+[33mcommit 38c77d5c0d0a2ac6a6de52ba4128270e9d13fa3d[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Sep 13 14:33:41 2025 +1000
+
+    Helper function setrecord
+
+[33mcommit 2b6e499605a51881dade15505740c8fe692b448d[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Sep 13 14:31:35 2025 +1000
+
+    Helper function for get record JSON
+
+[33mcommit 12aecb4400f20fb04226f616fc310dd1fb822f87[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Sep 13 14:27:57 2025 +1000
+
+    Added helper function for key
+
+[33mcommit cf9cdec1fe76dac1d0e0df326ed028424e44f300[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Sep 13 13:50:44 2025 +1000
+
+    Writing functions for listeners for local storage
+
+[33mcommit 2ac6c543cd18e2837fc27a6641c99f47e0a845d9[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Fri Sep 12 13:09:42 2025 +1000
+
+    Added caching for offline
+
+[33mcommit 49763137a501e91d63895a082ee524eafcfe0d9a[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Thu Sep 11 12:55:02 2025 +1000
+
+    local storage and json added for offline use
+
+[33mcommit 5aeca46c8d01da2ccaf6f1b3b0da4f4addfe4f10[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Thu Sep 11 12:17:31 2025 +1000
+
+    Added js listener for buttons and added them into local storage
+
+[33mcommit bb44a22c0dfe1fb58c49ebfa0b46bb5e401c2332[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Thu Sep 11 11:40:58 2025 +1000
+
+    Added class in html so I can grab it in js for my arrived and delivered to go into local storage
+
+[33mcommit 271562343aec07cefa53e7ffee43ba038d8384ce[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Wed Sep 10 13:22:01 2025 +1000
+
+    Changed redirect for stats page
+
+[33mcommit 16cc9c139b6f429e6227acbb69456d5afbf778c7[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Wed Sep 10 12:52:12 2025 +1000
+
+    Changed config page css to look more sleek moved it down page for PWA
+
+[33mcommit 830f5e9a1c0e2e06416ccb2cff1ea3100678db47[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Wed Sep 10 12:45:22 2025 +1000
+
+    NGL i patched together a fix so i can use local server on iphone to test lol
+
+[33mcommit 6ef1d536dce73a7d32f88a57c1bc8ceae57e237c[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Wed Sep 10 12:32:06 2025 +1000
+
+    New file to handle sw with local server
+
+[33mcommit 60ff51814cd5acaa5338a63f2fd222a5f9143673[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Wed Sep 10 12:18:49 2025 +1000
+
+    Changed sw.js file
+
+[33mcommit 7b96be31490d0b3028e58c6e7f18bbb438c8b2cb[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Wed Sep 10 11:57:38 2025 +1000
+
+    changed html to require at least 4 chars for password
+
+[33mcommit 47f71ffe4ab8d34a9fac8ae01c523d19ed0b2df0[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Tue Sep 9 13:05:32 2025 +1000
+
+    adding pwa
+
+[33mcommit 80ad6a769425d930306f976b2da67e7973e2846a[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Tue Sep 9 12:19:47 2025 +1000
+
+    Adding pwa
+
+[33mcommit 53f0805610dc2a6622826f47a673cbb480b3b930[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Tue Sep 9 11:49:08 2025 +1000
+
+    Changed cookie to 8 hours
+
+[33mcommit 56962e1bb909299a2424c7ae805b1680a2c7c4ea[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Tue Sep 9 11:46:32 2025 +1000
+
+    Added session in diff place and put safety in place for cookies
+
+[33mcommit afcea8132d52eefc1ef0701bf7e446e65595a0e0[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Tue Sep 9 11:36:22 2025 +1000
+
+    Made session permanent for 15 hours and added that to login and create account
+
+[33mcommit 4220347cb9e7af6b9c9d9f8221b2d2aacd26945e[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Mon Sep 8 12:47:12 2025 +1000
+
+    Cleaned up login and create account looks modern and better
+
+[33mcommit 9fd504532cce94aed8f095395b5da3ff916f284d[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Mon Sep 8 12:32:33 2025 +1000
+
+    Moved text to left in drop cards
+
+[33mcommit 476669b3307aac424bf27e292dd2e29c65d3e0e3[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Mon Sep 8 12:24:45 2025 +1000
+
+    Changed ui ux on index page just the config button
+
+[33mcommit 1ff9923ab53ed8388c0a563a0f3c1b19e344f820[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Mon Sep 8 12:17:12 2025 +1000
+
+    Changed look of drops cards and buttons
+
+[33mcommit 0c05e971d80b96ed0734aa8222823460b72638d7[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Mon Sep 8 11:56:01 2025 +1000
+
+    changed nav bar colours and style
+
+[33mcommit 9b3b0077b75abacb9ca5503d2ece2d06851b4823[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Mon Sep 8 11:45:58 2025 +1000
+
+    Changed look of the config page
+
+[33mcommit f782031c554948000440e7226f13611e11c279c4[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Mon Sep 8 11:18:02 2025 +1000
+
+    Made nav invisible for config page more minimal
+
+[33mcommit 075ef1d1f2d8e5d16fc05d650f6c1343356d535d[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Mon Sep 8 11:12:30 2025 +1000
+
+    Deleted go back to run button on config
+
+[33mcommit d13b96a1abd826e2e8f824708c814540a645c610[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Mon Sep 8 11:10:17 2025 +1000
+
+    Changed nav bar and made it hidden for logged out people
+
+[33mcommit a4ebad5b5a658bd8d7c229a2c511b12ea6bddc40[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Mon Sep 8 10:56:34 2025 +1000
+
+    Deleted reset_db route
+
+[33mcommit 6f5c550016a22a2bcc201f4a2c4bcae131775390[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sun Sep 7 16:44:44 2025 +1000
+
+    fixed some lines
+
+[33mcommit bdb1720383e780044a2d3d54b9816732c70fb40f[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sun Sep 7 16:32:20 2025 +1000
+
+    Put safety guards in place for config
+
+[33mcommit c4e3879e9950146b51acff8ee1bb9788916e9f85[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sun Sep 7 16:27:19 2025 +1000
+
+    Fixed bug crashing when no input in text field
+
+[33mcommit 8f9173b49583b0f9fd989ded3b73c507de920d5e[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sun Sep 7 16:05:34 2025 +1000
+
+    added nuke script for db
+
+[33mcommit 7388deb22978d53ae683763685dace34132393d1[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sun Sep 7 15:55:48 2025 +1000
+
+    fixed null in db for input
+
+[33mcommit da45aca1229d87e46aa4b5037a8676a30a5c2c58[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sun Sep 7 15:10:25 2025 +1000
+
+    Created feature for inputting truck damage and logging it in db
+
+[33mcommit c5c262cba9b22d0a43919772884d8ceaf53c6de9[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sun Sep 7 14:41:40 2025 +1000
+
+    Made input cap at 255 chars and did same in schema
+
+[33mcommit 18212bb46b9604b00ffc5c22b0054b3a27fc6551[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sun Sep 7 14:35:23 2025 +1000
+
+    Updated schema to have truck damage in run
+
+[33mcommit 941da8cbe2519b4b187d1c6e99faa153bdd195b9[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sun Sep 7 13:14:07 2025 +1000
+
+    Changed width of mobile config div container
+
+[33mcommit af68fdfe5c410d6f5e27b4372c3518771db716d8[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sun Sep 7 13:07:47 2025 +1000
+
+    Added html for truck damage input
+
+[33mcommit 4c9f3553fbd8ad992b2522e44cf119a43c34a348[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sun Sep 7 12:39:53 2025 +1000
+
+    Added e.g to placeholder for login and signup
+
+[33mcommit 0b5aff3e2e0439a2aefb38ff5132b24955581656[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sun Sep 7 12:32:32 2025 +1000
+
+    Added db things to git ignore
+
+[33mcommit 3f28fe687f16326135c19440d1bf311d2202a37e[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sun Sep 7 12:31:20 2025 +1000
+
+    Fixed database file path
+
+[33mcommit 4e3b1ba436abdb2a00125eaeac8c18b25cd8db44[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Sep 6 16:24:25 2025 +1000
+
+    Changed home
+
+[33mcommit e18dca44fdb4c5d5ace2026ea0503f08b2151737[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Sep 6 16:05:16 2025 +1000
+
+    fix lots of bugs
+
+[33mcommit c9a7fd3b1670d219059e5a57f9806926d12e4c98[m[33m ([m[1;33mtag: [m[1;33mv0.3.1[m[33m)[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Sep 6 15:18:10 2025 +1000
+
+    Fixed html forms
+
+[33mcommit 579aa5d625ff7f6cab12c97775f23bf7775d06b5[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Sep 6 15:14:14 2025 +1000
+
+    fixed run bug
+
+[33mcommit 403668cfa13cef4874529b6895276476fea75a00[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Sep 6 14:55:38 2025 +1000
+
+    fixed bug
+
+[33mcommit f5604f91f3b2143052fa23c42193064abab5bd43[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Sep 6 14:43:13 2025 +1000
+
+    misc
+
+[33mcommit cb0deeb40fae35f43a6e5feb9ebf1346c65fb197[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Sep 6 14:42:51 2025 +1000
+
+    Password requires 4 chars now
+
+[33mcommit 91f058da84a5c80d2bc5c62f1f6a9bc897798069[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Sep 6 14:25:00 2025 +1000
+
+    Change nav bar size and width
+
+[33mcommit f221514446f57386338f5885b1ad64b803fbb481[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Sep 6 14:17:08 2025 +1000
+
+    made nav bar sticky added anchor so sits under nav bar
+
+[33mcommit 5582b0f1510702878c8b32cc60979e524d01668b[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Sep 6 13:46:55 2025 +1000
+
+    More css for signup and login
+
+[33mcommit 99dc670868567c2e5a5e6b9c800ecaa6dd520aaf[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Sep 6 13:31:16 2025 +1000
+
+    Added html for login and signup looks really good
+
+[33mcommit cbd7c53c3f3263299377c813c6475a0222a3e4d7[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Sep 6 13:04:17 2025 +1000
+
+    Added css to login and signup pages
+
+[33mcommit 2114f23a9088b6c21a157837bccffcf16e003233[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Sep 6 12:34:10 2025 +1000
+
+    removed session and cookies when logged out
+
+[33mcommit 8dd8d621519276584302516b99d94045eb97d3d5[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Sep 6 12:14:01 2025 +1000
+
+    edge case error for when no runs
+
+[33mcommit fc7704958075e7d0d31ed93efdc045af0cc2e95d[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Sep 6 12:09:45 2025 +1000
+
+    Fixed jumbled code
+
+[33mcommit 6ed65973917cbed68e359444bacfdef3d85dfbed[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Sep 6 11:44:41 2025 +1000
+
+    Fixed couple things and safe guarded errors
+
+[33mcommit 968873b46cf1523192a21b5da5cbb00ed0845ecb[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Sep 6 11:30:09 2025 +1000
+
+    fixed typo
+
+[33mcommit 69a33aaa90b5e842682fa3872e371974924ef4b0[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Sep 6 11:27:46 2025 +1000
+
+    Added safety guards and refactored code in stats and history
+
+[33mcommit 7841b4fad51f31e182abc09ed57baeb1ed9aa452[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Sep 6 10:50:13 2025 +1000
+
+    Added login required to more pages
+
+[33mcommit 2217d032c02aa82ba8c2ad7785e518fa26daea10[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Sep 6 10:46:51 2025 +1000
+
+    Fixed remember cookies
+
+[33mcommit 73414c860dd525f4df12b18364d41f25f578ca6d[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Fri Sep 5 22:31:10 2025 +1000
+
+    Logout clears session as well
+
+[33mcommit dd9bfbd0c4da3cc8e89da2783d44a10ff9064e88[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Fri Sep 5 22:10:45 2025 +1000
+
+    Added login pages and logic to check password and email
+
+[33mcommit 28427efe791b81b71cd074c76502eebea1cdb526[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Fri Sep 5 21:21:49 2025 +1000
+
+    Added so sessions are permanent you dont get logged out after a while
+
+[33mcommit 027a34d9660a2bac6568ebc73706ddd34824d68a[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Fri Sep 5 13:44:17 2025 +1000
+
+    Added current user to database and allowed run to go off user id that we just created
+
+[33mcommit 0a2c90f0a89c7559e6900ee4609272dac23eac68[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Fri Sep 5 13:36:39 2025 +1000
+
+    Fixed error coming up when you click stats and no run loaded yet redirect to signup page
+
+[33mcommit 16046ea49a7eb16b85b3226e4f816085ea37ad38[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Fri Sep 5 13:33:07 2025 +1000
+
+    Added login required to pages and dealt with redirects
+
+[33mcommit 3005e37fb0f7fb5c671e7b174f2bac9ecfabacf5[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Fri Sep 5 13:13:08 2025 +1000
+
+    Fixed typo lol
+
+[33mcommit b661561bc616b8b7021f33478b141677988f71ce[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Fri Sep 5 13:12:02 2025 +1000
+
+    Added register logic so now flask knows when someone is logged in
+
+[33mcommit 851c8a3eedecf624c152ceeb6f058a42fcab2d08[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Fri Sep 5 12:40:51 2025 +1000
+
+    Added more classes to user using UserMixin built in flask class
+
+[33mcommit 471b8d1e51efbd4262a8c63296082398c2d9a627[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Fri Sep 5 12:18:24 2025 +1000
+
+    Added class for user
+
+[33mcommit f57e84b20cfb3969ad7739b26c314216b342b613[m
+Merge: 9b2f88b 7f97cd8
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Fri Sep 5 11:54:32 2025 +1000
+
+    Merge branch 'auth-signup-html'
+
+[33mcommit 9b2f88bc28901f0a9d324aa4720f2ebe95ce2067[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sun Aug 31 00:47:21 2025 +1000
+
+    Add Flask-Login to requirements
+
+[33mcommit 18f08283579944687c74fb7e13553dd01e2d23b9[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sun Aug 31 00:39:30 2025 +1000
+
+    Fixed dockerfile
+
+[33mcommit 40eb2ac2834d3be841e0e59dea4d62ae199c442d[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Aug 30 16:23:45 2025 +1000
+
+    Fixed a misc thing
+
+[33mcommit 0383c75a9d543cc4a190dad0ab8c8ab1f889d983[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Aug 30 16:20:46 2025 +1000
+
+    Made config page the page you go to after logging in
+
+[33mcommit 6f7561efa47188ab51d0a7f4ab5f7da309d5eb66[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Aug 30 16:18:49 2025 +1000
+
+    made register page main page
+
+[33mcommit 4b9e4472b462a626d6e800f04c27a359e280e6b4[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Aug 30 16:10:28 2025 +1000
+
+    Added html page and code to register
+
+[33mcommit 7f97cd81ea61d19da96515e649aeb5085f6633fc[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Aug 30 16:10:28 2025 +1000
+
+    Added html page and code to register
+
+[33mcommit e3a3b5551489fbb0ee953c44d50830c7c4addb56[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Aug 30 15:22:21 2025 +1000
+
+    Made schema more bullet proof so right data always gets served
+
+[33mcommit efe4af89d13e453b0eaf7bd63da1864d40cbb09f[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Aug 30 14:44:14 2025 +1000
+
+    Added schema for users for auth
+
+[33mcommit 45708412b02cf481a487c628dd28c49bde5597cf[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Aug 30 11:50:22 2025 +1000
+
+    created file
+
+[33mcommit 09dcd0f31c6b074346290a64f3ca423950b34f9d[m
+Merge: 3bbb864 47773fb
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Thu Aug 28 22:56:37 2025 +1000
+
+    Merge drop-card/drive-time into main
+
+[33mcommit 47773fb283da2e64532ff21d5477cbde444c9fa5[m[33m ([m[1;31morigin/drop-card/drive-time[m[33m)[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Thu Aug 28 22:33:33 2025 +1000
+
+    Added js for saving to local stoarge so refresh doesn't kill app
+
+[33mcommit 3bbb864eb3c1a3752b1745ba5f253dd3853b6f3d[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Tue Jul 15 13:22:29 2025 +1000
+
+    added duration on the stats page
+
+[33mcommit 7923e22b196ff6aca7e892edf7c01e8346356515[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Tue Jul 15 13:16:59 2025 +1000
+
+    Fixed bug on the drops card where it was showing none and not the time
+
+[33mcommit 4a5c474ff84c7b6b894a56795e9e150ca8f00304[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Tue Jul 15 12:51:50 2025 +1000
+
+    Added start and duration to current run stats
+
+[33mcommit 3dadcc3e36eb2b3db3606a65f982740fb73618a8[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Tue Jul 15 12:40:35 2025 +1000
+
+    Fixed visual and backend so past runs looks nice
+
+[33mcommit ee4994f9f319e82a8461003d8959e28e97388177[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Wed Jul 9 12:58:40 2025 +1000
+
+    Fixed little bug
+
+[33mcommit c3732241a04cf43632f2d767cb17d48de388a521[m
+Merge: 9b1b40f 640e2ed
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Wed Jul 9 12:53:31 2025 +1000
+
+    Resolved merge conflict in stats view to keep latest stats logic
+
+[33mcommit 640e2ed6ba0312aa101c6ae52fa5e00f8a90b55a[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Wed Jul 9 12:02:34 2025 +1000
+
+    Fixed times and added duration for shift so you can see how many hours you worked
+
+[33mcommit 085bbb21cd1338a1c2e3206b8be908d9720ffcb2[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Wed Jul 9 11:36:53 2025 +1000
+
+    Fixed time display on the cards
+
+[33mcommit bc62e7fe7593d7c0706bc52b7df13debe08f19af[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Wed Jul 9 11:18:54 2025 +1000
+
+    Fixing css and turning data into cards to display
+
+[33mcommit 3d96039fbafe9e3cfe3725109ebbc98c96a02df9[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Wed Jul 9 10:59:43 2025 +1000
+
+    Added css styling for current runs stats very minimal styling tho
+
+[33mcommit 58d1457c158b48eb9f1a4d0c116b43db84589a10[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Wed Jul 9 09:34:25 2025 +1000
+
+    Added comma in sql so that it now works
+
+[33mcommit fe07065dbf1cceb18561fc3449525c664adb44d4[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Wed Jul 9 09:30:48 2025 +1000
+
+    Fixed bug with drops and schema and db
+
+[33mcommit 9b1b40f0fbb67adc6b6d79be45579f0bfc5fa14a[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Wed Jun 25 13:09:15 2025 +1000
+
+    Fixed a bug with the stat page
+
+[33mcommit ec43eaabbb38aa49d8e1b88d7de452587d525dcf[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Wed Jun 25 12:40:13 2025 +1000
+
+    Finished adding the logic that goes into the database to show expected time per drop
+
+[33mcommit 49c12368dd17b31b30cb63b8b4d8e05a60f1f050[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Wed Jun 25 12:19:35 2025 +1000
+
+    Wrote more backend logic to be able to show calculated time etc
+
+[33mcommit a601600a7f92223e40b0ea7d59a9aa1e617377c4[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Wed Jun 25 12:06:13 2025 +1000
+
+    Creating the logic for my stats page
+
+[33mcommit 211e07285b2ad6a513a1a310639780ed2bfcbc20[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Wed Jun 25 11:47:09 2025 +1000
+
+    Changed what jinja can use in the html for stats page
+
+[33mcommit cc8ccbd18aed9d18c1dc26e4586dd32de226cdba[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Wed Jun 25 11:25:46 2025 +1000
+
+    Got rid of weird background colour
+
+[33mcommit 1cbf714628261ce68a9ccb411c882ff015aaa6c4[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Tue Jun 24 12:25:23 2025 +1000
+
+    Added css to style page
+
+[33mcommit 4e95973544e5f99b80a0981f1c2a571f8701d658[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Tue Jun 24 12:12:47 2025 +1000
+
+    Added stats page and some logic
+
+[33mcommit 5eb658013084940097a2fb6fa64fd06462be7c83[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Mon Jun 23 22:22:16 2025 +1000
+
+    Deleted misc things
+
+[33mcommit a3b299f90911c0f4679738b447b529404d5bff9f[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Mon Jun 23 21:54:53 2025 +1000
+
+    Fixed broken things
+
+[33mcommit 4b7a1318f79c22a2baa693cd1e9b8ca872eee2c1[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Mon Jun 23 21:50:43 2025 +1000
+
+    Cleaning up things
+
+[33mcommit 39548cfa7fc81fa014bfaefb0e08cdb92c4f1195[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Mon Jun 23 21:35:45 2025 +1000
+
+    Added file that I deleted by accident
+
+[33mcommit deb2c9d1d0f8bb9d0364860d58c3b4106843e593[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Jun 21 16:25:43 2025 +1000
+
+    Deleted useless things
+
+[33mcommit 4a5ed450a0c904c36e7136604dc50ffa95fa844c[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Mon Jun 23 21:37:52 2025 +1000
+
+    Deleted misc things
+
+[33mcommit fab3c7513277ef709eb6985139e259d71b875f77[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Mon Jun 23 13:26:43 2025 +1000
+
+    Refactored stop and start buttons logic
+
+[33mcommit b41ca5caddcb2d1b8106784581662df5c5bcb1ae[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Jun 21 16:29:20 2025 +1000
+
+    misc thing
+
+[33mcommit 137f7872b756d287de6d186981b1e68954277ec0[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Jun 21 16:25:43 2025 +1000
+
+    Deleted useless things
+
+[33mcommit 085c2283c4ec144e09c31210e1baf652705d7299[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Jun 21 16:20:31 2025 +1000
+
+    Cleaned up code and added time for delivery in html jira
+
+[33mcommit 6028478ec8506b3c03f3964d64fd994132eae30f[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Jun 21 16:04:28 2025 +1000
+
+    Created function for loop to handle deliveries
+
+[33mcommit dc3d6948ca6a01b5709a9f44ec423fa5f86849a0[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Jun 21 15:40:13 2025 +1000
+
+    Changed link buttons for nav bar
+
+[33mcommit 7d1aacf823c22416b178221f25157df183fa9800[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Jun 21 15:22:09 2025 +1000
+
+    Added correct time logic and utc to database now status for break works in database
+
+[33mcommit cd85bf0945b643c8b4ce204821f60c69ea205d17[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Jun 21 13:58:55 2025 +1000
+
+    Fixed timer and database logic
+
+[33mcommit 5e4dc088e8a777dae0fbeebb3704f2c3d901f280[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sat Jun 21 13:02:37 2025 +1000
+
+    Cleaned up the code for inputting into the database
+
+[33mcommit 6f40fab8891616286b39cf52b306b3e5ec22ccd1[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Fri Jun 20 12:46:48 2025 +1000
+
+    Didn't save file in neovim so it wigged out updating file for what I just commited lol
+
+[33mcommit 21cbcf159e3db5c76c822a976f5855a3697e69e1[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Fri Jun 20 12:42:37 2025 +1000
+
+    Refactored and added more functions for getting time and turning into iso string
+
+[33mcommit 864e24d2b1c8c2709c2cb0a8af2c1e2bce37e3d3[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Thu Jun 19 13:21:39 2025 +1000
+
+    Refactored code and added logic to break buttons LOOKING GOOD
+
+[33mcommit 129ba4902377fa82f3c291bcf2ab0361cca74bde[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Thu Jun 19 10:06:27 2025 +1000
+
+    Refactoring code that repeats with functions so easier process I originally wrote spageghetti code
+
+[33mcommit 4523534cbdb1e1f37963c188274316c30bdd1af0[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Tue Jun 17 09:28:34 2025 +1000
+
+    Added one time function
+
+[33mcommit f4588223cafe0c335203a80672ca5d72265d4aa1[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Tue Jun 3 13:24:12 2025 +1000
+
+    Fixed backend logic both buttons working still need to do more though
+
+[33mcommit e1752983f67f3629233296c9a925596a5decee6d[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Tue Jun 3 12:37:29 2025 +1000
+
+    Wrote backend logic for timers to go into the databse haven't added end time yet
+
+[33mcommit 53342679712bc91fe054ea17b58796d5d128f1dc[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Mon Jun 2 12:44:20 2025 +1000
+
+    Added break buttons and skip buttons
+
+[33mcommit 86e025fbeca38a8638a336bb49d921e4ff0d9da8[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Sun Jun 1 15:37:13 2025 +1000
+
+    Adding backend logic to track break status
+
+[33mcommit 2080d46369a10084d0ad0de8fc9fe53ae52a33bd[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Sun Jun 1 14:16:09 2025 +1000
+
+    Added second button
+
+[33mcommit 5a1a55e138b7ac766f2012d2eb2dd931a3698d0f[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Sun Jun 1 14:13:49 2025 +1000
+
+    Added button to check when break actually taken
+
+[33mcommit d22ab2341aa2fd0e9ad4a643dbffcd5df7921937[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Sun Jun 1 13:17:32 2025 +1000
+
+    Created input field for break and hooked it up to db
+
+[33mcommit bfc252d3d18f883afaf13744c481d62436eaeab5[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Sun Jun 1 12:38:59 2025 +1000
+
+    fixed css again
+
+[33mcommit ec3408f0f31533fd9c07101805c810ec3b6c2c10[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Sun Jun 1 12:25:50 2025 +1000
+
+    Fixed mobile css again
+
+[33mcommit ffd6f302b32a3b203fe31db35ad1a92c832b130c[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Sun Jun 1 11:49:45 2025 +1000
+
+    Fixed desktop config positioning
+
+[33mcommit 563f8e4199e493d7b17e797973c1b0735eadcde0[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Sat May 31 16:44:48 2025 +1000
+
+    Fixed css for mobile
+
+[33mcommit afe784d5adee3fa9e3f9939f526a10445b408406[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Sat May 31 16:14:17 2025 +1000
+
+    Fixed more css stuff again
+
+[33mcommit 0afc5561ad888f9bb74727ab5411e3a361b9f5b2[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Sat May 31 16:08:05 2025 +1000
+
+    Fixed css buttons again
+
+[33mcommit 15ac10a2b48c49eac97b2192401e1cdaa2db843f[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Sat May 31 15:17:05 2025 +1000
+
+    Fixing mobile sizing
+
+[33mcommit a52faf3519e94799eaa94ccaa647c9ec8af7e075[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Sat May 31 15:11:18 2025 +1000
+
+    Fixed html error
+
+[33mcommit 04e3350c956551676f86487be65391ab4cac4ea2[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Sat May 31 15:08:09 2025 +1000
+
+    Got rid of anchor on webpage
+
+[33mcommit a1551d5d10702c7eeed8d1dae3c42ae814be7eb6[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Sat May 31 14:59:53 2025 +1000
+
+    Fixed css stuff again
+
+[33mcommit 67aca32704a7e75b8143e7ddfbd20d71fe93fb15[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Fri May 30 13:11:18 2025 +1000
+
+    Fixed message and look again
+
+[33mcommit 77f9793d2d295ad9ddd5b26105500be627954084[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Fri May 30 12:16:20 2025 +1000
+
+    Fixing layout for mobile on past runs
+
+[33mcommit c0cbdf9c24fa288c5bd402c9729c2b95e3a47045[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Fri May 30 12:10:53 2025 +1000
+
+    Fix schema
+
+[33mcommit 40e142ebb0e70d523c735d2be69ad1672e8d0840[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Fri May 30 12:05:59 2025 +1000
+
+    Fixed schema
+
+[33mcommit f0541cd5f8cbf2a309f9427de67b956cd28d903a[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Fri May 30 12:00:30 2025 +1000
+
+    Fixed nav bar
+
+[33mcommit b44333a44ae3349a14d98b3089d1d1f5be7df21d[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Fri May 30 11:56:04 2025 +1000
+
+    More mobile stuff now for index page
+
+[33mcommit e21689d89146c8994efcfce34b04377f32855a0b[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Fri May 30 11:50:05 2025 +1000
+
+    Still fixing mobile
+
+[33mcommit b8272d7d7155b2f10784ce9633728b87487bd8cc[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Fri May 30 11:45:24 2025 +1000
+
+    Making mobile responsive
+
+[33mcommit b6eea2cd4289e7ca89635ff894f3f7f1a6dadfa3[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Fri May 30 11:37:51 2025 +1000
+
+    fixed colours
+
+[33mcommit fb4621beb9965b0e9eb6b74c607c1e67f137135b[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Fri May 30 11:35:33 2025 +1000
+
+    Fixed css and html issues
+
+[33mcommit fb7eadbb60b06bdf90adb61406c6023c6ae27501[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Fri May 30 11:05:20 2025 +1000
+
+    prep for Heroku deploy
+
+[33mcommit 74fec5a126557c254cc7d3402949338e755fd6ad[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Fri May 30 10:35:02 2025 +1000
+
+    Update requirements with Gunicorn
+
+[33mcommit cfc4b5193dfe9a4c4119309b66b98f0d491707c9[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Fri May 30 10:11:50 2025 +1000
+
+    fixed wording on config page
+
+[33mcommit 7e21da5e8b45bd6a054f273d2810411d4d2704ad[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Thu May 29 13:18:47 2025 +1000
+
+    fixed wording
+
+[33mcommit 0c1f40ac1b7e94177982bf1b9b77c0f21087947c[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Thu May 29 13:07:18 2025 +1000
+
+    Fixed columns css and styling so easier to read when I need it
+
+[33mcommit 64f7b2607eada83f3c06c66afadb0f9686eb3496[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Thu May 29 12:51:59 2025 +1000
+
+    Added start and end also the date to be saved into the database and then show past runs
+
+[33mcommit b6ea5eda8f4ea99f839ba9e68833d3f9e506845a[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Thu May 29 12:24:23 2025 +1000
+
+    fixed css for the config and the past runs making it so you can read it nicely
+
+[33mcommit 66ce8b2ea2675090820f0ac7fbbe0e692f8e4614[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Thu May 29 11:19:15 2025 +1000
+
+    Gave id's to each drop card so when you click it doesn't push the page to the top again bit clunky though because no js
+
+[33mcommit 831d22faab10f3a48a80f3e0274b7dd2502c963e[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Thu May 29 11:10:20 2025 +1000
+
+    fixed css and html to make boxes easier to read
+
+[33mcommit 22bceb5153b124ecb5e809199e157a8f20d76621[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Thu May 29 10:55:22 2025 +1000
+
+    tweaking css for the buttons
+
+[33mcommit 79d63b4fb0831f6e4001b6d11f67d1228f63350f[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Thu May 29 10:49:22 2025 +1000
+
+    Fixed timezone logic now saved as utc but for me parsed in my timezone
+
+[33mcommit c65271c41439f59233ce28fe446e967fcf1001ad[m
+Merge: 7f6c21d ef9e47e
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Thu May 29 10:17:22 2025 +1000
+
+    Merge branch 'feature/timer-logic'
+
+[33mcommit 7f6c21d3469b94b71edcd995e2afacf73ecadc68[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Wed May 28 21:02:52 2025 +1000
+
+    Ignore local SQLite database file
+
+[33mcommit ef9e47e971025ff32364f5faea816cf67c0a3d94[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Wed May 28 20:59:38 2025 +1000
+
+    Fixed all logic so buttons work as expected and track the elapsed time
+
+[33mcommit 973b140050425236b96138159d4af808a025dc43[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Wed May 28 19:44:49 2025 +1000
+
+    Fixed button logic
+
+[33mcommit fda87b877a5ce5dc63d18b8f8be2c858316c7bf2[m[33m ([m[1;31morigin/sql[m[33m)[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Wed May 28 13:01:15 2025 +1000
+
+    tfixed bugs updating css and logic timer looks way better now learnt I need to commit more often because I get lost and I create more bugs.
+
+[33mcommit 0e399f93f378e9e8c4151577c99734208b34fa8e[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Sun May 25 15:13:32 2025 +1000
+
+    made columns easier to look at and fixed logic
+
+[33mcommit 1ae1e92a5e8a4c8fb5ef1e3c0146728198b51d73[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Sun May 25 10:10:34 2025 +1000
+
+    made the table nicer to read
+
+[33mcommit 6ab4de981b134b6a2c6af7bdf6705c5e4da5a273[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Sun May 25 09:53:21 2025 +1000
+
+    Added the logic to track previous delivery and current to track drive time
+
+[33mcommit 663a059cba1750a8012420f7735ce9328ec606f7[m
+Author: jacobduck99 <jacob.formaz@gmail.com>
+Date:   Sun May 25 09:15:11 2025 +1000
+
+    Initial commit of delivery tracker MVP
+
+[33mcommit cc03c967b98732e4fb57f0bbb5888da1cd16fa03[m
+Author: Jacob Duckworth <jacob.formaz@gmail.com>
+Date:   Sun May 25 09:13:07 2025 +1000
+
+    Initial commit
