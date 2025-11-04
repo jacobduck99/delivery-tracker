@@ -242,7 +242,7 @@ img { max-width: 100%; height: auto; }
 /* ---- Base button styles (desktop + mobile) ---- */
 .drop-card button {
   width: auto;                     /* desktop default */
-  min-height: 38px;                 
+  min-height: 38px;              
   padding: 12px 12px;               
   border: none;
   border-radius: var(--radius-pill);
@@ -287,8 +287,20 @@ img { max-width: 100%; height: auto; }
 
 @media (max-width: 430px) {
   .drop-card { padding: 12px 14px; }
-  .drop-card button { width: 100%; } /* mobile: full-width buttons */
-}
+
+  /* Center the button in BOTH possible forms */
+  form.arrival-form,
+  form.delivery-form {
+    display: grid;               /* grid makes centering reliable */
+    justify-items: center;       /* centers the child button */
+  }
+
+  /* Style BOTH the Arrived and Delivered action buttons */
+  form.arrival-form > button[name="action"],
+  form.delivery-form > button[name="action"] {
+    width: 300px;
+    max-width: 100%;             /* prevents overflow on tiny phones */
+  }
 
 /* Completed badge — subtle and compact */
 .complete-badge {
@@ -430,7 +442,7 @@ img { max-width: 100%; height: auto; }
 
 /* Input field */
 .gps-section input[type="text"] {
-  width: 100%;
+  width: 90%;
   margin: 0 auto;
   padding: 12px 14px;
   font-size: 16px;
@@ -455,7 +467,7 @@ img { max-width: 100%; height: auto; }
 
 /* GPS button */
 .gps-section .gps-btn {
-  width: 90%;
+  width: 80%;
   margin: 0 auto;
   min-height: 44px;
   padding: 12px 18px;
