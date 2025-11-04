@@ -1,7 +1,6 @@
 import { allDropsLocal, changeStatus, render, clearHold, setHold, syncDrops } from "./state.js";
 // storage.js (v24)
 console.log("storage.js v24 loaded");
-
 /* ========================
    Idle / Run Failsafe
 ======================== */
@@ -130,19 +129,12 @@ function swapToDelivered(form, dropIndex) {
   `;
 }
 
-/* ========================
-   Rehydrate UI from localStorage
-   (so refresh looks right offline)
-======================== */
+// Rehydrate UI from localStorage
 
 function rehydrateFromLocal() {
     render();
 }
 
-
-/* ========================
-   Events
-======================== */
 // Event delegation for Arrived/Delivered
 document.addEventListener("click", (e) => {
   const btn = e.target.closest(".arrived-btn, .delivered-btn");

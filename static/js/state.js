@@ -120,12 +120,6 @@ export function renderCard(record) {
     return `
       <article id="drop-${dropIndex}" class="drop-card" data-drop-index="${dropIndex}">
         <h4>Drop ${dropIndex}</h4>
-
-        <div class="gps-section">
-          <input type="text" name="address" placeholder="Enter address">
-          <button type="button" class="gps-btn">📍 Open in Maps</button>
-        </div>
-
         <div class="complete-badge">Completed ✓</div>
         <p class="drop-elapsed"><strong>Total-Time:</strong> ${fmtDuration(duration_ms || 0)}</p>
       </article>
@@ -168,7 +162,6 @@ export function renderCard(record) {
     </article>
   `;
 }
-
 
 export function render() {
   const list = JSON.parse(localStorage.getItem("all_drops") || "[]");
