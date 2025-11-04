@@ -215,13 +215,14 @@ img { max-width: 100%; height: auto; }
   gap: 14px;
   width: 100%;
   margin: 0 auto;
-  min-height: 132px;
+  min-height: 170px;
   padding: 14px;
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
   transition: box-shadow .18s ease, transform .06s ease;
+  justify-content: space-between;
 }
 .drop-card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
 
@@ -295,7 +296,7 @@ img { max-width: 100%; height: auto; }
   padding: 4px 10px;
   margin: 4px auto 0;
   border-radius: 999px;
-  font-size: 0.8rem;
+  font-size: 1.1rem;
   font-weight: 600;
   color: #065f46;
   background: #d1fae5;         /* green-100 */
@@ -313,7 +314,7 @@ img { max-width: 100%; height: auto; }
 
 .drop-elapsed .elapsed-label {
   display: block;
-  font-size: .78rem;
+  font-size: 1.1rem;
   font-weight: 700;
   letter-spacing: .02em;
   color: var(--muted);
