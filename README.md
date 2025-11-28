@@ -32,13 +32,5 @@ It logs our shifts, our drops, and our real workload — so we can prove what it
 - Flask + Python  
 - SQLite  
 - HTML, CSS, vanilla JavaScript  
-- LocalStorage (offline mode) + PWA
-
----
-
-## 📌 Status
-
-Super early MVP — iterating daily.  
-I’ve got two users (three including myself) actively testing and giving feedback, which lets me build an app that could literally save our jobs.
 
 
